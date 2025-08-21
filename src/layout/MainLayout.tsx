@@ -1,7 +1,12 @@
 import Footer from "@/components/shared/Footer"
 import Navbar from "@/components/shared/Navbar"
+import type { ReactNode } from "react"
 
-export default function MainLayout({children}) {
+interface IProps {
+  children: ReactNode;
+}
+
+export default function MainLayout({children}: IProps) {
   return (
     <div>
      <Navbar></Navbar>

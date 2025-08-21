@@ -1,8 +1,8 @@
-import { BookOpenIcon, InfoIcon, LifeBuoyIcon } from "lucide-react"
+import { BookOpenIcon, InfoIcon, LifeBuoyIcon } from "lucide-react";
 
-import Logo from "@/components/navbar-components/logo"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import Logo from "@/assets/companyLogo/company_logo.png";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -10,12 +10,13 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu"
+} from "@/components/ui/navigation-menu";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
+} from "@/components/ui/popover";
+import { ModeToggle } from "./mode-toggle";
 
 // Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
@@ -63,9 +64,9 @@ const navigationLinks = [
       { href: "#", label: "About Us", icon: "InfoIcon" },
     ],
   },
-]
+];
 
-export default function Component() {
+export default function Navbar() {
   return (
     <header className="border-b px-4 md:px-6">
       <div className="flex h-16 items-center justify-between gap-4">
@@ -160,9 +161,10 @@ export default function Component() {
           </Popover>
           {/* Main nav */}
           <div className="flex items-center gap-6">
-            <a href="#" className="text-primary hover:text-primary/90">
-              <Logo />
-            </a>
+            <div className="flex items-center gap-2">
+              <img className="h-10" src={Logo} alt="" />
+              <p className="text-2xl"><span>Trip</span>Sync</p>
+            </div>
             {/* Navigation menu */}
             <NavigationMenu viewport={false} className="max-md:hidden">
               <NavigationMenuList className="gap-2">
@@ -256,6 +258,7 @@ export default function Component() {
         </div>
         {/* Right side */}
         <div className="flex items-center gap-2">
+          <ModeToggle></ModeToggle>
           <Button asChild variant="ghost" size="sm" className="text-sm">
             <a href="#">Sign In</a>
           </Button>
@@ -265,5 +268,5 @@ export default function Component() {
         </div>
       </div>
     </header>
-  )
+  );
 }
