@@ -39,12 +39,12 @@ export default function HeroSection() {
   const images = [banner1, banner2, banner3, banner4, banner5];
 
   return (
-    <section className="my-16 mx-auto container flex items-center overflow-hidden">
+    <section className="min-h-screen mx-auto container flex items-center overflow-hidden">
       <div className="w-full">
-        <div className=" flex flex-col items-center space-y-7">
+        <div className=" flex flex-col items-center space-y-8">
           {/* LEFT SIDE */}
           <div className="flex flex-col items-center text-center">
-            <h1 className=" my-6 text-pretty text-4xl mb-10 font-bold lg:text-5xl">
+            <h1 className=" my-6 text-pretty text-4xl mb-8 font-bold lg:text-5xl">
               <span className="">
                 <Typewriter
                   words={["Connecting People, "]}
@@ -82,7 +82,7 @@ export default function HeroSection() {
             </p>
           </div>
           {/* RIGHT SIDE */}
-          <Carousel plugins={[plugin.current]} className="w-full max-w-5xl">
+          <Carousel plugins={[plugin.current]} className="w-full mt-10 mb-6">
             <CarouselContent className="-ml-1">
               {images.map((image, index) => (
                 <CarouselItem
@@ -91,15 +91,12 @@ export default function HeroSection() {
                 >
                   <div className="bg-none mx-5">
                     <Card className="p-0 border-0">
-                      <CardContent className="px-0 w-80 h-52">
+                      <CardContent className="px-0 w-96 h-64">
                         <img
                           className="rounded-2xl w-full h-full"
                           src={image}
                           alt=""
                         />
-                        {/* <span className="text-4xl font-semibold">
-                          {index + 1}
-                        </span> */}
                       </CardContent>
                     </Card>
                   </div>
