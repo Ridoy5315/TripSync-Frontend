@@ -2,14 +2,14 @@ import photo from "@/assets/testimonials/city2.jpg";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination, A11y } from "swiper/modules";
+import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
 export default function Testimonials() {
   return (
     <div
-      className="mt-44 mb-20 w-full relative bg-cover bg-center lg:h-[500px] md:h-[500px] h-[360px]"
+      className="-mt-10 mb-20 w-full relative bg-cover bg-center lg:h-[500px] md:h-[500px] h-[360px]"
       style={{ backgroundImage: `url(${photo})` }}
     >
       <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-black/80"></div>
@@ -27,7 +27,7 @@ export default function Testimonials() {
               disableOnInteraction: true,
             }}
             pagination={{ clickable: true }}
-            modules={[Autoplay, Pagination, A11y]}
+            modules={[Autoplay, Pagination]}
             className="mySwiper"
           >
             <SwiperSlide>
