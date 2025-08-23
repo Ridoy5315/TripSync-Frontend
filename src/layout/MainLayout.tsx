@@ -1,11 +1,16 @@
 import Footer from "@/components/shared/Footer"
 import Navbar from "@/components/shared/Navbar"
+import type { ReactNode } from "react"
 
-export default function MainLayout({children}) {
+interface IProps {
+  children: ReactNode;
+}
+
+export default function MainLayout({children}: IProps) {
   return (
-    <div>
+    <div className="min-h-screen flex flex-col">
      <Navbar></Navbar>
-     <div>{children}</div>
+     <div className="grow-1">{children}</div>
      <Footer></Footer>
     </div>
   )
