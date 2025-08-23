@@ -17,20 +17,28 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { ModeToggle } from "./mode-toggle";
+import { role } from "@/constants/role";
+import { Link } from "react-router";
+import { Separator } from "@radix-ui/react-separator";
 
 // Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
-  { href: "/", label: "Home" },
+  { href: "/", label: "Home", role: "PUBLIC" },
   {
     label: "About Us",
     submenu: true,
     type: "icon",
+    role: "PUBLIC",
     items: [
       { href: "#", label: "Company background", icon: "BookOpenIcon" },
       { href: "#", label: "Mission", icon: "LifeBuoyIcon" },
       { href: "#", label: "Team profiles", icon: "InfoIcon" },
     ],
   },
+  {href: "/admin", label: "Features", role: role.superAdmin},
+  {href: "/admin", label: "Features", role: role.admin},
+  {href: "/user", label: "Features", role: role.user},
+  {href: "/driver", label: "Features", role: role.driver},
 ];
 
 export default function Navbar() {
@@ -233,11 +241,12 @@ export default function Navbar() {
           {/* Right side */}
           <div className="flex items-center gap-2">
             <ModeToggle></ModeToggle>
-            <Button asChild variant="ghost" size="sm" className="text-sm">
-              <a href="#">Sign In</a>
+            <div className="w-px h-8 bg-border"></div>
+            <Button asChild variant="outline" size="sm" className="text-sm">
+              <Link to="/signin">Sign In</Link>
             </Button>
             <Button asChild size="sm" className="text-sm">
-              <a href="#">Get Started</a>
+              <Link to="/signUp">Get Started</Link>
             </Button>
           </div>
         </div>

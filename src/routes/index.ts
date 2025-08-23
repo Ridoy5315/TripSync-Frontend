@@ -1,5 +1,8 @@
 import App from "@/App";
 import AboutUs from "@/pages/AboutUs";
+import SignIn from "@/pages/authentication/SignIn";
+import SignUp from "@/pages/authentication/SignUp";
+import Features from "@/pages/Features";
 import HomePage from "@/pages/HomePage";
 import { createBrowserRouter } from "react-router";
 export 
@@ -15,7 +18,19 @@ const router = createBrowserRouter([
                {
                     Component: AboutUs,
                     path: "aboutUs"
-               }
+               },
+               {
+                    Component: Features,
+                    path: "features"
+               },
           ]
-     }
+     },
+     {
+          Component: SignIn,
+          path: "/signin"
+     },
+     {
+          Component: SignUp,
+          path: "/signUp"
+     },
 ])
