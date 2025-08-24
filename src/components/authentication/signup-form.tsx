@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import Lottie from "lottie-react";
 import signUpLottieData from "@/assets/lottie/signUp.json";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import {
   Form,
   FormControl,
@@ -17,6 +17,8 @@ import {
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
+import { useSignUpMutation } from "@/redux/features/auth/auth.api";
 
 const signUpSchema = z
   .object({
@@ -25,10 +27,10 @@ const signUpSchema = z
       .min(5, { error: "Name is too short" })
       .max(40, { error: "Name is too short" }),
     email: z.email(),
-    password: z.string().min(6, { error: "Password is too short" }),
+    password: z.string().min(8, { error: "Password is too short" }),
     confirmPassword: z
       .string()
-      .min(6, { error: "Confirm password is too short" }),
+      .min(8, { error: "Confirm password is too short" }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "❌ Passwords don't match.",
@@ -39,6 +41,9 @@ export function SignUpForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const [register] = useSignUpMutation();
+  const navigate = useNavigate();
+
   const form = useForm({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -57,9 +62,17 @@ export function SignUpForm({
     };
 
     try {
+      const result = await register(userInfo).unwrap()
+      console.log(result)
       
+      toast.success("User created successfully")
+      navigate("/verify")
     } catch (error) {
-      
+      console.log(error)
+      if(error.status === 403){
+        toast.error("Your account is not verified")
+        navigate("/verify")
+      }
     }
   };
 
@@ -176,7 +189,7 @@ export function SignUpForm({
               <div className="text-center text-sm">
                 Already have an account?{" "}
                 <Link to="/signin" className="underline underline-offset-4">
-                  Signin
+                  Sign in
                 </Link>
               </div>
             </div>

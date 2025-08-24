@@ -2,6 +2,7 @@ import App from "@/App";
 import AboutUs from "@/pages/AboutUs";
 import SignIn from "@/pages/authentication/SignIn";
 import SignUp from "@/pages/authentication/SignUp";
+import Verify from "@/pages/authentication/Verify";
 import Features from "@/pages/Features";
 import HomePage from "@/pages/HomePage";
 import { createBrowserRouter } from "react-router";
@@ -32,5 +33,9 @@ const router = createBrowserRouter([
      {
           Component: SignUp,
           path: "/signUp"
+     },
+     {
+          Component: Verify,
+          path: "/verify"
      },
 ])
