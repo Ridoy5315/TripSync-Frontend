@@ -19,7 +19,8 @@ import {
 import { ModeToggle } from "./mode-toggle";
 import { role } from "@/constants/role";
 import { Link } from "react-router";
-import { Separator } from "@radix-ui/react-separator";
+import { useGetOwnInfoQuery } from "@/redux/features/user/user.api";
+import NavbarProfile from "./NavabrProfile";
 
 // Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
@@ -35,15 +36,18 @@ const navigationLinks = [
       { href: "#", label: "Team profiles", icon: "InfoIcon" },
     ],
   },
-  {href: "/admin", label: "Features", role: role.superAdmin},
-  {href: "/admin", label: "Features", role: role.admin},
-  {href: "/user", label: "Features", role: role.user},
-  {href: "/driver", label: "Features", role: role.driver},
+  { href: "/admin", label: "Features", role: role.superAdmin },
+  { href: "/admin", label: "Features", role: role.admin },
+  { href: "/user", label: "Features", role: role.user },
+  { href: "/driver", label: "Features", role: role.driver },
 ];
 
 export default function Navbar() {
+  const { data } = useGetOwnInfoQuery(undefined);
+ 
   return (
     <div className="border-b sticky top-0 z-10 shadow">
+
       <header className=" px-4 lg:px-0 container mx-auto">
         <div className="flex h-16 items-center justify-between gap-4">
           {/* Left side */}
@@ -242,13 +246,31 @@ export default function Navbar() {
           <div className="flex items-center gap-2">
             <ModeToggle></ModeToggle>
             <div className="w-px h-8 bg-border"></div>
-            <Button asChild variant="outline" size="sm" className="text-sm">
-              <Link to="/signin">Sign In</Link>
-            </Button>
-            <Button asChild size="sm" className="text-sm">
-              <Link to="/signUp">Get Started</Link>
-            </Button>
+            {data?.data?.email ? (
+              <NavbarProfile></NavbarProfile>
+            ) : (
+              <div className="flex gap-2">
+                <Button asChild variant="outline" size="sm" className="text-sm">
+                  <Link to="/signin">Sign In</Link>
+                </Button>
+                <Button asChild size="sm" className="text-sm">
+                  <Link to="/signUp">Get Started</Link>
+                </Button>
+              </div>
+            )}
           </div>
+          {/* <div className="flex items-center gap-2">
+            <ModeToggle></ModeToggle>
+            <div className="w-px h-8 bg-border"></div>
+          <div className="flex gap-2">
+              <Button asChild variant="outline" size="sm" className="text-sm">
+                <Link to="/signin">Sign In</Link>
+              </Button>
+              <Button asChild size="sm" className="text-sm">
+                <Link to="/signUp">Get Started</Link>
+              </Button>
+            </div>
+          </div> */}
         </div>
       </header>
     </div>

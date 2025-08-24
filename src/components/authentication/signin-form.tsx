@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import Lottie from "lottie-react";
-import signUpLottieData from "@/assets/lottie/signUp.json";
+import signInLottieData from "@/assets/lottie/Login (1).json";
 import { Link, useNavigate } from "react-router";
 import {
   Form,
@@ -19,11 +19,12 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useSignInMutation } from "@/redux/features/auth/auth.api";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import config from "@/config";
 
 const signInSchema = z
   .object({
     email: z.email(),
-    password: z.string().min(6, { error: "Password is too short" }),
+    password: z.string().min(8, { error: "Password is too short" }),
   })
 
 export function SignInForm({
@@ -50,10 +51,29 @@ export function SignInForm({
     try {
       const result = await signin(userInfo).unwrap()
       console.log(result)
-      toast.success("User created successfully")
+      toast.success("User log in successfully")
       navigate("/")
     } catch (error) {
       console.log(error)
+      if(error.data.message === "User is not verified"){
+        toast.error("Your account is not verified")
+        navigate("/verify", {state: data.email})
+      }
+      if(error.data.message === "Incorrect Password"){
+        toast.error("Incorrect Password")
+      }
+      if(error.data.message === "User is deleted"){
+        toast.error("You deleted your account")
+        navigate("/account-deleted", {state: data.email})
+      }
+      if(error.data.message === "User is BLOCKED"){
+        toast.error("Your account has been blocked")
+        navigate("/account-blocked", {state: data.email})
+      }
+      if(error.data.message === "User is INACTIVE"){
+        toast.error("Your account is User is Inactive")
+        navigate("/account-inactive", {state: data.email})
+      }
     }
   };
 
@@ -110,7 +130,7 @@ export function SignInForm({
                       </FormItem>
                     )}
                   />
-                  <Button type="submit" className="w-full">
+                  <Button type="submit" className="w-full cursor-pointer">
                     Sign In
                   </Button>
                 </div>
@@ -123,7 +143,7 @@ export function SignInForm({
                 </span>
               </div>
 
-              <Button variant="outline" type="button" className="w-full">
+              <Button onClick={() => window.open(`${config.baseUrl}/auth/google`)} variant="outline" type="button" className="w-full">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                   <path
                     d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"
@@ -142,7 +162,7 @@ export function SignInForm({
             </div>
           </div>
           <div className="flex items-center">
-            <Lottie animationData={signUpLottieData}></Lottie>
+            <Lottie animationData={signInLottieData}></Lottie>
           </div>
         </CardContent>
       </Card>
