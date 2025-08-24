@@ -20,6 +20,7 @@ import { useSignInMutation } from "@/redux/features/auth/auth.api";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import config from "@/config";
+import type { IErrorResponse } from "@/types";
 
 const signInSchema = z
   .object({
@@ -48,31 +49,37 @@ export function SignInForm({
       password: data.password,
     };
 
+    const toastId = toast.loading("Signing you in...");
+
     try {
       const result = await signin(userInfo).unwrap()
       console.log(result)
-      toast.success("User log in successfully")
+      toast.success("✅ Signed in successfully")
       navigate("/")
     } catch (error) {
       console.log(error)
-      if(error.data.message === "User is not verified"){
-        toast.error("Your account is not verified")
+      const err = error as IErrorResponse
+      if(err.data.message === "User is not verified"){
+        toast.error("Your account is not verified.", {id: toastId})
         navigate("/verify", {state: data.email})
       }
-      if(error.data.message === "Incorrect Password"){
-        toast.error("Incorrect Password")
+      if(err.data.message === "Incorrect Password"){
+        toast.error("🔒 Incorrect password. Please try again.", {id: toastId})
       }
-      if(error.data.message === "User is deleted"){
-        toast.error("You deleted your account")
+      if(err.data.message === "User is deleted"){
+        toast.error("This account was previously deleted.", {id: toastId})
         navigate("/account-deleted", {state: data.email})
       }
-      if(error.data.message === "User is BLOCKED"){
-        toast.error("Your account has been blocked")
+      if(err.data.message === "User is BLOCKED"){
+        toast.error("Your account has been blocked.", {id: toastId})
         navigate("/account-blocked", {state: data.email})
       }
-      if(error.data.message === "User is INACTIVE"){
-        toast.error("Your account is User is Inactive")
+      if(err.data.message === "User is INACTIVE"){
+        toast.error("Your account is inactive.", {id: toastId})
         navigate("/account-inactive", {state: data.email})
+      }
+      else{
+        toast.error("Failed to sign in.", {id: toastId})
       }
     }
   };
