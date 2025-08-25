@@ -1,3 +1,5 @@
+import type { ComponentType } from "react";
+
 export type TRole = "SUPER_ADMIN" | "ADMIN" | "USER" | "DRIVER";
 
 type ErrorSource = {
@@ -18,4 +20,10 @@ export interface IData {
 export interface IErrorResponse {
   data: IData
   status: number
+}
+
+export interface ISidebarItem {
+  title: string,
+  url: string,
+  component: ComponentType
 }

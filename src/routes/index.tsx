@@ -5,12 +5,19 @@ import SignUp from "@/pages/authentication/SignUp";
 import Verify from "@/pages/authentication/Verify";
 import Features from "@/pages/Features";
 import HomePage from "@/pages/HomePage";
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import DeletedAccount from "@/pages/DeletedAccount";
 import BlockedAccount from "@/pages/BlockedAccount";
 import InactiveAccount from "@/pages/InactiveAccount";
-export 
-const router = createBrowserRouter([
+import { withAuth } from "@/utils/withAuth";
+import FeaturesLayout from "@/layout/FeaturesLayout";
+import { role } from "@/constants/role";
+import type { TRole } from "@/types";
+import Unauthorized from "@/pages/Unauthorized";
+import { generateRoutes } from "@/utils/generateRoutes";
+import { userSidebarItems } from "./userSidebarItem";
+
+export const router = createBrowserRouter([
      {
           Component: App,
           path: "/",
@@ -28,6 +35,14 @@ const router = createBrowserRouter([
                     path: "features"
                },
           ]
+     },
+     {
+          Component: withAuth(FeaturesLayout, role.user as TRole),
+          path: "/user",
+          children: [
+               { index: true, element: <Navigate to="/user/ride/ride-request"></Navigate> },
+               ...generateRoutes(userSidebarItems)
+          ],
      },
      {
           Component: SignIn,
@@ -53,4 +68,8 @@ const router = createBrowserRouter([
           Component: InactiveAccount,
           path: "/account-inactive"
      },
+     {
+          Component: Unauthorized,
+          path: "/unauthorized"
+     }
 ])

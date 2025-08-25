@@ -54,7 +54,7 @@ export function SignInForm({
     try {
       const result = await signin(userInfo).unwrap()
       console.log(result)
-      toast.success("✅ Signed in successfully")
+      toast.success("✅ Signed in successfully", {id: toastId})
       navigate("/")
     } catch (error) {
       console.log(error)

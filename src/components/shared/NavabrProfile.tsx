@@ -11,25 +11,19 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAppDispatch } from "@/redux/hook";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useGetOwnInfoQuery } from "@/redux/features/user/user.api";
-import { authApi, useSignOutMutation } from "@/redux/features/auth/auth.api";
+import { useSignOutMutation } from "@/redux/features/auth/auth.api";
+import { handleSignOut } from "@/utils/signOut";
 
 export default function NavbarProfile() {
   const { data } = useGetOwnInfoQuery(undefined);
   const [signOut] = useSignOutMutation();
   const dispatch = useAppDispatch();
-
-  const handleSignOut = async () => {
-    await signOut(undefined);
-    dispatch(authApi.util.resetApiState());
-  };
-
-  console.log(data);
+  const navigate = useNavigate();
 
   const profileData = data?.data;
-  console.log(profileData);
-  console.log(profileData?.name[0]);
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -43,7 +37,9 @@ export default function NavbarProfile() {
             </Avatar>
           ) : (
             <Avatar className="h-10 w-10">
-              <AvatarFallback className="text-primary w-full h-full">{profileData?.name[0]}</AvatarFallback>
+              <AvatarFallback className="text-primary w-full h-full">
+                {profileData?.name[0]}
+              </AvatarFallback>
             </Avatar>
           )}
         </Button>
@@ -72,7 +68,7 @@ export default function NavbarProfile() {
           <Button
             className="px-0 py-3 h-0 cursor-pointer w-full justify-start"
             variant="ghost"
-            onClick={handleSignOut}
+            onClick={() => handleSignOut(signOut, dispatch, navigate)}
           >
             Logout
           </Button>
