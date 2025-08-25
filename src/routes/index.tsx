@@ -16,6 +16,7 @@ import type { TRole } from "@/types";
 import Unauthorized from "@/pages/Unauthorized";
 import { generateRoutes } from "@/utils/generateRoutes";
 import { userSidebarItems } from "./userSidebarItem";
+import { driverSidebarItems } from "./driverSidebarItem";
 
 export const router = createBrowserRouter([
      {
@@ -42,6 +43,14 @@ export const router = createBrowserRouter([
           children: [
                { index: true, element: <Navigate to="/user/ride/ride-request"></Navigate> },
                ...generateRoutes(userSidebarItems)
+          ],
+     },
+     {
+          Component: withAuth(FeaturesLayout, role.driver as TRole),
+          path: "/driver",
+          children: [
+               { index: true, element: <Navigate to="/driver/availability"></Navigate> },
+               ...generateRoutes(driverSidebarItems)
           ],
      },
      {

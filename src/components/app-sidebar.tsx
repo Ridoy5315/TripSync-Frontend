@@ -29,6 +29,7 @@ import { useGetOwnInfoQuery } from "@/redux/features/user/user.api";
 import { getSidebarItems } from "@/utils/getSidebarItems";
 import { Link } from "react-router";
 import { DropdownMenuSeparator } from "./ui/dropdown-menu";
+import { role } from "@/constants/role";
 
 // This is sample data.
 // const data = {
@@ -160,10 +161,7 @@ import { DropdownMenuSeparator } from "./ui/dropdown-menu";
 //   ],
 // }
 
-
-
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-
   const { data: userData } = useGetOwnInfoQuery(undefined);
   const data = {
     navMain: getSidebarItems(userData?.data?.role),
@@ -188,12 +186,16 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <DropdownMenuSeparator />
       <SidebarContent className="list-none pl-4">
         {data.navMain.map((item) => (
-          <SidebarMenuItem key={item.title}>
+          <>
+          <SidebarMenuItem className="" key={item.title}>
             {/* isActive={item.isActive} */}
+            {item.title === "Profile Management" && <div className="border-t-2 my-2"></div>}
             <SidebarMenuButton asChild>
-              <Link  to={item.url}>{item.title}</Link>
+              <Link to={item.url}>{item.title}</Link>
             </SidebarMenuButton>
+            {item.title === "Completed Rides" && <div className="border-t-2 my-2"></div>}
           </SidebarMenuItem>
+          </>
         ))}
 
         {/* <NavMain items={data.navMain} /> */}
