@@ -2,7 +2,9 @@ import LiveRideTracking from "@/pages/user/LiveRideTracking";
 import ProfileManagement from "@/pages/user/ProfileManagement";
 import RideDetails from "@/pages/user/RideDetails";
 import RideHistory from "@/pages/user/RideHistory";
-import RideRequestForm from "@/pages/user/RideRequestForm";
+import { RideRequestForm } from "@/pages/user/RideRequestForm";
+
+
 import type { ISidebarItem } from "@/types";
 
 export const userSidebarItems: ISidebarItem[] = [

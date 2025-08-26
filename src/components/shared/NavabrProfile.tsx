@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAppDispatch } from "@/redux/hook";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router-dom";
 import { useGetOwnInfoQuery } from "@/redux/features/user/user.api";
 import { useSignOutMutation } from "@/redux/features/auth/auth.api";
 import { handleSignOut } from "@/utils/signOut";

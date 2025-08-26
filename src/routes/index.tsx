@@ -17,6 +17,10 @@ import Unauthorized from "@/pages/Unauthorized";
 import { generateRoutes } from "@/utils/generateRoutes";
 import { userSidebarItems } from "./userSidebarItem";
 import { driverSidebarItems } from "./driverSidebarItem";
+import { adminSidebarItems } from "./adminSidebarItem";
+import Success from "@/pages/payment/Success";
+import Fail from "@/pages/payment/Fail";
+import Cancel from "@/pages/payment/cancel";
 
 export const router = createBrowserRouter([
      {
@@ -41,8 +45,8 @@ export const router = createBrowserRouter([
           Component: withAuth(FeaturesLayout, role.user as TRole),
           path: "/user",
           children: [
-               { index: true, element: <Navigate to="/user/ride/ride-request"></Navigate> },
-               ...generateRoutes(userSidebarItems)
+               { index: true, Component: () => <Navigate to="/user/ride/ride-request" replace /> },
+               ...generateRoutes(userSidebarItems, "/user")
           ],
      },
      {
@@ -50,7 +54,23 @@ export const router = createBrowserRouter([
           path: "/driver",
           children: [
                { index: true, element: <Navigate to="/driver/availability"></Navigate> },
-               ...generateRoutes(driverSidebarItems)
+               ...generateRoutes(driverSidebarItems, "/driver")
+          ],
+     },
+     {
+          Component: withAuth(FeaturesLayout, role.superAdmin as TRole),
+          path: "/admin",
+          children: [
+               { index: true, element: <Navigate to="/admin/users"></Navigate> },
+               ...generateRoutes(adminSidebarItems, "/admin")
+          ],
+     },
+     {
+          Component: withAuth(FeaturesLayout, role.admin as TRole ),
+          path: "/admin",
+          children: [
+               { index: true, element: <Navigate to="/admin/users"></Navigate> },
+               ...generateRoutes(adminSidebarItems, "/admin")
           ],
      },
      {
@@ -80,5 +100,17 @@ export const router = createBrowserRouter([
      {
           Component: Unauthorized,
           path: "/unauthorized"
-     }
+     },
+     {
+          Component: Success,
+          path: "/payment/success"
+     },
+     {
+          Component: Fail,
+          path: "/payment/fail"
+     },
+     {
+          Component: Cancel,
+          path: "/payment/cancel"
+     },
 ])

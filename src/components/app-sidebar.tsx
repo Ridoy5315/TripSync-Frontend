@@ -1,21 +1,7 @@
 import * as React from "react";
-import {
-  AudioWaveform,
-  BookOpen,
-  Bot,
-  Command,
-  Frame,
-  GalleryVerticalEnd,
-  Map,
-  PieChart,
-  Settings2,
-  SquareTerminal,
-} from "lucide-react";
 import Logo from "@/assets/companyLogo/company_logo.png";
-import { NavMain } from "@/components/nav-main";
 
 import { NavUser } from "@/components/nav-user";
-import { TeamSwitcher } from "@/components/team-switcher";
 import {
   Sidebar,
   SidebarContent,
@@ -27,9 +13,8 @@ import {
 } from "@/components/ui/sidebar";
 import { useGetOwnInfoQuery } from "@/redux/features/user/user.api";
 import { getSidebarItems } from "@/utils/getSidebarItems";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import { DropdownMenuSeparator } from "./ui/dropdown-menu";
-import { role } from "@/constants/role";
 
 // This is sample data.
 // const data = {
@@ -186,16 +171,21 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <DropdownMenuSeparator />
       <SidebarContent className="list-none pl-4">
         {data.navMain.map((item) => (
-          <>
-          <SidebarMenuItem className="" key={item.title}>
+          <SidebarMenuItem key={item.title}>
             {/* isActive={item.isActive} */}
-            {item.title === "Profile Management" && <div className="border-t-2 my-2"></div>}
+            {item.title === "Profile Management" && (
+              <div className="border-t-2 my-2"></div>
+            )}
             <SidebarMenuButton asChild>
               <Link to={item.url}>{item.title}</Link>
             </SidebarMenuButton>
-            {item.title === "Completed Rides" && <div className="border-t-2 my-2"></div>}
+            {item.title === "Completed Rides" && (
+              <div className="border-t-2 my-2"></div>
+            )}
+            {item.title === "Purpose / Display" && (
+              <div className="border-t-2 my-2"></div>
+            )}
           </SidebarMenuItem>
-          </>
         ))}
 
         {/* <NavMain items={data.navMain} /> */}

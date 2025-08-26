@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import Lottie from "lottie-react";
 import signInLottieData from "@/assets/lottie/Login (1).json";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Form,
   FormControl,

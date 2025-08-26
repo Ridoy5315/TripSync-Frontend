@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { authApi, useSignOutMutation } from "@/redux/features/auth/auth.api";
 import { useAppDispatch } from "@/redux/hook";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 export default function Unauthorized() {
