@@ -17,9 +17,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { useSignUpMutation } from "@/redux/features/auth/auth.api";
 import { Separator } from "@/components/ui/separator";
-import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -64,6 +62,7 @@ export function RideRequestForm({
 }: React.ComponentProps<"div">) {
   const { data: userData } = useGetOwnInfoQuery(undefined);
   const [rideRequest] = useRideRequestMutation();
+  // const navigate = useNavigate();
 
   const form = useForm({
     resolver: zodResolver(rideRequestSchema),
@@ -125,18 +124,41 @@ export function RideRequestForm({
     console.log(userId);
     const toastId = toast.loading("Requesting your ride... Please wait.");
 
-
     try {
       const res = await rideRequest({ userId, data: rideRequestInfo });
       console.log(res);
       if (res?.error?.data?.message === "Please fulfill your profile first") {
-        toast.error("Please complete your profile to proceed.", {id: toastId});
+        toast.error("Please complete your profile to proceed.", {
+          id: toastId,
+        });
       }
-      if(res.data.success && res.data.data.paymentUrl){
-        window.open(`${res.data.data.paymentUrl}`)
-        toast.success("Ride requested successfully! Waiting for driver confirmation.", {id: toastId});
+      if (
+        res?.error?.data?.message ===
+        "You are already on a trip. Please complete it before requesting another."
+      ) {
+        toast.error(
+          "You are already on a trip. Please complete or cancel it before requesting another.",
+          { id: toastId }
+        );
       }
+      if (
+        res?.error?.data?.message  ===
+          "your request has been pending, but no drivers are available now" 
+      ) {
+        toast.error(
+          "No drivers are available now in your area.",
+          { id: toastId }
+        );
+      }
+      if (res.data.success && res.data.data.paymentUrl) {
+        window.open(`${res.data.data.paymentUrl}`);
+        toast.success(
+          "Ride requested successfully! Waiting for driver confirmation.",
+          { id: toastId }
+        );
+        // navigate(`/ride/details/${res?.data?.data?.ride?._id}`);
 
+      }
     } catch (error) {
       console.log(error);
     }

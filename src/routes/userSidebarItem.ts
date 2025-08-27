@@ -39,8 +39,8 @@ export const userSidebarItems: ISidebarItem[] = [
     component: LiveRideTracking,
   },
   {
-    title: "Ride Details Page",
-    url: "/user/ride/details/:id",
+    title: "Ride Details",
+    url: "/user/ride/details",
     component: RideDetails,
   },
   {
