@@ -1,8 +1,6 @@
 import { AppSidebar } from "@/components/app-sidebar";
-import {
-  Breadcrumb,
-  BreadcrumbList,
-} from "@/components/ui/breadcrumb";
+import OnlineOfflineToggle from "@/components/OnlineOfflineToggle";
+import { Breadcrumb, BreadcrumbList } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -10,11 +8,13 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { useGetOwnInfoQuery } from "@/redux/features/user/user.api";
 import { CircleArrowLeft } from "lucide-react";
 import { Outlet } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 export default function FeaturesLayout() {
+  const { data } = useGetOwnInfoQuery(undefined);
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -26,7 +26,7 @@ export default function FeaturesLayout() {
               orientation="vertical"
               className="mr-2 data-[orientation=vertical]:h-4"
             />
-            <Breadcrumb>
+            <Breadcrumb className="flex items-center gap-2">
               <BreadcrumbList>
                 <Button className="h-8">
                   <Link
@@ -39,6 +39,15 @@ export default function FeaturesLayout() {
                   </Link>
                 </Button>
               </BreadcrumbList>
+              <Separator
+                orientation="vertical"
+                className="mx-2 data-[orientation=vertical]:h-4"
+              />
+              {data?.data?.role === "DRIVER" && (
+                <BreadcrumbList>
+                  <OnlineOfflineToggle></OnlineOfflineToggle>
+                </BreadcrumbList>
+              )}
             </Breadcrumb>
           </div>
         </header>

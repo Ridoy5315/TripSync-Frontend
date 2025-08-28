@@ -1,5 +1,4 @@
 import ActiveRide from "@/pages/driver/ActiveRide";
-import AvailabilityControl from "@/pages/driver/AvailabilityControl";
 import EarningsDashboard from "@/pages/driver/EarningsDashboard";
 import IncomingRequests from "@/pages/driver/IncomingRequests";
 import type { ISidebarItem } from "@/types";
@@ -8,11 +7,6 @@ import CompletedRides from "@/pages/driver/CompletedRides";
 
 
 export const driverSidebarItems: ISidebarItem[] = [
-  {
-    title: "Availability Control",
-    url: "/driver/availability",
-    component: AvailabilityControl,
-  },
   {
     title: "Incoming Requests",
     url: "/driver/incoming-requests",
