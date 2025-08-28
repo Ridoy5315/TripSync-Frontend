@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import Lottie from "lottie-react";
 import signInLottieData from "@/assets/lottie/Login (1).json";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Form,
   FormControl,
@@ -54,7 +54,7 @@ export function SignInForm({
     try {
       const result = await signin(userInfo).unwrap()
       console.log(result)
-      toast.success("✅ Signed in successfully")
+      toast.success("✅ Signed in successfully", {id: toastId})
       navigate("/")
     } catch (error) {
       console.log(error)
@@ -78,9 +78,9 @@ export function SignInForm({
         toast.error("Your account is inactive.", {id: toastId})
         navigate("/account-inactive", {state: data.email})
       }
-      else{
-        toast.error("Failed to sign in.", {id: toastId})
-      }
+      // else{
+      //   toast.error("Failed to sign in.", {id: toastId})
+      // }
     }
   };
 
