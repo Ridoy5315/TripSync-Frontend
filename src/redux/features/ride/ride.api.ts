@@ -17,10 +17,20 @@ const rideApi = baseApi.injectEndpoints({
       }),
       providesTags: ["RIDE"]
     }),
+    rideHistory: builder.query({
+      query: ({userId, params}) => ({
+        url: `/ride/rideHistory/${userId}`,
+        method: "GET",
+        params,
+      }),
+      providesTags: ["RIDE"],
+      transformResponse: (response) => response.data,
+    }),
   }),
 });
 
 export const {
      useRideRequestMutation,
-     useRideDetailsQuery
+     useRideDetailsQuery,
+     useRideHistoryQuery,
 } = rideApi;

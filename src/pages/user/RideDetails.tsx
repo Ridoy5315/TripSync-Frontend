@@ -13,7 +13,7 @@ export default function RideDetails() {
   return (
     <div className="py-4 px-8">
       {rideDetails?.rideProgressStatus === "COMPLETED" ? (
-        <h3 className="text-primary">Your list ride details</h3>
+        <h3 className="text-primary font-semibold text-2xl">Your list ride details</h3>
       ) : (
         <h3 className="text-primary font-semibold text-2xl">Your current ride details :</h3>
       )}

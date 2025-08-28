@@ -44,7 +44,7 @@ export const userSidebarItems: ISidebarItem[] = [
     component: RideDetails,
   },
   {
-    title: "My Ride History",
+    title: "Ride History",
     url: "/user/ride/history",
     component: RideHistory,
   },
