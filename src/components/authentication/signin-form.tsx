@@ -78,9 +78,9 @@ export function SignInForm({
         toast.error("Your account is inactive.", {id: toastId})
         navigate("/account-inactive", {state: data.email})
       }
-      else{
-        toast.error("Failed to sign in.", {id: toastId})
-      }
+      // else{
+      //   toast.error("Failed to sign in.", {id: toastId})
+      // }
     }
   };
 

@@ -121,7 +121,7 @@ export default function RideDetails() {
               </ul>
               <ul className="text-muted-foreground space-y-2">
                 <li>{driverInfo?.name}</li>
-                <li>{driverInfo?.address}6</li>
+                <li>{driverInfo?.address}</li>
                 <li>{driverInfo?.dateOfBirth}</li>
                 <li>{driverInfo?.gender}</li>
               </ul>

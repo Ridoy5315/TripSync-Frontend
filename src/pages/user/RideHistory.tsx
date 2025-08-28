@@ -24,7 +24,7 @@ import { useSearchParams } from "react-router-dom";
 export default function RideHistory() {
   const [searchParams] = useSearchParams();
   const [currentPage, setCurrentPage] = useState(1);
-  const { data } = useGetOwnInfoQuery(undefined);
+  const { data, isLoading } = useGetOwnInfoQuery(undefined);
 
   const status = searchParams.get("status") || undefined;
   const fareRange = searchParams.get("fareRange") || undefined;
@@ -41,6 +41,10 @@ export default function RideHistory() {
 
     startUTC = startDate.toISOString();
     endUTC = endDate.toISOString();
+  }
+
+  if(isLoading){
+    <p>Loading...</p>
   }
 
   const { data: rideHistory } = useRideHistoryQuery({
@@ -83,7 +87,7 @@ export default function RideHistory() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {rides &&
+            {isLoading ? <p>Loading...</p> : rides &&
               rides.map((item, index: number) => (
                 <TableRow key={index}>
                   <TableCell className="font-medium text-left">

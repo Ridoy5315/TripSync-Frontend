@@ -9,10 +9,19 @@ const userApi = baseApi.injectEndpoints({
       }),
       providesTags: ["USER"]
     }),
+    editProfile: builder.mutation({
+      query: ({userId, profileData}) => ({
+        url: `user/update/${userId}`,
+        method: "PATCH",
+        data: profileData,
+      }),
+      invalidatesTags: ["USER"]
+    }),
     
   }),
 });
 
 export const {
      useGetOwnInfoQuery,
+     useEditProfileMutation
 } = userApi;

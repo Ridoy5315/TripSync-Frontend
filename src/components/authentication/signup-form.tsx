@@ -25,8 +25,8 @@ const signUpSchema = z
   .object({
     name: z
       .string()
-      .min(5, { error: "Name is too short" })
-      .max(40, { error: "Name is too short" }),
+      .min(5, { error: "Name must be at least 5 characters" })
+      .max(40, { error: "Name is too long" }),
     email: z.email(),
     password: z.string().min(8, { error: "Password is too short" }),
     confirmPassword: z
