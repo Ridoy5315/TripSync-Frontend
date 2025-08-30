@@ -31,11 +31,13 @@ import RideRequestDetailsModal from "@/components/modal/RideRequestDetailsModal"
 import AcceptRideModal from "@/components/modal/AcceptRideModal";
 import { toast } from "sonner";
 import RejectRideModal from "@/components/modal/RejectRideModal";
+import { useNavigate } from "react-router-dom";
 export default function IncomingRequests() {
   const [currentPage, setCurrentPage] = useState(1);
-  const { data, isLoading } = useGetAllPendingRidesQuery({ page: currentPage });
+  const { data } = useGetAllPendingRidesQuery({ page: currentPage });
   const [acceptRide] = useAcceptRideMutation();
   const [rejectRide] = useRejectRideMutation();
+  // const navigate = useNavigate();
 
   const allPendingRideRequest = data?.allPendingRides;
   const totalPage = data?.meta?.totalPage;

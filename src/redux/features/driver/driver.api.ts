@@ -39,6 +39,34 @@ const driverApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["DRIVER"],
     }),
+    getActiveRideStatus: builder.query({
+      query: () => ({
+        url: `/driver/activeRideStatus`,
+        method: "GET",
+      }),
+      providesTags: ["DRIVER"],
+    }),
+    pickedUpStatus: builder.mutation({
+      query: (rideId) => ({
+        url: `/driver/pickedUp/${rideId}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["DRIVER"],
+    }),
+    inTransitStatus: builder.mutation({
+      query: (rideId) => ({
+        url: `/driver/inTransit/${rideId}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["DRIVER"],
+    }),
+    completedStatus: builder.mutation({
+      query: (rideId) => ({
+        url: `/driver/completed/${rideId}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["DRIVER"],
+    }),
 
   }),
 });
@@ -48,5 +76,9 @@ export const {
      useGetAvailabilityStatusQuery,
      useGetAllPendingRidesQuery,
      useAcceptRideMutation,
-     useRejectRideMutation
+     useRejectRideMutation,
+     useGetActiveRideStatusQuery,
+     usePickedUpStatusMutation,
+     useInTransitStatusMutation,
+     useCompletedStatusMutation,
 } = driverApi;
