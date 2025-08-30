@@ -1,30 +1,59 @@
-import { useId, useState } from "react";
+import { useId, useEffect, useState } from "react";
 import { Switch } from "@/components/ui/switch";
 import { MoveRight } from "lucide-react";
-import { useAvailabilityStatusChangeMutation } from "@/redux/features/driver/driver.api";
+import {
+  useAvailabilityStatusChangeMutation,
+  useGetAvailabilityStatusQuery,
+} from "@/redux/features/driver/driver.api";
+import { toast } from "sonner";
 
 export default function OnlineOfflineToggle() {
   const id = useId();
-  const [availabilityStatus, {isLoading}] = useAvailabilityStatusChangeMutation();
-  const [checked, setChecked] = useState<boolean>(true);
+  const { data: availabilityStatusData, isLoading } =
+    useGetAvailabilityStatusQuery(undefined);
+  const [availabilityStatus] = useAvailabilityStatusChangeMutation();
+  const [checked, setChecked] = useState<boolean>(false);
 
-  const handleStatusChange = async(newStatus: boolean) => {
-    setChecked(newStatus);
+  const status = availabilityStatusData?.data?.availabilityStatus;
 
-    try {
-      const res = await availabilityStatus().unwrap()
-      console.log(res)
-    } catch (error) {
-      console.log(error)
+  // Sync backend status with local state
+  useEffect(() => {
+    if (status) {
+      
+      setChecked(status === "ONLINE" || status === "ON_TRIP");
     }
+  }, [status]);
+
+  const handleStatusChange = async (newStatus: boolean) => {
+    if (status === "ON_TRIP" && newStatus === false) {
+    return toast.warning("You’re currently on a trip. Please complete the ride before going offline."); 
+  }
+    setChecked(newStatus);
+    try {
+      const res = await availabilityStatus().unwrap();
+      console.log(res);
+  //     if (res.success) {
+  //   return toast.warning("You’re currently on a trip. Please complete the ride before going offline."); 
+  // }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  if (isLoading) {
+    return <div>Loading...</div>; // or skeleton/spinner
   }
 
   return (
     <div className="flex items-center gap-2">
-      <span className={`${checked ? "text-muted-foreground" : "text-pretty font-semibold"}`}>
+      <span
+        className={`${
+          checked ? "text-muted-foreground" : "text-pretty font-semibold"
+        }`}
+      >
         {checked
           ? "You are online. You can go offline anytime"
-          : "You’re offline! Go online to start receiving rides"} 
+          : "You’re offline! Go online to start receiving rides"}
       </span>
       <MoveRight strokeWidth={1.75} />
       <div className="relative inline-grid h-8 grid-cols-[1fr_1fr] items-center text-sm font-medium">
@@ -41,9 +70,6 @@ export default function OnlineOfflineToggle() {
           <span className="text-[10px] font-medium uppercase">On</span>
         </span>
       </div>
-      {/* <span className="ml-2 font-medium">
-        {checked ? "Online" : "Offline"}
-      </span> */}
     </div>
   );
 }
