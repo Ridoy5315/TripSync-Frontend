@@ -48,7 +48,7 @@ export default function RideHistory() {
   }
 
   const { data: rideHistory } = useRideHistoryQuery({
-    userId: data?.data?._id,
+    userId: data?.data?.user?._id,
     params: {
       page: currentPage,
       ...(startUTC && { startDate: startUTC }),
@@ -75,9 +75,9 @@ export default function RideHistory() {
           <TableHeader>
             <TableRow>
               <TableHead className="text-left">No.</TableHead>
-              <TableHead className="text-center">Pickup Location</TableHead>
+              <TableHead className="text-center">Pickup Location (Coordinates)</TableHead>
               <TableHead className="text-center">
-                Destination Location
+                Destination Location (Coordinates)
               </TableHead>
               <TableHead className="text-center">Distance</TableHead>
               <TableHead className="text-center">Request Status</TableHead>

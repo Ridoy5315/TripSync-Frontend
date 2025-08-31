@@ -22,7 +22,7 @@ export default function NavbarProfile() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const profileData = data?.data;
+  const profileData = data?.data?.user;
 
   return (
     <DropdownMenu>

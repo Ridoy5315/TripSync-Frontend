@@ -1,6 +1,6 @@
-import { useSearchParams } from "react-router-dom";
-import { Button } from "../ui/button";
 import { Label } from "../ui/label";
+import { Button } from "../ui/button";
+import { ChevronDownIcon, X } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -10,32 +10,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { useSearchParams } from "react-router-dom";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { ChevronDownIcon, X } from "lucide-react";
 import { Calendar } from "../ui/calendar";
 import { useState } from "react";
 import { fareRangeOptions } from "@/utils/fareRangeOptions";
 
-export default function RideHistoryFilters() {
+export default function CompletedRidesFilters() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const selectedStatus = searchParams.get("status") || undefined;
   const selectedFareRange = searchParams.get("fareRange") || undefined;
 
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState<Date | undefined>(undefined);
-
-  const statusOptions = [
-    { label: "Pending", value: "PENDING" },
-    { label: "Canceled", value: "CANCELED" },
-    { label: "Accepted", value: "ACCEPTED" },
-    { label: "Rejected", value: "REJECTED" },
-  ];
-
-  const handleStatusChange = (value: string) => {
-    const params = new URLSearchParams(searchParams);
-    params.set("status", value);
-    setSearchParams(params);
-  };
 
   const handleFareRangeChange = (value: string) => {
     const params = new URLSearchParams(searchParams);
@@ -60,55 +46,22 @@ export default function RideHistoryFilters() {
     setDate(value);
   };
 
-  const handleClearFilter = () => {
-    const params = new URLSearchParams(searchParams);
-    params.delete("status");
-    setSearchParams(params);
-  };
   const handleClearFilterRange = () => {
     const params = new URLSearchParams(searchParams);
     params.delete("fareRange");
     setSearchParams(params);
   };
+
   const handleClearFilterDate = () => {
     const params = new URLSearchParams(searchParams);
     params.delete("date");
     setSearchParams(params);
   };
-
   return (
     <div className="flex gap-10 items-center justify-end">
       <div className="max-w-[200px] w-full">
         <div className="flex justify-between">
-          <Label className="mb-2">Tour type</Label>
-          <Button size="icon" variant="ghost" onClick={handleClearFilter}>
-            <X />
-          </Button>
-        </div>
-        <Select
-          onValueChange={handleStatusChange}
-          value={selectedStatus ? selectedStatus : ""}
-        >
-          <SelectTrigger className="w-full">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Divisions</SelectLabel>
-              {statusOptions?.map((item: { value: string; label: string }) => (
-                <SelectItem key={item.value} value={item.value}>
-                  {item.label}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-      </div>
-
-      {/* fare range */}
-      <div className="max-w-[200px] w-full">
-        <div className="flex justify-between">
-          <Label className="mb-2">Tour type</Label>
+          <Label className="mb-2">Select fare range</Label>
           <Button size="icon" variant="ghost" onClick={handleClearFilterRange}>
             <X />
           </Button>
@@ -123,10 +76,14 @@ export default function RideHistoryFilters() {
 
           <SelectContent>
             <SelectGroup>
-              <SelectLabel>Tour type</SelectLabel>
+              <SelectLabel>Fare Range</SelectLabel>
               {fareRangeOptions?.map(
                 (item: { value: string; label: string }) => (
-                  <SelectItem key={item.value} value={item.value} className='flex justify-center items-center'>
+                  <SelectItem
+                    key={item.value}
+                    value={item.value}
+                    className="flex justify-center items-center"
+                  >
                     {item.label}
                   </SelectItem>
                 )
@@ -135,10 +92,11 @@ export default function RideHistoryFilters() {
           </SelectContent>
         </Select>
       </div>
+
       {/* date */}
       <div className="flex flex-col">
         <div className="flex justify-between">
-          <Label className="">Tour type</Label>
+          <Label className="">Ride requested date</Label>
           <Button size="icon" variant="ghost" onClick={handleClearFilterDate}>
             <X />
           </Button>

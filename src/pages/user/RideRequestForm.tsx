@@ -118,7 +118,7 @@ export function RideRequestForm({
       paymentMethod: data.paymentMethod,
     };
 
-    const userId = userData?.data?._id;
+    const userId = userData?.data?.user?._id;
 
     console.log(rideRequestInfo);
     console.log(userId);

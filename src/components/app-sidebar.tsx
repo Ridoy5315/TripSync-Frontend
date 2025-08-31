@@ -149,13 +149,13 @@ import { DropdownMenuSeparator } from "./ui/dropdown-menu";
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data: userData } = useGetOwnInfoQuery(undefined);
   const data = {
-    navMain: getSidebarItems(userData?.data?.role),
+    navMain: getSidebarItems(userData?.data?.user?.role),
   };
 
   const footerData = {
-    name: userData?.data?.name,
-    email: userData?.data?.email,
-    avatar: userData?.data?.picture,
+    name: userData?.data?.user?.name,
+    email: userData?.data?.user?.email,
+    avatar: userData?.data?.user?.picture,
   };
   return (
     <Sidebar className="px-2" {...props}>
