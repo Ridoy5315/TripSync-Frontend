@@ -57,10 +57,10 @@ const ridesChartConfig = {
 
 export default function EarningsDashboard() {
   const { data: userData } = useGetOwnInfoQuery(undefined);
-  console.log(userData?.data?._id);
+  console.log(userData?.data?.user?._id);
   const { data: driverData } = useGetDriverEarningHistoryQuery(
-    userData?.data?._id,
-    { skip: !userData?.data?._id }
+    userData?.data?.user?._id,
+    { skip: !userData?.data?.user?._id}
   );
   console.log(driverData);
 

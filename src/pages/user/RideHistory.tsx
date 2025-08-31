@@ -48,7 +48,7 @@ export default function RideHistory() {
   }
 
   const { data: rideHistory } = useRideHistoryQuery({
-    userId: data?.data?._id,
+    userId: data?.data?.user?._id,
     params: {
       page: currentPage,
       ...(startUTC && { startDate: startUTC }),

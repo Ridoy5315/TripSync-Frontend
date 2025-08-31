@@ -48,7 +48,7 @@ export default function FeaturesLayout() {
                 orientation="vertical"
                 className="mx-2 data-[orientation=vertical]:h-4"
               />
-              {data?.data?.role === "DRIVER" && (
+              {data?.data?.user?.role === "DRIVER" && (
                 <BreadcrumbList>
                   <OnlineOfflineToggle></OnlineOfflineToggle>
                 </BreadcrumbList>

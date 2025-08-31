@@ -45,6 +45,8 @@ const navigationLinks = [
 export default function Navbar() {
   const { data } = useGetOwnInfoQuery(undefined);
 
+  console.log(data)
+
   return (
     <div className="border-b sticky top-0 z-10 shadow">
       <header className=" px-4 lg:px-0 container mx-auto">
@@ -156,7 +158,7 @@ export default function Navbar() {
                   {navigationLinks
                     .filter(
                       (link) =>
-                        link.role === "PUBLIC" || link.role === data?.data?.role
+                        link.role === "PUBLIC" || link.role === data?.data?.user?.role
                     )
                     .map((link, index) => (
                       <NavigationMenuItem key={index}>
@@ -244,7 +246,7 @@ export default function Navbar() {
           <div className="flex items-center gap-2">
             <ModeToggle></ModeToggle>
             <div className="w-px h-8 bg-border"></div>
-            {data?.data?.email ? (
+            {data?.data?.user?.email ? (
               <NavbarProfile></NavbarProfile>
             ) : (
               <div className="flex gap-2">
