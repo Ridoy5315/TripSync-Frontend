@@ -1,4 +1,3 @@
-import ActiveRide from "@/pages/driver/ActiveRide";
 import EarningsDashboard from "@/pages/driver/EarningsDashboard";
 import IncomingRequests from "@/pages/driver/IncomingRequests";
 import type { ISidebarItem } from "@/types";
@@ -11,11 +10,6 @@ export const driverSidebarItems: ISidebarItem[] = [
     title: "Incoming Requests",
     url: "/driver/incoming-requests",
     component: IncomingRequests,
-  },
-  {
-    title: "Active Ride Management",
-    url: "/driver/active-ride",
-    component: ActiveRide,
   },
   {
     title: "Earnings Dashboard",

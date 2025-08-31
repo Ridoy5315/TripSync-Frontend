@@ -75,9 +75,9 @@ export default function RideHistory() {
           <TableHeader>
             <TableRow>
               <TableHead className="text-left">No.</TableHead>
-              <TableHead className="text-center">Pickup Location</TableHead>
+              <TableHead className="text-center">Pickup Location (Coordinates)</TableHead>
               <TableHead className="text-center">
-                Destination Location
+                Destination Location (Coordinates)
               </TableHead>
               <TableHead className="text-center">Distance</TableHead>
               <TableHead className="text-center">Request Status</TableHead>

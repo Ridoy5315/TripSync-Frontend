@@ -67,6 +67,21 @@ const driverApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["DRIVER"],
     }),
+    getDriverEarningHistory: builder.query({
+      query: (driverId) => ({
+        url: `/driver/earningHistory/${driverId}`,
+        method: "GET",
+      }),
+      providesTags: ["DRIVER"],
+    }),
+    getCompletedRides: builder.query({
+      query: ({params}) => ({
+        url: "/driver/completedRides",
+        method: "GET",
+        params
+      }),
+      providesTags: ["DRIVER"],
+    }),
 
   }),
 });
@@ -81,4 +96,7 @@ export const {
      usePickedUpStatusMutation,
      useInTransitStatusMutation,
      useCompletedStatusMutation,
+     useGetDriverEarningHistoryQuery,
+     useGetCompletedRidesQuery
+
 } = driverApi;
