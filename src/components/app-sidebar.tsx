@@ -152,6 +152,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     navMain: getSidebarItems(userData?.data?.user?.role),
   };
 
+  console.log(data);
+
   const footerData = {
     name: userData?.data?.user?.name,
     email: userData?.data?.user?.email,
@@ -185,6 +187,22 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             {item.title === "Purpose / Display" && (
               <div className="border-t-2 my-2"></div>
             )}
+            {item.items && item.items.length > 0 && (
+              <div className="ml-4 flex flex-col my-2 gap-1">
+                {item.items.map((section, index) => (
+                  <Link key={index} to={section.url}>
+                    {section.title}
+                  </Link>
+                ))}
+
+                {/* <SidebarMenuList items={item.items} /> */}
+              </div>
+            )}
+            {item.items &&
+              item.items.length > 0 &&
+              item.items.some((section) => section.title === "Drivers Management") && (
+                <div className="border-t-2 my-2"></div>
+              )}
           </SidebarMenuItem>
         ))}
 

@@ -61,7 +61,7 @@ export const router = createBrowserRouter([
           Component: withAuth(FeaturesLayout, role.superAdmin as TRole),
           path: "/admin",
           children: [
-               { index: true, element: <Navigate to="/admin/users"></Navigate> },
+               { index: true, element: <Navigate to="/admin/riders"></Navigate> },
                ...generateRoutes(adminSidebarItems, "/admin")
           ],
      },
@@ -69,7 +69,7 @@ export const router = createBrowserRouter([
           Component: withAuth(FeaturesLayout, role.admin as TRole ),
           path: "/admin",
           children: [
-               { index: true, element: <Navigate to="/admin/users"></Navigate> },
+               { index: true, element: <Navigate to="/admin/riders"></Navigate> },
                ...generateRoutes(adminSidebarItems, "/admin")
           ],
      },
