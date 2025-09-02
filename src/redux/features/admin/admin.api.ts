@@ -25,20 +25,36 @@ const adminApi = baseApi.injectEndpoints({
       providesTags: ["ADMIN"],
       transformResponse: (response) => response?.data?.totalRider,
     }),
-    getDriver: builder.query({
-      query: ({params}) => ({
+    getDriver: builder.query<any, { params?: any }>({
+      query: ({ params } = {}) => ({
         url: "/stats/driver",
         method: "GET",
         params
       }),
       providesTags: ["ADMIN"],
-      transformResponse: (response) => response?.data?.totalDriver,
+      transformResponse: (response: { data: any }) => response?.data,
     }),
     getAllRides: builder.query({
       query: ({params}) => ({
         url: "/ride/all-rides",
         method: "GET",
         params
+      }),
+      providesTags: ["ADMIN"],
+      // transformResponse: (response) => response?.data?.totalDriver,
+    }),
+    getRidesVolume: builder.query({
+      query: () => ({
+        url: "/stats/rides",
+        method: "GET",
+      }),
+      providesTags: ["ADMIN"],
+      // transformResponse: (response) => response?.data?.totalDriver,
+    }),
+    getRevenue: builder.query({
+      query: () => ({
+        url: "/stats/payment",
+        method: "GET",
       }),
       providesTags: ["ADMIN"],
       // transformResponse: (response) => response?.data?.totalDriver,
@@ -60,5 +76,7 @@ export const {
      useGetRiderQuery,
      useGetDriverQuery,
      useGetAllRidesQuery,
+     useGetRidesVolumeQuery,
+     useGetRevenueQuery,
      useGetAdminsQuery
 } = adminApi;

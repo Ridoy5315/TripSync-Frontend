@@ -45,7 +45,7 @@ export default function AdminListFilters() {
     setSearchParams(params);
   };
   return (
-    <div>
+    <div className="flex gap-10 items-center justify-end">
       {/* Search Input */}
       <div className="w-full max-w-sm">
         <Label className="mb-2 block">Search Admin</Label>

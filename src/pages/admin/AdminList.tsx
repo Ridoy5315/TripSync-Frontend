@@ -35,8 +35,12 @@ export default function AdminList() {
   console.log(data);
   const adminData = data?.data?.data;
   return (
-    <div>
+    <div className="py-4 px-8">
+      <h3 className="text-primary font-semibold text-2xl mb-4">
+        Admin List :
+      </h3>
       <AdminListFilters></AdminListFilters>
+      <Separator className="my-4"></Separator>
       <div className="border border-muted rounded-md">
         <Table>
           <TableCaption>A list of your recent invoices.</TableCaption>

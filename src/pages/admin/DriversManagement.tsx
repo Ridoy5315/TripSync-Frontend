@@ -40,8 +40,8 @@ export default function DriversManagement() {
 
   console.log(data);
 
-  const totalPage = data?.meta?.totalPage || 1;
-  const driversData = data?.data;
+  const totalPage = data?.totalDriver?.meta?.totalPage || 1;
+  const driversData = data?.totalDriver?.data;
 
   return (
     <div className="py-4 px-8">
@@ -49,7 +49,7 @@ export default function DriversManagement() {
         My Ride History :
       </h3>
       <DriversManagementFilters></DriversManagementFilters>
-      <Separator className="my-8"></Separator>
+      <Separator className="my-4"></Separator>
       <div className="border border-muted rounded-md">
         <Table>
           <TableCaption>A list of your recent invoices.</TableCaption>
