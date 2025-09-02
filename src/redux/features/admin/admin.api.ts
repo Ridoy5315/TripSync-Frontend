@@ -34,11 +34,31 @@ const adminApi = baseApi.injectEndpoints({
       providesTags: ["ADMIN"],
       transformResponse: (response) => response?.data?.totalDriver,
     }),
+    getAllRides: builder.query({
+      query: ({params}) => ({
+        url: "/ride/all-rides",
+        method: "GET",
+        params
+      }),
+      providesTags: ["ADMIN"],
+      // transformResponse: (response) => response?.data?.totalDriver,
+    }),
+    getAdmins: builder.query({
+      query: ({params}) => ({
+        url: "/stats/admin",
+        method: "GET",
+        params
+      }),
+      providesTags: ["ADMIN"],
+      // transformResponse: (response) => response?.data?.totalDriver,
+    }),
 
   }),
 });
 
 export const {
      useGetRiderQuery,
-     useGetDriverQuery
+     useGetDriverQuery,
+     useGetAllRidesQuery,
+     useGetAdminsQuery
 } = adminApi;

@@ -184,7 +184,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             {item.title === "Completed Rides" && (
               <div className="border-t-2 my-2"></div>
             )}
-            {item.title === "Purpose / Display" && (
+            {item.title === "Admin List" && (
               <div className="border-t-2 my-2"></div>
             )}
             {item.items && item.items.length > 0 && (
