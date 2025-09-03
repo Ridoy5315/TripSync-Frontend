@@ -26,6 +26,7 @@ import TeamProfiles from "@/components/aboutUs/TeamProfiles";
 import Support from "@/pages/Support";
 import GetInTouch from "@/components/support/GetInTouch";
 import FAQs from "@/components/support/FAQs";
+import FareDetails from "@/pages/FareDetails";
 
 export const router = createBrowserRouter([
      {
@@ -75,6 +76,10 @@ export const router = createBrowserRouter([
                               path: "faq"
                          },
                     ]
+               },
+               {
+                    Component: FareDetails,
+                    path: "fare-details"
                }
           ]
      },
