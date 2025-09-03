@@ -1,3 +1,4 @@
+import { useGetRidesVolumeQuery } from "@/redux/features/admin/admin.api";
 import CountUp from "react-countup";
 import { useInView } from "react-intersection-observer";
 
@@ -6,7 +7,10 @@ export default function SuccessCounter() {
     triggerOnce: true, // trigger only once when visible
     threshold: 0.2, // 20% of element should be visible
   });
-  // const [counter, setCounter] = useState(false);
+  const { data } = useGetRidesVolumeQuery(undefined);
+  console.log(data)
+
+  const ridesData = data?.data
   return (
     <div
       ref={ref}
@@ -30,8 +34,13 @@ export default function SuccessCounter() {
             ) : (
               "0"
             )}
+            {/* {inView ? (
+              <CountUp start={0} end={ridesData.totalRides || 0} duration={2.75}></CountUp>
+            ) : (
+              "0"
+            )} */}
           </h2>
-          <p className="text-primary font-semibold lg:text-xl">Total Biodata</p>
+          <p className="text-primary font-semibold lg:text-xl">Total Rides</p>
         </div>
 
         <div className="bg-[#f3eefd] p-6 lg:space-y-3 space-y-2 border-b-8 rounded-xl dark:bg-[#bb9bf7]">
@@ -42,8 +51,13 @@ export default function SuccessCounter() {
             ) : (
               "0"
             )}
+            {/* {inView ? (
+              <CountUp start={0} end={ridesData.totalCompleteRides || 0} duration={2.75}></CountUp>
+            ) : (
+              "0"
+            )} */}
           </h2>
-          <p className="text-primary font-semibold lg:text-xl">Total Biodata</p>
+          <p className="text-primary font-semibold lg:text-xl">Total Completed Rides</p>
         </div>
         <h3 className="text-pretty text-3xl font-bold lg:text-4xl col-span-2">
           <span className="text-primary">TripSync </span> in Numbers
@@ -51,13 +65,18 @@ export default function SuccessCounter() {
         <div className="bg-[#f3eefd] p-6 lg:space-y-3 space-y-2 border-b-8 rounded-xl dark:bg-[#bb9bf7]">
           <div className="flex justify-center"></div>
           <h2 className="lg:text-5xl text-3xl text-maroon-color font-medium">
+            {/* {inView ? (
+              <CountUp start={0} end={ridesData.ridesInLast7Days || 0} duration={2.75}></CountUp>
+            ) : (
+              "0"
+            )} */}
             {inView ? (
               <CountUp start={0} end={200} duration={2.75}></CountUp>
             ) : (
               "0"
             )}
           </h2>
-          <p className="text-primary font-semibold lg:text-xl">Total Biodata</p>
+          <p className="text-primary font-semibold lg:text-xl">Rides in Last 7 Days</p>
         </div>
         <div className="bg-[#f3eefd] p-6 lg:space-y-3 space-y-2 border-b-8 rounded-xl dark:bg-[#bb9bf7]">
           <div className="flex justify-center"></div>
@@ -67,8 +86,13 @@ export default function SuccessCounter() {
             ) : (
               "0"
             )}
+            {/* {inView ? (
+              <CountUp start={0} end={ridesData.ridesInLast30Days || 0} duration={2.75}></CountUp>
+            ) : (
+              "0"
+            )} */}
           </h2>
-          <p className="text-primary font-semibold lg:text-xl">Total Biodata</p>
+          <p className="text-primary font-semibold lg:text-xl">Rides in Last 30 Days</p>
         </div>
       </div>
     </div>

@@ -1,4 +1,3 @@
-import { BookOpenIcon, InfoIcon, LifeBuoyIcon } from "lucide-react";
 
 import Logo from "@/assets/companyLogo/company_logo.png";
 import { cn } from "@/lib/utils";
@@ -25,32 +24,51 @@ import NavbarProfile from "./NavabrProfile";
 // Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
   { href: "/", label: "Home", role: "PUBLIC" },
+  { href: "/admin", label: "Features", role: role.superAdmin },
+  { href: "/admin", label: "Features", role: role.admin },
+  { href: "/user/ride/ride-request", label: "Features", role: role.user },
+  { href: "/driver", label: "Features", role: role.driver },
+  { href: "/pricing", label: "Ride Now", role: role.user },
+  { href: "/pricing", label: "Join as Driver", role: "PUBLIC" },
+  { href: "/pricing", label: "Fare Details", role: "PUBLIC" },
   {
     label: "About Us",
     submenu: true,
     type: "icon",
     role: "PUBLIC",
     items: [
-      { href: "#", label: "Company background", icon: "BookOpenIcon" },
-      { href: "#", label: "Mission", icon: "LifeBuoyIcon" },
-      { href: "#", label: "Team profiles", icon: "InfoIcon" },
+      {
+        href: "/aboutUs/company-background",
+        label: "Company background",
+      },
+      { href: "/aboutUs/mission", label: "Mission" },
+      {
+        href: "/aboutUs/team-profiles",
+        label: "Team profiles",
+      },
     ],
   },
-  { href: "/admin", label: "Features", role: role.superAdmin },
-  { href: "/admin", label: "Features", role: role.admin },
-  { href: "/user/ride/ride-request", label: "Features", role: role.user },
-  { href: "/driver", label: "Features", role: role.driver },
+  {
+    label: "Support",
+    submenu: true,
+    type: "icon",
+    role: "PUBLIC",
+    items: [
+      { href: "/support/contactUs", label: "Get in Touch" },
+      { href: "/support/faq", label: "FAQs" },
+    ],
+  },
 ];
 
 export default function Navbar() {
   const { data } = useGetOwnInfoQuery(undefined);
 
-  console.log(data)
+  console.log(data);
 
   return (
-    <div className="border-b sticky top-0 z-10 shadow">
+    <div className="border-b bg-background sticky top-0 z-10 shadow">
       <header className=" px-4 lg:px-0 container mx-auto">
-        <div className="flex h-16 items-center justify-between gap-4">
+        <div className="flex my-1 h-16 items-center justify-between gap-4">
           {/* Left side */}
           <div className="flex items-center gap-2">
             {/* Mobile menu trigger */}
@@ -121,9 +139,6 @@ export default function Navbar() {
                         )}
                         {/* Add separator between different types of items */}
                         {index < navigationLinks.length - 1 &&
-                          // Show separator if:
-                          // 1. One is submenu and one is simple link OR
-                          // 2. Both are submenus but with different types
                           ((!link.submenu &&
                             navigationLinks[index + 1].submenu) ||
                             (link.submenu &&
@@ -158,7 +173,8 @@ export default function Navbar() {
                   {navigationLinks
                     .filter(
                       (link) =>
-                        link.role === "PUBLIC" || link.role === data?.data?.user?.role
+                        link.role === "PUBLIC" ||
+                        link.role === data?.data?.user?.role
                     )
                     .map((link, index) => (
                       <NavigationMenuItem key={index}>
@@ -179,49 +195,9 @@ export default function Navbar() {
                                   <li key={itemIndex}>
                                     <NavigationMenuLink
                                       href={item.href}
-                                      className="py-1.5"
+                                      className="py-1.5 text-muted-foreground hover:text-primary"
                                     >
-                                      {link.type === "icon" &&
-                                        "icon" in item && (
-                                          <div className="flex items-center gap-2">
-                                            {item.icon === "BookOpenIcon" && (
-                                              <BookOpenIcon
-                                                size={16}
-                                                className="..."
-                                              />
-                                            )}
-                                            {item.icon === "LifeBuoyIcon" && (
-                                              <LifeBuoyIcon
-                                                size={16}
-                                                className="..."
-                                              />
-                                            )}
-                                            {item.icon === "InfoIcon" && (
-                                              <InfoIcon
-                                                size={16}
-                                                className="..."
-                                              />
-                                            )}
-                                            <span>{item.label}</span>
-                                          </div>
-                                        )}
-                                      {link.type === "description" &&
-                                      "description" in item ? (
-                                        <div className="space-y-1">
-                                          <div className="font-medium">
-                                            {item.label}
-                                          </div>
-                                          <p className="text-muted-foreground line-clamp-2 text-xs">
-                                            {item.description}
-                                          </p>
-                                        </div>
-                                      ) : (
-                                        (!link.type ||
-                                          (link.type !== "icon" &&
-                                            link.type !== "description")) && (
-                                          <span>{item.label}</span>
-                                        )
-                                      )}
+                                      <span>{item.label}</span>
                                     </NavigationMenuLink>
                                   </li>
                                 ))}
@@ -259,18 +235,6 @@ export default function Navbar() {
               </div>
             )}
           </div>
-          {/* <div className="flex items-center gap-2">
-            <ModeToggle></ModeToggle>
-            <div className="w-px h-8 bg-border"></div>
-          <div className="flex gap-2">
-              <Button asChild variant="outline" size="sm" className="text-sm">
-                <Link to="/signin">Sign In</Link>
-              </Button>
-              <Button asChild size="sm" className="text-sm">
-                <Link to="/signUp">Get Started</Link>
-              </Button>
-            </div>
-          </div> */}
         </div>
       </header>
     </div>

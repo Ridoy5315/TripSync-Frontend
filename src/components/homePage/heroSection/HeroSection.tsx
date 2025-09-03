@@ -8,10 +8,19 @@ import {
 } from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
 import banner1 from "@/assets/banner/1.jpg";
-import banner2 from "@/assets/banner/2.jpg";
+import banner2 from "@/assets/banner/2.png";
 import banner3 from "@/assets/banner/3.jpg";
-import banner4 from "@/assets/banner/4.webp";
+import banner4 from "@/assets/banner/4.jpg";
 import banner5 from "@/assets/banner/5.jpg";
+import banner6 from "@/assets/banner/6.jpg";
+import banner7 from "@/assets/banner/7.jpeg";
+import banner8 from "@/assets/banner/8.jpg";
+import banner9 from "@/assets/banner/9.jpg";
+import banner10 from "@/assets/banner/10.png";
+import banner11 from "@/assets/banner/11.jpg";
+import banner12 from "@/assets/banner/12.jpg";
+import banner13 from "@/assets/banner/13.jpg";
+import banner14 from "@/assets/banner/14.jpg";
 import "animate.css";
 import { Typewriter } from "react-simple-typewriter";
 import { useEffect, useRef, useState } from "react";
@@ -36,7 +45,22 @@ export default function HeroSection() {
     return () => clearTimeout(timer);
   }, []);
 
-  const images = [banner1, banner2, banner3, banner4, banner5];
+  const images = [
+    banner1,
+    banner2,
+    banner3,
+    banner4,
+    banner5,
+    banner6,
+    banner7,
+    banner8,
+    banner9,
+    banner10,
+    banner11,
+    banner12,
+    banner13,
+    banner14,
+  ];
 
   return (
     <section className="min-h-screen mx-auto container flex items-center overflow-hidden">
@@ -44,7 +68,7 @@ export default function HeroSection() {
         <div className=" flex flex-col items-center space-y-8">
           {/* LEFT SIDE */}
           <div className="flex flex-col items-center text-center">
-            <h1 className=" my-6 text-pretty text-4xl mb-8 font-bold lg:text-5xl">
+            <h1 className="text-pretty text-4xl mb-6 font-bold lg:text-5xl">
               <span className="">
                 <Typewriter
                   words={["Connecting People, "]}
@@ -82,7 +106,7 @@ export default function HeroSection() {
             </p>
           </div>
           {/* RIGHT SIDE */}
-          <Carousel plugins={[plugin.current]} className="w-full mt-10 mb-6">
+          <Carousel plugins={[plugin.current]} className="w-full mt-8 mb-6">
             <CarouselContent className="-ml-1">
               {images.map((image, index) => (
                 <CarouselItem
@@ -104,7 +128,7 @@ export default function HeroSection() {
               ))}
             </CarouselContent>
           </Carousel>
-          <div className="flex w-full flex-col justify-center gap-2 sm:flex-row mt-6 space-x-3">
+          <div className="flex w-full flex-col justify-center gap-2 sm:flex-row mt-20 space-x-3">
             <Button className="animate__animated animate__zoomIn animate__delay-1s w-full sm:w-auto">
               Discover all components
             </Button>

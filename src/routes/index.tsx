@@ -3,7 +3,6 @@ import AboutUs from "@/pages/AboutUs";
 import SignIn from "@/pages/authentication/SignIn";
 import SignUp from "@/pages/authentication/SignUp";
 import Verify from "@/pages/authentication/Verify";
-import Features from "@/pages/Features";
 import HomePage from "@/pages/HomePage";
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import DeletedAccount from "@/pages/DeletedAccount";
@@ -21,6 +20,12 @@ import { adminSidebarItems } from "./adminSidebarItem";
 import Success from "@/pages/payment/Success";
 import Fail from "@/pages/payment/Fail";
 import Cancel from "@/pages/payment/cancel";
+import CompanyBackground from "@/components/aboutUs/CompanyBackground";
+import Mission from "@/components/aboutUs/Mission";
+import TeamProfiles from "@/components/aboutUs/TeamProfiles";
+import Support from "@/pages/Support";
+import GetInTouch from "@/components/support/GetInTouch";
+import FAQs from "@/components/support/FAQs";
 
 export const router = createBrowserRouter([
      {
@@ -33,12 +38,44 @@ export const router = createBrowserRouter([
                },
                {
                     Component: AboutUs,
-                    path: "aboutUs"
+                    path: "aboutUs",
+                    children:[
+                         {
+                              element: <Navigate to="/aboutUs/company-background" replace />,
+                              index: true
+                         },
+                         {
+                              Component: CompanyBackground,
+                              path: "company-background"
+                         },
+                         {
+                              Component: Mission,
+                              path: "mission"
+                         },
+                         {
+                              Component: TeamProfiles,
+                              path: "team-profiles"
+                         },
+                    ]
                },
                {
-                    Component: Features,
-                    path: "features"
-               },
+                    Component: Support,
+                    path: "support",
+                    children: [
+                         {
+                              element: <Navigate to="/support/contactUs" replace></Navigate>,
+                              index: true
+                         },
+                         {
+                              Component: GetInTouch,
+                              path: "contactUs"
+                         },
+                         {
+                              Component: FAQs,
+                              path: "faq"
+                         },
+                    ]
+               }
           ]
      },
      {
