@@ -1,0 +1,138 @@
+import RidersManagementFilters from "@/components/ridersManagement/ridersManagementFilters";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import { Separator } from "@/components/ui/separator";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { useGetRiderQuery } from "@/redux/features/admin/admin.api";
+import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
+
+export default function RidersManagement() {
+  const [searchParams] = useSearchParams();
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const isActiveValue = searchParams.get("isActiveValue") || undefined;
+  const search = searchParams.get("search") || undefined;
+
+  const { data } = useGetRiderQuery({
+    params: {
+      page: currentPage,
+      ...(isActiveValue && { isActiveValue }),
+      ...(search && { searchTerm: search }),
+    },
+  });
+
+  const totalPage = data?.meta?.totalPage || 1;
+  const ridersData = data?.data;
+
+  // console.log(data?.data?.totalRider)
+  console.log(data);
+  return (
+    <div className="py-4 px-8">
+      <h3 className="text-primary font-semibold text-2xl mb-4">
+        My Ride History :
+      </h3>
+      <RidersManagementFilters></RidersManagementFilters>
+      <Separator className="my-8"></Separator>
+      <div className="border border-muted rounded-md">
+        <Table>
+          <TableCaption>A list of your recent invoices.</TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="text-left">No.</TableHead>
+              <TableHead className="text-center">name</TableHead>
+              <TableHead className="text-center">email</TableHead>
+              <TableHead className="text-center">gender</TableHead>
+              <TableHead className="text-center">address</TableHead>
+              <TableHead className="text-center">isActive</TableHead>
+              {/* <TableHead className="text-center">Fare</TableHead>
+              <TableHead className="text-right">Ride Status</TableHead> */}
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {ridersData && ridersData?.map((item, index: number) => (
+              <TableRow key={index}>
+                <TableCell className="font-medium text-left">
+                  {index + 1}
+                </TableCell>
+                <TableCell className="font-medium text-center">
+                  {item?.name}
+                </TableCell>
+                <TableCell className="font-medium text-center">
+                  {item?.email}
+                </TableCell>
+                <TableCell className="font-medium text-center">
+                  {item?.gender}
+                </TableCell>
+                <TableCell className="font-medium text-center">
+                  {item?.address}
+                </TableCell>
+                <TableCell className="font-medium text-center">
+                  {item?.isActive === "ACTIVE" || item?.isActive === "INACTIVE"
+                    ? "Unblock"
+                    : "Block"}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+      <div className="flex justify-end mt-8">
+        {/* {totalPage > 1 && ( */}
+        <div>
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  className={
+                    currentPage === 1
+                      ? "pointer-events-none text-gray-500"
+                      : "cursor-pointer"
+                  }
+                  onClick={() => setCurrentPage((prev) => prev - 1)}
+                />
+              </PaginationItem>
+              {Array.from({ length: totalPage }, (_, i) => i + 1).map(
+                (page) => (
+                  <PaginationItem
+                    key={page}
+                    onClick={() => setCurrentPage(page)}
+                  >
+                    <PaginationLink isActive={currentPage === page}>
+                      {page}
+                    </PaginationLink>
+                  </PaginationItem>
+                )
+              )}
+              <PaginationItem>
+                <PaginationNext
+                  className={
+                    currentPage === totalPage
+                      ? "pointer-events-none text-gray-500"
+                      : "cursor-pointer"
+                  }
+                  onClick={() => setCurrentPage((prev) => prev + 1)}
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </div>
+        {/* )} */}
+      </div>
+    </div>
+  );
+}

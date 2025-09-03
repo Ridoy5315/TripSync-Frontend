@@ -89,7 +89,7 @@ export default function ProfileManagement() {
             <li>{userData?.isVerified ? "Verified" : "Not Verified"}</li>
           </ul>
         </div>
-        {userData?.role === "USER" && (
+        {userData?.role === "USER" || userData?.role === "ADMIN" || userData?.role === "SUPER_ADMIN" && (
           <div className="flex gap-4 justify-end items-end">
             <ChangePasswordModal></ChangePasswordModal>
             <EditProfileModal userData={userData}></EditProfileModal>

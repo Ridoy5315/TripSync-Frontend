@@ -1,4 +1,4 @@
-import RideOversightFilters from "@/components/rideOversight/RideOversightFilters";
+import DriversManagementFilters from "@/components/driversManagement/DriversManagementFilters";
 import {
   Pagination,
   PaginationContent,
@@ -11,101 +11,77 @@ import { Separator } from "@/components/ui/separator";
 import {
   Table,
   TableBody,
+  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useGetAllRidesQuery } from "@/redux/features/admin/admin.api";
+import {
+  useGetDriverQuery,
+  useGetRiderQuery,
+} from "@/redux/features/admin/admin.api";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
-
-export default function RideOversight() {
+export default function DriversManagement() {
   const [searchParams] = useSearchParams();
   const [currentPage, setCurrentPage] = useState(1);
 
-  const status = searchParams.get("status") || undefined;
-  const selectedDate = searchParams.get("date") || undefined;
-  const riderGender = searchParams.get("riderGender") || undefined;
+  const driverApprovalStatus = searchParams.get("driverApprovalStatus") || undefined;
+  const search = searchParams.get("search") || undefined;
 
-  let startUTC, endUTC;
-
-  if (selectedDate) {
-    // Treat date as UTC by splitting components
-    const [year, month, day] = selectedDate.split("-").map(Number);
-
-    const startDate = new Date(Date.UTC(year, month - 1, day, 0, 0, 0));
-    const endDate = new Date(Date.UTC(year, month - 1, day, 23, 59, 59, 999));
-
-    startUTC = startDate.toISOString();
-    endUTC = endDate.toISOString();
-  }
-
-  const { data } = useGetAllRidesQuery({
+  const { data } = useGetDriverQuery({
     params: {
       page: currentPage,
-      ...(startUTC && { startDate: startUTC }),
-      ...(endUTC && { endDate: endUTC }),
-      ...(status && { status }),
-      ...(riderGender && { riderGender }),
+      ...(driverApprovalStatus && { driverApprovalStatus }),
+      ...(search && { searchTerm: search }),
     },
   });
 
   console.log(data);
 
-  const ridesData = data?.data?.data;
-  const totalPage = data?.data?.meta?.totalPage || 1;
+  const totalPage = data?.totalDriver?.meta?.totalPage || 1;
+  const driversData = data?.totalDriver?.data;
+
   return (
     <div className="py-4 px-8">
       <h3 className="text-primary font-semibold text-2xl mb-4">
         My Ride History :
       </h3>
-      <RideOversightFilters></RideOversightFilters>
-      <Separator className="my-8"></Separator>
+      <DriversManagementFilters></DriversManagementFilters>
+      <Separator className="my-4"></Separator>
       <div className="border border-muted rounded-md">
         <Table>
+          <TableCaption>A list of your recent invoices.</TableCaption>
           <TableHeader>
             <TableRow>
               <TableHead className="text-left">No.</TableHead>
-              <TableHead className="text-center">
-                Pickup Location (Coordinates)
-              </TableHead>
-              <TableHead className="text-center">
-                Destination Location (Coordinates)
-              </TableHead>
-              <TableHead className="text-center">Distance</TableHead>
-              <TableHead className="text-center">Fare</TableHead>
-              <TableHead className="text-center">Requested At</TableHead>
-              <TableHead className="text-center">Request Status</TableHead>
+              <TableHead className="text-center">name</TableHead>
+              <TableHead className="text-center">email</TableHead>
+              <TableHead className="text-center">gender</TableHead>
+              <TableHead className="text-center">address</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {ridesData &&
-              ridesData.map((item, index: number) => (
+            {driversData &&
+              driversData?.map((item, index: number) => (
                 <TableRow key={index}>
                   <TableCell className="font-medium text-left">
                     {index + 1}
                   </TableCell>
                   <TableCell className="font-medium text-center">
-                    [{item?.pickupLocation?.coordinates[0]},{" "}
-                    {item?.pickupLocation?.coordinates[1]}]
+                    {item?.name}
                   </TableCell>
                   <TableCell className="font-medium text-center">
-                    [{item?.destinationLocation?.coordinates[0]},{" "}
-                    {item?.ride?.destinationLocation?.coordinates[0]}]
+                    {item?.email}
                   </TableCell>
                   <TableCell className="font-medium text-center">
-                    {item?.distance}
+                    {item?.gender}
                   </TableCell>
                   <TableCell className="font-medium text-center">
-                    {item?.originalFare} $
+                    {item?.address}
                   </TableCell>
-                  <TableCell className="font-medium text-center">
-                    {new Date(item.rideRequestAt).toLocaleString()}
-                  </TableCell>
-                  <TableCell className="font-medium text-center">
-                    {item?.rideRequestAction}
-                  </TableCell>
+               
                 </TableRow>
               ))}
           </TableBody>

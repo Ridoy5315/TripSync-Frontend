@@ -24,6 +24,11 @@ export interface IErrorResponse {
 
 export interface ISidebarItem {
   title: string,
-  url: string,
-  component: ComponentType
+  url?: string,
+  component?: ComponentType,
+  items?: {
+    title: string;
+    url: string;
+    component: ComponentType;
+  }[];
 }

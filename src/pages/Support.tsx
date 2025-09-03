@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom"
 
-export default function AboutUs() {
+export default function Support() {
   return (
     <Outlet></Outlet>
   )

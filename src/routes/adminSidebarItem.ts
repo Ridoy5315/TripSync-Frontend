@@ -1,15 +1,26 @@
-import AdminSearchFilter from "@/pages/admin/AdminSearchFilter";
 import AnalyticsDashboard from "@/pages/admin/AnalyticsDashboard";
 import RideOversight from "@/pages/admin/RideOversight";
-import UserManagement from "@/pages/admin/UserManagement";
 import type { ISidebarItem } from "@/types";
 import { userSidebarItems } from "./userSidebarItem";
+import RidersManagement from "@/pages/admin/RidersManagement";
+import DriversManagement from "@/pages/admin/DriversManagement";
+import AdminList from "@/pages/admin/AdminList";
 
 export const adminSidebarItems: ISidebarItem[] = [
   {
-    title: "User Management",
-    url: "/admin/users",
-    component: UserManagement,
+    title: "Users Management",
+    items: [
+      {
+        title: "Riders Management",
+        url: "/admin/riders",
+        component: RidersManagement,
+      },
+      {
+        title: "Drivers Management",
+        url: "/admin/drivers",
+        component: DriversManagement,
+      },
+    ],
   },
   {
     title: "Ride Oversight",
@@ -22,9 +33,9 @@ export const adminSidebarItems: ISidebarItem[] = [
     component: AnalyticsDashboard,
   },
   {
-    title: "Purpose / Display",
+    title: "Admin List",
     url: "/admin/campaigns",
-    component: AdminSearchFilter,
+    component: AdminList,
   },
 
   // Spread user sidebar items below
