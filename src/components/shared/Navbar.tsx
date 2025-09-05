@@ -28,8 +28,11 @@ const navigationLinks = [
   { href: "/admin", label: "Features", role: role.admin },
   { href: "/user/ride/ride-request", label: "Features", role: role.user },
   { href: "/driver", label: "Features", role: role.driver },
-  { href: "/ride", label: "Ride Now", role: role.user },
-  { href: "/join", label: "Join as Driver", role: "PUBLIC" },
+  { href: "/user/ride/ride-request", label: "Ride Now", role: role.user },
+  { href: "/driver/user/user/ride/ride-request", label: "Ride Now", role: role.driver },
+  { href: "/admin/user/user/ride/ride-request", label: "Ride Now", role: role.admin},
+  { href: "/admin/user/user/ride/ride-request", label: "Ride Now", role: role.superAdmin },
+  { href: "/join-driver", label: "Join as Driver", role: role.user },
   { href: "/fare-details", label: "Fare Details", role: "PUBLIC" },
   {
     label: "About Us",

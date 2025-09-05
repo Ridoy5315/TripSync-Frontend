@@ -24,6 +24,7 @@ import banner14 from "@/assets/banner/14.jpg";
 import "animate.css";
 import { Typewriter } from "react-simple-typewriter";
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function HeroSection() {
   const [startTypingTagline, setStartTypingTagline] = useState(false);
@@ -130,14 +131,18 @@ export default function HeroSection() {
           </Carousel>
           <div className="flex w-full flex-col justify-center gap-2 sm:flex-row mt-20 space-x-3">
             <Button className="animate__animated animate__zoomIn animate__delay-1s w-full sm:w-auto">
-              Discover all components
+              <Link
+                to="join-driver"
+              >
+                Start Driving with Us
+              </Link>
             </Button>
 
             <Button
               variant="outline"
               className="animate__animated animate__zoomIn animate__delay-1s animate__slow w-full  sm:w-auto"
             >
-              View on GitHub
+              <Link to="support/contactUs">Get in Touch</Link>
             </Button>
           </div>
         </div>

@@ -6,14 +6,14 @@ import { useGetOwnInfoQuery } from "@/redux/features/user/user.api";
 export default function ProfileManagement() {
   const { data, isLoading } = useGetOwnInfoQuery(undefined);
   if (isLoading) return <p>Loading...</p>;
-  // console.log(data?.data?.user);
+  console.log(data?.data?.user);
   // console.log(data?.data?.driverInfo);
   // console.log(data?.data?.vehicleInfo);
 
   const userData = data?.data?.user;
   const driverInfo = data?.data?.driverInfo;
   const vehicleInfo = data?.data?.vehicleInfo;
-
+  console.log(userData?.role)
   return (
     <div className="py-4 px-8">
       <div className="grid grid-cols-2 items-center">
@@ -38,12 +38,12 @@ export default function ProfileManagement() {
         <div>
           {userData?.picture ? (
             <Avatar className="h-48 w-48 border-4">
-              <AvatarImage src={userData?.picture} alt="Profile image" />
+              <AvatarImage className="object-cover object-center" src={userData?.picture} alt="Profile image" />
             </Avatar>
           ) : (
-            <Avatar className="h-48 w-48">
+            <Avatar className="h-48 w-48 ">
               {userData?.name && (
-                <AvatarFallback className="text-primary w-full h-full">
+                <AvatarFallback className="text-primary w-full h-full ">
                   {userData?.name[0]}
                 </AvatarFallback>
               )}
@@ -89,7 +89,7 @@ export default function ProfileManagement() {
             <li>{userData?.isVerified ? "Verified" : "Not Verified"}</li>
           </ul>
         </div>
-        {userData?.role === "USER" || userData?.role === "ADMIN" || userData?.role === "SUPER_ADMIN" && (
+        { (userData?.role === "USER" || userData?.role === "ADMIN" || userData?.role === "SUPER_ADMIN" ) && (
           <div className="flex gap-4 justify-end items-end">
             <ChangePasswordModal></ChangePasswordModal>
             <EditProfileModal userData={userData}></EditProfileModal>

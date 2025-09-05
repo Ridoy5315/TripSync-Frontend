@@ -61,7 +61,7 @@ export default function Testimonials() {
   ];
   return (
     <div
-      className="-mt-10 mb-20 w-full relative bg-cover bg-center lg:h-[500px] md:h-[500px] h-[360px]"
+      className="-mt-10 w-full relative bg-cover bg-center lg:h-[500px] md:h-[500px] h-[360px]"
       style={{ backgroundImage: `url(${photo})` }}
     >
       <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-black/80 dark:from-black/10 dark:to-black/80"></div>
@@ -84,7 +84,7 @@ export default function Testimonials() {
             {swiperOptions &&
               swiperOptions.map((option) => (
                 <SwiperSlide>
-                  <div className="block rounded-md border border-gray-300 p-4 shadow-sm sm:p-6 text-black bg-white/90 dark:bg-white/70">
+                  <div className="block rounded-md border border-gray-300 shadow-sm sm:p-6 text-black bg-white/90 dark:bg-white/70">
                     <div className="sm:flex sm:justify-between sm:gap-4 lg:gap-10">
                       <div className="space-y-10 text-muted-foreground">
                         <div className="mt-4 sm:mt-0">

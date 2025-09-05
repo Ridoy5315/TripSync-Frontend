@@ -47,21 +47,22 @@ export default function DriversManagementFilters() {
     setSearchParams(params);
   };
   return (
-    <div className="flex gap-10 items-center justify-end">
+    <div className="flex gap-6 items-end justify-end">
       {/* Search Input */}
-      <div className="w-full max-w-sm">
+      <div className="w-sm">
         <Label className="mb-2 block">Search Driver</Label>
         <Input
           type="text"
           placeholder="Search by name, email..."
           value={searchQuery}
           onChange={handleSearchChange}
+          className="w-full"
         />
       </div>
       {/* filter */}
       <div className="max-w-[200px] w-full">
         <div className="flex justify-between">
-          <Label className="mb-2">Account Status</Label>
+          <Label className="">Account Status</Label>
           <Button size="icon" variant="ghost" onClick={handleClearFilter}>
             <X />
           </Button>

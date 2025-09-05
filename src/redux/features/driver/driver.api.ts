@@ -2,25 +2,33 @@ import { baseApi } from "@/redux/baseApi";
 
 const driverApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    availabilityStatusChange : builder.mutation<void, void>({
+    applyDriver: builder.mutation({
+      query: ({userId, vehicleInfo}) => ({
+        url: `driver/apply/${userId}`,
+        method: "POST",
+        data: vehicleInfo,
+      }),
+      invalidatesTags: ["DRIVER"],
+    }),
+    availabilityStatusChange: builder.mutation<void, void>({
       query: () => ({
         url: "driver/availabilityStatus",
         method: "POST",
       }),
-      invalidatesTags: ["DRIVER"]
+      invalidatesTags: ["DRIVER"],
     }),
     getAvailabilityStatus: builder.query({
       query: () => ({
         url: `/driver/availabilityStatus`,
         method: "GET",
       }),
-      providesTags: ["DRIVER"]
+      providesTags: ["DRIVER"],
     }),
     getAllPendingRides: builder.query({
       query: (params) => ({
         url: `/driver/pendingRides`,
         method: "GET",
-        params
+        params,
       }),
       providesTags: ["DRIVER"],
       transformResponse: (response) => response.data,
@@ -75,28 +83,27 @@ const driverApi = baseApi.injectEndpoints({
       providesTags: ["DRIVER"],
     }),
     getCompletedRides: builder.query({
-      query: ({params}) => ({
+      query: ({ params }) => ({
         url: "/driver/completedRides",
         method: "GET",
-        params
+        params,
       }),
       providesTags: ["DRIVER"],
     }),
-
   }),
 });
 
 export const {
-     useAvailabilityStatusChangeMutation,
-     useGetAvailabilityStatusQuery,
-     useGetAllPendingRidesQuery,
-     useAcceptRideMutation,
-     useRejectRideMutation,
-     useGetActiveRideStatusQuery,
-     usePickedUpStatusMutation,
-     useInTransitStatusMutation,
-     useCompletedStatusMutation,
-     useGetDriverEarningHistoryQuery,
-     useGetCompletedRidesQuery
-
+  useApplyDriverMutation,
+  useAvailabilityStatusChangeMutation,
+  useGetAvailabilityStatusQuery,
+  useGetAllPendingRidesQuery,
+  useAcceptRideMutation,
+  useRejectRideMutation,
+  useGetActiveRideStatusQuery,
+  usePickedUpStatusMutation,
+  useInTransitStatusMutation,
+  useCompletedStatusMutation,
+  useGetDriverEarningHistoryQuery,
+  useGetCompletedRidesQuery,
 } = driverApi;

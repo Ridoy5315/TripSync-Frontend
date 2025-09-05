@@ -1,9 +1,11 @@
-import EarningsDashboard from "@/pages/driver/EarningsDashboard";
-import IncomingRequests from "@/pages/driver/IncomingRequests";
+
 import type { ISidebarItem } from "@/types";
 import { userSidebarItems } from "./userSidebarItem";
-import CompletedRides from "@/pages/driver/CompletedRides";
+import { lazy } from "react";
 
+const IncomingRequests = lazy(() => import("@/pages/driver/IncomingRequests"));
+const EarningsDashboard = lazy(() => import("@/pages/driver/EarningsDashboard"));
+const CompletedRides = lazy(() => import("@/pages/driver/CompletedRides"));
 
 export const driverSidebarItems: ISidebarItem[] = [
   {
@@ -25,8 +27,6 @@ export const driverSidebarItems: ISidebarItem[] = [
   ...userSidebarItems.map(item => ({
     ...item,
     url: `user${item.url}`,
-    // optionally modify URL if needed (like prefixing with /driver/user-xyz)
-    // or leave as-is if your routing supports /user/... for driver
   })),
 
 ];

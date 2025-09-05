@@ -1,10 +1,13 @@
-import AnalyticsDashboard from "@/pages/admin/AnalyticsDashboard";
-import RideOversight from "@/pages/admin/RideOversight";
+
 import type { ISidebarItem } from "@/types";
 import { userSidebarItems } from "./userSidebarItem";
-import RidersManagement from "@/pages/admin/RidersManagement";
-import DriversManagement from "@/pages/admin/DriversManagement";
-import AdminList from "@/pages/admin/AdminList";
+import { lazy } from "react";
+
+const RidersManagement = lazy(() => import("@/pages/admin/RidersManagement"));
+const DriversManagement = lazy(() => import("@/pages/admin/DriversManagement"));
+const RideOversight = lazy(() => import("@/pages/admin/RideOversight"));
+const AnalyticsDashboard = lazy(() => import("@/pages/admin/AnalyticsDashboard"));
+const AdminList = lazy(() => import("@/pages/admin/AdminList"));
 
 export const adminSidebarItems: ISidebarItem[] = [
   {
@@ -42,7 +45,5 @@ export const adminSidebarItems: ISidebarItem[] = [
   ...userSidebarItems.map((item) => ({
     ...item,
     url: `user${item.url}`,
-    // optionally modify URL if needed (like prefixing with /driver/user-xyz)
-    // or leave as-is if your routing supports /user/... for driver
   })),
 ];

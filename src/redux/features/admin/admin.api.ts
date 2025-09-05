@@ -25,6 +25,22 @@ const adminApi = baseApi.injectEndpoints({
       providesTags: ["ADMIN"],
       transformResponse: (response) => response?.data?.totalRider,
     }),
+    getPendingDrivers: builder.query({
+      query: () => ({
+        url: "/driver/pendingDrivers",
+        method: "GET",
+      }),
+      providesTags: ["ADMIN"],
+      // transformResponse: (response: { data: any }) => response?.data,
+    }),
+    acceptOrRejectDriver: builder.mutation({
+      query: ({value,userId}) => ({
+        url: `driver/${userId}`,
+        method: "PATCH",
+        data: { data: JSON.stringify({ status: value }) }
+      }),
+      invalidatesTags: ["ADMIN"]
+    }),
     getDriver: builder.query<any, { params?: any }>({
       query: ({ params } = {}) => ({
         url: "/stats/driver",
@@ -74,6 +90,8 @@ const adminApi = baseApi.injectEndpoints({
 
 export const {
      useGetRiderQuery,
+     useGetPendingDriversQuery,
+     useAcceptOrRejectDriverMutation,
      useGetDriverQuery,
      useGetAllRidesQuery,
      useGetRidesVolumeQuery,

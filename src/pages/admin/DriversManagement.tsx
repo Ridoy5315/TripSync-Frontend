@@ -1,4 +1,5 @@
 import DriversManagementFilters from "@/components/driversManagement/DriversManagementFilters";
+import PendingDriversDetailsModal from "@/components/modal/PendingDriversDetailsModal";
 import {
   Pagination,
   PaginationContent,
@@ -19,6 +20,7 @@ import {
 } from "@/components/ui/table";
 import {
   useGetDriverQuery,
+  useGetPendingDriversQuery,
   useGetRiderQuery,
 } from "@/redux/features/admin/admin.api";
 import { useState } from "react";
@@ -26,6 +28,9 @@ import { useSearchParams } from "react-router-dom";
 export default function DriversManagement() {
   const [searchParams] = useSearchParams();
   const [currentPage, setCurrentPage] = useState(1);
+  const {data: pendingDrivers} = useGetPendingDriversQuery(undefined)
+
+  console.log(pendingDrivers)
 
   const driverApprovalStatus = searchParams.get("driverApprovalStatus") || undefined;
   const search = searchParams.get("search") || undefined;
@@ -46,9 +51,12 @@ export default function DriversManagement() {
   return (
     <div className="py-4 px-8">
       <h3 className="text-primary font-semibold text-2xl mb-4">
-        My Ride History :
+        Drivers Management :
       </h3>
-      <DriversManagementFilters></DriversManagementFilters>
+      <div className="flex justify-between items-end">
+        <PendingDriversDetailsModal></PendingDriversDetailsModal>
+        <DriversManagementFilters></DriversManagementFilters>
+      </div>
       <Separator className="my-4"></Separator>
       <div className="border border-muted rounded-md">
         <Table>

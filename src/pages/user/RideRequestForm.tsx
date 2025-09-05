@@ -56,7 +56,7 @@ const rideRequestSchema = z.object({
   paymentMethod: z.string().min(1, "Please select a payment method"),
 });
 
-export function RideRequestForm({
+export default function RideRequestForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {

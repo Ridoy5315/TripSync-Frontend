@@ -17,16 +17,21 @@ import { generateRoutes } from "@/utils/generateRoutes";
 import { userSidebarItems } from "./userSidebarItem";
 import { driverSidebarItems } from "./driverSidebarItem";
 import { adminSidebarItems } from "./adminSidebarItem";
-import Success from "@/pages/payment/Success";
-import Fail from "@/pages/payment/Fail";
-import Cancel from "@/pages/payment/cancel";
-import CompanyBackground from "@/components/aboutUs/CompanyBackground";
-import Mission from "@/components/aboutUs/Mission";
-import TeamProfiles from "@/components/aboutUs/TeamProfiles";
 import Support from "@/pages/Support";
-import GetInTouch from "@/components/support/GetInTouch";
-import FAQs from "@/components/support/FAQs";
 import FareDetails from "@/pages/FareDetails";
+import { lazy } from "react";
+
+const CompanyBackground = lazy(() => import("@/components/aboutUs/CompanyBackground"));
+const Mission = lazy(() => import("@/components/aboutUs/Mission"));
+const TeamProfiles = lazy(() => import("@/components/aboutUs/TeamProfiles"));
+const GetInTouch = lazy(() => import("@/components/support/GetInTouch"));
+const FAQs = lazy(() => import("@/components/support/FAQs"));
+const JoinAsDriver = lazy(() => import("@/pages/JoinAsDriver"));
+
+const Success = lazy(() => import("@/pages/payment/Success"));
+const Fail = lazy(() => import("@/pages/payment/Fail"));
+const Cancel = lazy(() => import("@/pages/payment/cancel"));
+
 
 export const router = createBrowserRouter([
      {
@@ -80,6 +85,10 @@ export const router = createBrowserRouter([
                {
                     Component: FareDetails,
                     path: "fare-details"
+               },
+               {
+                    Component: JoinAsDriver,
+                    path: "join-driver"
                }
           ]
      },
