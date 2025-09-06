@@ -15,6 +15,7 @@ import { useGetOwnInfoQuery } from "@/redux/features/user/user.api";
 import { getSidebarItems } from "@/utils/getSidebarItems";
 import { Link } from "react-router-dom";
 import { DropdownMenuSeparator } from "./ui/dropdown-menu";
+import { Skeleton } from "./ui/skeleton";
 
 // This is sample data.
 // const data = {
@@ -147,7 +148,7 @@ import { DropdownMenuSeparator } from "./ui/dropdown-menu";
 // }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { data: userData } = useGetOwnInfoQuery(undefined);
+  const { data: userData, isLoading } = useGetOwnInfoQuery(undefined);
   const data = {
     navMain: getSidebarItems(userData?.data?.user?.role),
   };
@@ -171,44 +172,80 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </div>
       </SidebarHeader>
       <DropdownMenuSeparator />
-      <SidebarContent className="list-none pl-4">
-        {data.navMain.map((item) => (
-          <SidebarMenuItem key={item.title}>
-            {/* isActive={item.isActive} */}
-            {item.title === "Profile Management" && (
-              <div className="border-t-2 my-2"></div>
-            )}
+      {isLoading && (
+        <SidebarContent className="list-none pl-4">
+          <SidebarMenuItem>
             <SidebarMenuButton asChild>
-              <Link to={item.url}>{item.title}</Link>
-            </SidebarMenuButton>
-            {item.title === "Completed Rides" && (
-              <div className="border-t-2 my-2"></div>
-            )}
-            {item.title === "Admin List" && (
-              <div className="border-t-2 my-2"></div>
-            )}
-            {item.items && item.items.length > 0 && (
-              <div className="ml-4 flex flex-col my-2 gap-1">
-                {item.items.map((section, index) => (
-                  <Link key={index} to={section.url}>
-                    {section.title}
-                  </Link>
-                ))}
-
-                {/* <SidebarMenuList items={item.items} /> */}
+              <div>
+                <Skeleton className="w-[208px] h-[32px] rounded"></Skeleton>
               </div>
-            )}
-            {item.items &&
-              item.items.length > 0 &&
-              item.items.some((section) => section.title === "Drivers Management") && (
+            </SidebarMenuButton>
+
+            <div className="ml-4 flex flex-col my-4 gap-3">
+              <Skeleton className="w-[208px] h-[32px] rounded"></Skeleton>
+              <Skeleton className="w-[208px] h-[32px] rounded"></Skeleton>
+            </div>
+            <SidebarMenuButton asChild>
+              <div className="mt-5">
+                <Skeleton className="w-[208px] h-[32px] rounded"></Skeleton>
+              </div>
+            </SidebarMenuButton>
+            <SidebarMenuButton asChild>
+              <div className="mt-5">
+                <Skeleton className="w-[208px] h-[32px] rounded"></Skeleton>
+              </div>
+            </SidebarMenuButton>
+            <SidebarMenuButton asChild>
+              <div className="mt-5">
+                <Skeleton className="w-[208px] h-[32px] rounded"></Skeleton>
+              </div>
+            </SidebarMenuButton>
+            <SidebarMenuButton asChild>
+              <div className="mt-5">
+                <Skeleton className="w-[208px] h-[32px] rounded"></Skeleton>
+              </div>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarContent>
+      )}
+      {!isLoading && (
+        <SidebarContent className="list-none pl-4">
+          {data.navMain.map((item) => (
+            <SidebarMenuItem key={item.title}>
+              {/* isActive={item.isActive} */}
+              {item.title === "Profile Management" && (
                 <div className="border-t-2 my-2"></div>
               )}
-          </SidebarMenuItem>
-        ))}
+              <SidebarMenuButton asChild>
+                <Link to={item.url}>{item.title}</Link>
+              </SidebarMenuButton>
+              {item.title === "Completed Rides" && (
+                <div className="border-t-2 my-2"></div>
+              )}
+              {item.title === "Admin List" && (
+                <div className="border-t-2 my-2"></div>
+              )}
+              {item.items && item.items.length > 0 && (
+                <div className="ml-4 flex flex-col my-2 gap-1">
+                  {item.items.map((section, index) => (
+                    <Link key={index} to={section.url}>
+                      {section.title}
+                    </Link>
+                  ))}
 
-        {/* <NavMain items={data.navMain} /> */}
-        {/* <NavProjects projects={data.projects} /> */}
-      </SidebarContent>
+                  {/* <SidebarMenuList items={item.items} /> */}
+                </div>
+              )}
+              {item.items &&
+                item.items.length > 0 &&
+                item.items.some(
+                  (section) => section.title === "Drivers Management"
+                ) && <div className="border-t-2 my-2"></div>}
+            </SidebarMenuItem>
+          ))}
+        </SidebarContent>
+      )}
+
       <DropdownMenuSeparator />
       <SidebarFooter>
         <NavUser user={footerData} />

@@ -32,9 +32,10 @@ import AcceptRideModal from "@/components/modal/AcceptRideModal";
 import { toast } from "sonner";
 import RejectRideModal from "@/components/modal/RejectRideModal";
 import { useNavigate } from "react-router-dom";
+import { Skeleton } from "@/components/ui/skeleton";
 export default function IncomingRequests() {
   const [currentPage, setCurrentPage] = useState(1);
-  const { data } = useGetAllPendingRidesQuery({ page: currentPage });
+  const { data, isLoading } = useGetAllPendingRidesQuery({ page: currentPage });
   const [acceptRide] = useAcceptRideMutation();
   const [rejectRide] = useRejectRideMutation();
   // const navigate = useNavigate();
@@ -133,114 +134,168 @@ export default function IncomingRequests() {
       </h3>
 
       {/* <Separator className="my-8"></Separator> */}
-      <div className="border border-muted rounded-md">
-        <Table>
-          {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
-          <TableHeader>
-            <TableRow>
-              <TableHead className="text-left">No.</TableHead>
-              <TableHead className="text-center">
-                Pickup Location (Coordinates)
-              </TableHead>
-              <TableHead className="text-center">
-                Destination Location (Coordinates)
-              </TableHead>
-              <TableHead className="text-center">Distance</TableHead>
-              <TableHead className="text-center">Action</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {allPendingRideRequest &&
-              allPendingRideRequest.map((item, index: number) => (
-                <TableRow key={index}>
-                  <TableCell className="font-medium text-left">
-                    {index + 1}
-                  </TableCell>
-                  <TableCell className="font-medium text-center">
-                    [{item?.pickupLocation?.coordinates[0]},{" "}
-                    {item?.pickupLocation?.coordinates[1]}]
-                  </TableCell>
-                  <TableCell className="font-medium text-center">
-                    [{item?.destinationLocation?.coordinates[0]},{" "}
-                    {item?.destinationLocation?.coordinates[0]}]
-                  </TableCell>
-                  <TableCell className="font-medium text-center">
-                    {item?.distance}
-                  </TableCell>
-                  <TableCell className="font-medium text-center flex justify-center gap-2">
-                    <RideRequestDetailsModal item={item}>
-                      <Button>
-                        <ReceiptText />
-                      </Button>
-                    </RideRequestDetailsModal>
-                    <AcceptRideModal
-                      onConfirm={() => handleAcceptRide(item?._id)}
-                    >
-                      <Button variant="outline">
-                        <CircleCheckBig />
-                      </Button>
-                    </AcceptRideModal>
-                    <RejectRideModal
-                      onConfirm={() => handleRejectRide(item?._id)}
-                    >
-                      <Button>
-                        <CircleX />
-                      </Button>
-                    </RejectRideModal>
-                    {/* <Tooltip>
+      {isLoading && (
+        <>
+          <div className="border border-muted rounded-md">
+            <Table>
+              {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="text-left">No.</TableHead>
+                  <TableHead className="text-center">
+                    Pickup Location (Coordinates)
+                  </TableHead>
+                  <TableHead className="text-center">
+                    Destination Location (Coordinates)
+                  </TableHead>
+                  <TableHead className="text-center">Distance</TableHead>
+                  <TableHead className="text-center">Action</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {Array.from({ length: 3 }).map((_, index) => (
+                  <TableRow key={index}>
+                    <TableCell className="font-medium text-left">
+                      <Skeleton className="w-[40px] h-[25px]" />
+                    </TableCell>
+                    <TableCell className="font-medium text-center">
+                      <Skeleton className="w-[180px] h-[25px]" />
+                    </TableCell>
+                    <TableCell className="font-medium text-center">
+                      <Skeleton className="w-[180px] h-[25px]" />
+                    </TableCell>
+                    <TableCell className="font-medium text-center">
+                      <Skeleton className="w-[180px] h-[25px]" />
+                    </TableCell>
+                    <TableCell className="font-medium text-center">
+                      <Skeleton className="w-[180px] h-[25px]" />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+          <div className="flex justify-end mt-8">
+            <div>
+              <Pagination>
+                <PaginationContent>
+                  <Skeleton className="w-[180px] h-[40px]" />
+                </PaginationContent>
+              </Pagination>
+            </div>
+          </div>
+        </>
+      )}
+      {!isLoading && (
+        <>
+          <div className="border border-muted rounded-md">
+            <Table>
+              {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="text-left">No.</TableHead>
+                  <TableHead className="text-center">
+                    Pickup Location (Coordinates)
+                  </TableHead>
+                  <TableHead className="text-center">
+                    Destination Location (Coordinates)
+                  </TableHead>
+                  <TableHead className="text-center">Distance</TableHead>
+                  <TableHead className="text-center">Action</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {allPendingRideRequest &&
+                  allPendingRideRequest.map((item, index: number) => (
+                    <TableRow key={index}>
+                      <TableCell className="font-medium text-left">
+                        {index + 1}
+                      </TableCell>
+                      <TableCell className="font-medium text-center">
+                        [{item?.pickupLocation?.coordinates[0]},{" "}
+                        {item?.pickupLocation?.coordinates[1]}]
+                      </TableCell>
+                      <TableCell className="font-medium text-center">
+                        [{item?.destinationLocation?.coordinates[0]},{" "}
+                        {item?.destinationLocation?.coordinates[0]}]
+                      </TableCell>
+                      <TableCell className="font-medium text-center">
+                        {item?.distance}
+                      </TableCell>
+                      <TableCell className="font-medium text-center flex justify-center gap-2">
+                        <RideRequestDetailsModal item={item}>
+                          <Button>
+                            <ReceiptText />
+                          </Button>
+                        </RideRequestDetailsModal>
+                        <AcceptRideModal
+                          onConfirm={() => handleAcceptRide(item?._id)}
+                        >
+                          <Button variant="outline">
+                            <CircleCheckBig />
+                          </Button>
+                        </AcceptRideModal>
+                        <RejectRideModal
+                          onConfirm={() => handleRejectRide(item?._id)}
+                        >
+                          <Button>
+                            <CircleX />
+                          </Button>
+                        </RejectRideModal>
+                        {/* <Tooltip>
                       <TooltipTrigger asChild></TooltipTrigger>
                       <TooltipContent>
                         <p>Reject</p>
                       </TooltipContent>
                     </Tooltip> */}
-                  </TableCell>
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-      </div>
-      <div className="flex justify-end mt-8">
-        {/* {totalPage > 1 && ( */}
-        <div>
-          <Pagination>
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious
-                  className={
-                    currentPage === 1
-                      ? "pointer-events-none text-gray-500"
-                      : "cursor-pointer"
-                  }
-                  onClick={() => setCurrentPage((prev) => prev - 1)}
-                />
-              </PaginationItem>
-              {Array.from({ length: totalPage }, (_, i) => i + 1).map(
-                (page) => (
-                  <PaginationItem
-                    key={page}
-                    onClick={() => setCurrentPage(page)}
-                  >
-                    <PaginationLink isActive={currentPage === page}>
-                      {page}
-                    </PaginationLink>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
+          </div>
+          <div className="flex justify-end mt-8">
+            <div>
+              <Pagination>
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious
+                      className={
+                        currentPage === 1
+                          ? "pointer-events-none text-gray-500"
+                          : "cursor-pointer"
+                      }
+                      onClick={() => setCurrentPage((prev) => prev - 1)}
+                    />
                   </PaginationItem>
-                )
-              )}
-              <PaginationItem>
-                <PaginationNext
-                  className={
-                    currentPage === totalPage
-                      ? "pointer-events-none text-gray-500"
-                      : "cursor-pointer"
-                  }
-                  onClick={() => setCurrentPage((prev) => prev + 1)}
-                />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
-        </div>
-        {/* )} */}
-      </div>
+                  {Array.from({ length: totalPage }, (_, i) => i + 1).map(
+                    (page) => (
+                      <PaginationItem
+                        key={page}
+                        onClick={() => setCurrentPage(page)}
+                      >
+                        <PaginationLink isActive={currentPage === page}>
+                          {page}
+                        </PaginationLink>
+                      </PaginationItem>
+                    )
+                  )}
+                  <PaginationItem>
+                    <PaginationNext
+                      className={
+                        currentPage === totalPage
+                          ? "pointer-events-none text-gray-500"
+                          : "cursor-pointer"
+                      }
+                      onClick={() => setCurrentPage((prev) => prev + 1)}
+                    />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }

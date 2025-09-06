@@ -18,6 +18,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const earningChartConfig = {
   earnings: {
@@ -58,9 +59,9 @@ const ridesChartConfig = {
 export default function EarningsDashboard() {
   const { data: userData } = useGetOwnInfoQuery(undefined);
   console.log(userData?.data?.user?._id);
-  const { data: driverData } = useGetDriverEarningHistoryQuery(
+  const { data: driverData, isLoading } = useGetDriverEarningHistoryQuery(
     userData?.data?.user?._id,
-    { skip: !userData?.data?.user?._id}
+    { skip: !userData?.data?.user?._id }
   );
   console.log(driverData);
 
@@ -102,106 +103,125 @@ export default function EarningsDashboard() {
   ];
   return (
     <div className="grid grid-cols-2 p-4 justify-between gap-6">
-      <Card className="max-w-lg">
-        <CardHeader>
-          <CardTitle>Earnings Overview</CardTitle>
-          <CardDescription>Today, Last 7 Days, Last 30 Days</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <ChartContainer config={earningChartConfig}>
-            <BarChart accessibilityLayer data={earningChartData}>
-              <CartesianGrid vertical={false} />
-              <XAxis
-                dataKey="period"
-                tickLine={false}
-                tickMargin={10}
-                axisLine={false}
-                tickFormatter={(value) =>
-                  earningChartConfig[value as keyof typeof earningChartConfig]
-                    ?.label
-                }
-              />
-              <ChartTooltip
-                cursor={false}
-                content={<ChartTooltipContent hideLabel />}
-              />
-              <Bar
-                dataKey="earnings"
-                strokeWidth={2}
-                radius={8}
-                activeIndex={0}
-                activeBar={({ ...props }) => (
-                  <Rectangle
-                    {...props}
-                    fillOpacity={0.8}
-                    stroke={props.payload.fill}
-                    strokeDasharray={4}
-                    strokeDashoffset={4}
+      {isLoading && <>
+      <div>
+         <Skeleton className="w-[512px] h-[437px]" />
+      </div>
+      <div>
+         <Skeleton className="w-[512px] h-[437px]" />
+      </div>
+      </>}
+      {!isLoading && (
+        <>
+          <Card className="max-w-lg">
+            <CardHeader>
+              <CardTitle>Earnings Overview</CardTitle>
+              <CardDescription>
+                Today, Last 7 Days, Last 30 Days
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ChartContainer config={earningChartConfig}>
+                <BarChart accessibilityLayer data={earningChartData}>
+                  <CartesianGrid vertical={false} />
+                  <XAxis
+                    dataKey="period"
+                    tickLine={false}
+                    tickMargin={10}
+                    axisLine={false}
+                    tickFormatter={(value) =>
+                      earningChartConfig[
+                        value as keyof typeof earningChartConfig
+                      ]?.label
+                    }
                   />
-                )}
-              />
-            </BarChart>
-          </ChartContainer>
-        </CardContent>
-        <CardFooter className="flex-col items-start gap-2 text-sm">
-          <div className="flex gap-2 leading-none font-medium">
-            Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-          </div>
-          <div className="text-muted-foreground leading-none">
-            Showing earnings for Today, Last 7 Days, and Last 30 Days
-          </div>
-        </CardFooter>
-      </Card>
-      <Card className="max-w-lg">
-        <CardHeader>
-          <CardTitle>Total Rides Overview</CardTitle>
-          <CardDescription>Today, Last 7 Days, Last 30 Days</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <ChartContainer config={ridesChartConfig}>
-            <BarChart accessibilityLayer data={ridesChartData}>
-              <CartesianGrid vertical={false} />
-              <XAxis
-                dataKey="period"
-                tickLine={false}
-                tickMargin={10}
-                axisLine={false}
-                tickFormatter={(value) =>
-                  ridesChartConfig[value as keyof typeof ridesChartConfig]
-                    ?.label
-                }
-              />
-              <ChartTooltip
-                cursor={false}
-                content={<ChartTooltipContent hideLabel />}
-              />
-              <Bar
-                dataKey="earnings"
-                strokeWidth={2}
-                radius={8}
-                activeIndex={0}
-                activeBar={({ ...props }) => (
-                  <Rectangle
-                    {...props}
-                    fillOpacity={0.8}
-                    stroke={props.payload.fill}
-                    strokeDasharray={4}
-                    strokeDashoffset={4}
+                  <ChartTooltip
+                    cursor={false}
+                    content={<ChartTooltipContent hideLabel />}
                   />
-                )}
-              />
-            </BarChart>
-          </ChartContainer>
-        </CardContent>
-        <CardFooter className="flex-col items-start gap-2 text-sm">
-          <div className="flex gap-2 leading-none font-medium">
-            Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-          </div>
-          <div className="text-muted-foreground leading-none">
-            Showing total rides for Today, Last 7 Days, and Last 30 Days
-          </div>
-        </CardFooter>
-      </Card>
+                  <Bar
+                    dataKey="earnings"
+                    strokeWidth={2}
+                    radius={8}
+                    activeIndex={0}
+                    activeBar={({ ...props }) => (
+                      <Rectangle
+                        {...props}
+                        fillOpacity={0.8}
+                        stroke={props.payload.fill}
+                        strokeDasharray={4}
+                        strokeDashoffset={4}
+                      />
+                    )}
+                  />
+                </BarChart>
+              </ChartContainer>
+            </CardContent>
+            <CardFooter className="flex-col items-start gap-2 text-sm">
+              <div className="flex gap-2 leading-none font-medium">
+                Trending up by 5.2% this month{" "}
+                <TrendingUp className="h-4 w-4" />
+              </div>
+              <div className="text-muted-foreground leading-none">
+                Showing earnings for Today, Last 7 Days, and Last 30 Days
+              </div>
+            </CardFooter>
+          </Card>
+          <Card className="max-w-lg">
+            <CardHeader>
+              <CardTitle>Total Rides Overview</CardTitle>
+              <CardDescription>
+                Today, Last 7 Days, Last 30 Days
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ChartContainer config={ridesChartConfig}>
+                <BarChart accessibilityLayer data={ridesChartData}>
+                  <CartesianGrid vertical={false} />
+                  <XAxis
+                    dataKey="period"
+                    tickLine={false}
+                    tickMargin={10}
+                    axisLine={false}
+                    tickFormatter={(value) =>
+                      ridesChartConfig[value as keyof typeof ridesChartConfig]
+                        ?.label
+                    }
+                  />
+                  <ChartTooltip
+                    cursor={false}
+                    content={<ChartTooltipContent hideLabel />}
+                  />
+                  <Bar
+                    dataKey="earnings"
+                    strokeWidth={2}
+                    radius={8}
+                    activeIndex={0}
+                    activeBar={({ ...props }) => (
+                      <Rectangle
+                        {...props}
+                        fillOpacity={0.8}
+                        stroke={props.payload.fill}
+                        strokeDasharray={4}
+                        strokeDashoffset={4}
+                      />
+                    )}
+                  />
+                </BarChart>
+              </ChartContainer>
+            </CardContent>
+            <CardFooter className="flex-col items-start gap-2 text-sm">
+              <div className="flex gap-2 leading-none font-medium">
+                Trending up by 5.2% this month{" "}
+                <TrendingUp className="h-4 w-4" />
+              </div>
+              <div className="text-muted-foreground leading-none">
+                Showing total rides for Today, Last 7 Days, and Last 30 Days
+              </div>
+            </CardFooter>
+          </Card>
+        </>
+      )}
     </div>
   );
 }

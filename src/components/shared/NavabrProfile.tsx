@@ -57,7 +57,7 @@ export default function NavbarProfile() {
         <DropdownMenuGroup>
           <DropdownMenuItem>
             <UserRound className="opacity-60" aria-hidden="true" />
-            <Link className=" w-full" to="/user/me">
+            <Link className=" w-full" to="/user/profile">
               My Profile
             </Link>
           </DropdownMenuItem>

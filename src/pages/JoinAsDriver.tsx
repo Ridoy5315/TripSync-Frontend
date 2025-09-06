@@ -18,6 +18,7 @@ import { toast } from "sonner";
 import { useGetOwnInfoQuery } from "@/redux/features/user/user.api";
 import { useApplyDriverMutation } from "@/redux/features/driver/driver.api";
 import { Loader2 } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const applyDriverSchema = z.object({
   brand: z
@@ -48,7 +49,7 @@ export default function JoinAsDriver({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const { data } = useGetOwnInfoQuery(undefined);
+  const { data, isLoading: infoLoading } = useGetOwnInfoQuery(undefined);
   const [applyDriver, { isLoading }] = useApplyDriverMutation();
 
   const userData = data?.data?.user;
@@ -101,16 +102,48 @@ export default function JoinAsDriver({
                 <form onSubmit={form.handleSubmit(onSubmit)}>
                   <div className="flex flex-col gap-6">
                     <div className="grid grid-cols-2 gap-10 items-center">
-                      <div className="flex flex-col">
-                        <h1 className="text-5xl font-bold">
-                          Become a Driver with Trip Sync
-                        </h1>
-                        <p className="text-muted-foreground text-lg text-balance">
-                          Join our network of trusted drivers and start earning
-                          on your own schedule.
-                        </p>
-                      </div>
-                      <div className="space-y-7">
+                      {infoLoading && (
+                        <div className="space-y-3">
+                          <h1 className="">
+                            <Skeleton className="w-[580px] h-[85px]" />
+                          </h1>
+                          <p className="">
+                            <Skeleton className="w-[350px] h-[50px]" />
+                          </p>
+                        </div>
+                      )}
+                      {!infoLoading && (
+                        <div className="flex flex-col">
+                          <h1 className="text-5xl font-bold">
+                            Become a Driver with Trip Sync
+                          </h1>
+                          <p className="text-muted-foreground text-lg text-balance">
+                            Join our network of trusted drivers and start
+                            earning on your own schedule.
+                          </p>
+                        </div>
+                      )}
+                      {infoLoading && <div className="grid grid-cols-2 gap-8">
+                        <div className="space-y-10">
+                          <Skeleton className="w-[283px] h-[40px]" />
+                          <Skeleton className="w-[283px] h-[40px]" />
+                          <Skeleton className="w-[283px] h-[40px]" />
+                          <Skeleton className="w-[283px] h-[40px]" />
+                          <Skeleton className="w-[283px] h-[40px]" />
+                          <Skeleton className="w-[283px] h-[40px]" />
+                        </div>
+                       
+                        <div className="space-y-10">
+                          <Skeleton className="w-[283px] h-[40px]" />
+                          <Skeleton className="w-[283px] h-[40px]" />
+                          <Skeleton className="w-[283px] h-[40px]" />
+                          <Skeleton className="w-[283px] h-[40px]" />
+                          <Skeleton className="w-[283px] h-[40px]" />
+                          <Skeleton className="w-[283px] h-[40px]" />
+                        </div>
+                       
+                        </div>}
+                      {!infoLoading && <div className="space-y-7">
                         <div className="grid grid-cols-2 gap-5">
                           {/* Name */}
                           <FormItem>
@@ -298,7 +331,8 @@ export default function JoinAsDriver({
                             </Button>
                           </div>
                         </div>
-                      </div>
+                      </div>}
+                      
                     </div>
                   </div>
                 </form>

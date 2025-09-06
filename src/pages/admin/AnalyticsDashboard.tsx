@@ -1,18 +1,28 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   useGetDriverQuery,
   useGetRevenueQuery,
   useGetRidesVolumeQuery,
 } from "@/redux/features/admin/admin.api";
-import { driverCountStatsFunction, driverStatsFunction, revenueStatsFunction, rideStatsFunction } from "@/utils/analyticsStats";
+import {
+  driverCountStatsFunction,
+  driverStatsFunction,
+  revenueStatsFunction,
+  rideStatsFunction,
+} from "@/utils/analyticsStats";
 import CountUp from "react-countup";
 import { useInView } from "react-intersection-observer";
 
 export default function AnalyticsDashboard() {
-  const { data: rides } = useGetRidesVolumeQuery(undefined);
-  const { data: revenue } = useGetRevenueQuery(undefined);
-  const { data: driverData } = useGetDriverQuery({ params: {} });
+  const { data: rides, isLoading: ridesLoading } =
+    useGetRidesVolumeQuery(undefined);
+  const { data: revenue, isLoading: revenueLoading } =
+    useGetRevenueQuery(undefined);
+  const { data: driverData, isLoading: driverDataLoading } = useGetDriverQuery({
+    params: {},
+  });
 
   const { ref, inView } = useInView({
     triggerOnce: true,
@@ -22,10 +32,10 @@ export default function AnalyticsDashboard() {
   const ridesVolume = rides?.data;
   const revenueTrends = revenue?.data;
 
-  const rideStats = rideStatsFunction(ridesVolume)
-  const revenueStats = revenueStatsFunction(revenueTrends)
-  const driverCountStats = driverCountStatsFunction(driverData)
-  const driverStats = driverStatsFunction(driverData)
+  const rideStats = rideStatsFunction(ridesVolume);
+  const revenueStats = revenueStatsFunction(revenueTrends);
+  const driverCountStats = driverCountStatsFunction(driverData);
+  const driverStats = driverStatsFunction(driverData);
 
   //bg-foreground/10 bg-${stat.color}-400
   return (
@@ -35,7 +45,15 @@ export default function AnalyticsDashboard() {
           Ride Analytics
         </h3>
         <div className="grid grid-cols-3 gap-5">
-          {rideStats &&
+          {ridesLoading &&
+            Array.from({ length: 9 }).map((_, index) => (
+              <div key={index}>
+                <Skeleton className="w-[374px] h-[116px]" />
+              </div>
+            ))}
+
+          {!ridesLoading &&
+            rideStats &&
             rideStats.map((stat) => (
               <div
                 className={`relative z-10 p-6 max-w-sm w-full bg-primary/5 dark:bg-foreground/10 backdrop-blur-[4px] 
@@ -65,7 +83,14 @@ export default function AnalyticsDashboard() {
       <div>
         <h3 className="text-primary font-semibold text-2xl mb-4">Revenue</h3>
         <div className="grid grid-cols-2 gap-5">
-          {revenueStats &&
+          {revenueLoading &&
+            Array.from({ length: 4 }).map((_, index) => (
+              <div key={index}>
+                <Skeleton className="w-[374px] h-[116px]" />
+              </div>
+            ))}
+          {!revenueLoading &&
+            revenueStats &&
             revenueStats.map((stat) => (
               <div
                 className={`relative z-10 p-6 max-w-sm w-full mx-auto bg-primary/5 dark:bg-foreground/10 backdrop-blur-[4px] 
@@ -104,24 +129,38 @@ export default function AnalyticsDashboard() {
                 before:rounded-2xl before:border before:border-foreground/10 transform transition duration-300
                 hover:scale-105 hover:shadow-xl hover:bg-primary/10 dark:hover:bg-foreground/20`}
           >
-            <h2 className="text-lg font-semibold text-pretty">Total Driver :</h2>
-            <p className="text-muted-foreground text-xl">
-              {inView ? (
-                <CountUp
-                  start={0}
-                  end={driverData?.totalDriver?.data.length || 0}
-                  duration={2.75}
-                ></CountUp>
-              ) : (
-                "0"
-              )}{" "}
-              $
-            </p>
+            {driverDataLoading && <Skeleton className="w-[198px] h-[44px]" />}
+            {!driverDataLoading && (
+              <>
+                <h2 className="text-lg font-semibold text-pretty">
+                  Total Driver :
+                </h2>
+                <p className="text-muted-foreground text-xl">
+                  {inView ? (
+                    <CountUp
+                      start={0}
+                      end={driverData?.totalDriver?.data.length || 0}
+                      duration={2.75}
+                    ></CountUp>
+                  ) : (
+                    "0"
+                  )}{" "}
+                  $
+                </p>
+              </>
+            )}
           </div>
         </div>
         <div className="space-y-10">
           <div className="grid grid-cols-3 gap-5">
-            {driverCountStats &&
+            {driverDataLoading &&
+              Array.from({ length: 6 }).map((_, index) => (
+                <div key={index}>
+                  <Skeleton className="w-[374px] h-[116px]" />
+                </div>
+              ))}
+            {!driverDataLoading &&
+              driverCountStats &&
               driverCountStats.map((stat) => (
                 <div
                   className={`relative z-10 p-6 max-w-sm w-full mx-auto bg-primary/5 dark:bg-foreground/10 backdrop-blur-[4px] 
@@ -149,7 +188,14 @@ export default function AnalyticsDashboard() {
           </div>
           {/* driverStats */}
           <div className="grid grid-cols-2 gap-5">
-            {driverStats &&
+            {driverDataLoading &&
+              Array.from({ length: 4 }).map((_, index) => (
+                <div key={index}>
+                  <Skeleton className="w-[382px] h-[200px]" />
+                </div>
+              ))}
+            {!driverDataLoading &&
+              driverStats &&
               driverStats.map((stat) => (
                 <div
                   className="relative z-10 p-6 max-w-sm w-full mx-auto bg-primary/5 dark:bg-foreground/10 backdrop-blur-[4px] 

@@ -9,6 +9,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableBody,
@@ -19,23 +20,20 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import {
-  useGetDriverQuery,
-  useGetPendingDriversQuery,
-  useGetRiderQuery,
+  useGetDriverQuery
 } from "@/redux/features/admin/admin.api";
+
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 export default function DriversManagement() {
   const [searchParams] = useSearchParams();
   const [currentPage, setCurrentPage] = useState(1);
-  const {data: pendingDrivers} = useGetPendingDriversQuery(undefined)
 
-  console.log(pendingDrivers)
-
-  const driverApprovalStatus = searchParams.get("driverApprovalStatus") || undefined;
+  const driverApprovalStatus =
+    searchParams.get("driverApprovalStatus") || undefined;
   const search = searchParams.get("search") || undefined;
 
-  const { data } = useGetDriverQuery({
+  const { data, isLoading: driverLoading } = useGetDriverQuery({
     params: {
       page: currentPage,
       ...(driverApprovalStatus && { driverApprovalStatus }),
@@ -58,85 +56,137 @@ export default function DriversManagement() {
         <DriversManagementFilters></DriversManagementFilters>
       </div>
       <Separator className="my-4"></Separator>
-      <div className="border border-muted rounded-md">
-        <Table>
-          <TableCaption>A list of your recent invoices.</TableCaption>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="text-left">No.</TableHead>
-              <TableHead className="text-center">name</TableHead>
-              <TableHead className="text-center">email</TableHead>
-              <TableHead className="text-center">gender</TableHead>
-              <TableHead className="text-center">address</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {driversData &&
-              driversData?.map((item, index: number) => (
-                <TableRow key={index}>
-                  <TableCell className="font-medium text-left">
-                    {index + 1}
-                  </TableCell>
-                  <TableCell className="font-medium text-center">
-                    {item?.name}
-                  </TableCell>
-                  <TableCell className="font-medium text-center">
-                    {item?.email}
-                  </TableCell>
-                  <TableCell className="font-medium text-center">
-                    {item?.gender}
-                  </TableCell>
-                  <TableCell className="font-medium text-center">
-                    {item?.address}
-                  </TableCell>
-               
+      {driverLoading && (
+        <>
+          <div className="border border-muted rounded-md">
+            <Table>
+              <TableCaption>A list of your recent invoices.</TableCaption>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="text-left">No.</TableHead>
+                  <TableHead className="text-center">name</TableHead>
+                  <TableHead className="text-center">email</TableHead>
+                  <TableHead className="text-center">gender</TableHead>
+                  <TableHead className="text-center">address</TableHead>
                 </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-      </div>
-      <div className="flex justify-end mt-8">
-        {/* {totalPage > 1 && ( */}
-        <div>
-          <Pagination>
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious
-                  className={
-                    currentPage === 1
-                      ? "pointer-events-none text-gray-500"
-                      : "cursor-pointer"
-                  }
-                  onClick={() => setCurrentPage((prev) => prev - 1)}
-                />
-              </PaginationItem>
-              {Array.from({ length: totalPage }, (_, i) => i + 1).map(
-                (page) => (
-                  <PaginationItem
-                    key={page}
-                    onClick={() => setCurrentPage(page)}
-                  >
-                    <PaginationLink isActive={currentPage === page}>
-                      {page}
-                    </PaginationLink>
+              </TableHeader>
+              <TableBody>
+                {Array.from({ length: 3 }).map((_, index) => (
+                  <TableRow key={index}>
+                    <TableCell className="font-medium text-left">
+                      <Skeleton className="w-[40px] h-[25px]" />
+                    </TableCell>
+                    <TableCell className="font-medium text-center">
+                      <Skeleton className="w-[180px] h-[25px]" />
+                    </TableCell>
+                    <TableCell className="font-medium text-center">
+                      <Skeleton className="w-[180px] h-[25px]" />
+                    </TableCell>
+                    <TableCell className="font-medium text-center">
+                      <Skeleton className="w-[180px] h-[25px]" />
+                    </TableCell>
+                    <TableCell className="font-medium text-center">
+                      <Skeleton className="w-[180px] h-[25px]" />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+          <div className="flex justify-end mt-8">
+            <div>
+              <Pagination>
+                <PaginationContent>
+                  <Skeleton className="w-[180px] h-[40px]" />
+                </PaginationContent>
+              </Pagination>
+            </div>
+
+          </div>
+        </>
+      )}
+      {!driverLoading && (
+        <>
+          <div className="border border-muted rounded-md">
+            <Table>
+              <TableCaption>A list of your recent invoices.</TableCaption>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="text-left">No.</TableHead>
+                  <TableHead className="text-center">name</TableHead>
+                  <TableHead className="text-center">email</TableHead>
+                  <TableHead className="text-center">gender</TableHead>
+                  <TableHead className="text-center">address</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {driversData &&
+                  driversData?.map((item, index: number) => (
+                    <TableRow key={index}>
+                      <TableCell className="font-medium text-left">
+                        {index + 1}
+                      </TableCell>
+                      <TableCell className="font-medium text-center">
+                        {item?.name}
+                      </TableCell>
+                      <TableCell className="font-medium text-center">
+                        {item?.email}
+                      </TableCell>
+                      <TableCell className="font-medium text-center">
+                        {item?.gender}
+                      </TableCell>
+                      <TableCell className="font-medium text-center">
+                        {item?.address}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
+          </div>
+          <div className="flex justify-end mt-8">
+            {/* {totalPage > 1 && ( */}
+            <div>
+              <Pagination>
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious
+                      className={
+                        currentPage === 1
+                          ? "pointer-events-none text-gray-500"
+                          : "cursor-pointer"
+                      }
+                      onClick={() => setCurrentPage((prev) => prev - 1)}
+                    />
                   </PaginationItem>
-                )
-              )}
-              <PaginationItem>
-                <PaginationNext
-                  className={
-                    currentPage === totalPage
-                      ? "pointer-events-none text-gray-500"
-                      : "cursor-pointer"
-                  }
-                  onClick={() => setCurrentPage((prev) => prev + 1)}
-                />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
-        </div>
-        {/* )} */}
-      </div>
+                  {Array.from({ length: totalPage }, (_, i) => i + 1).map(
+                    (page) => (
+                      <PaginationItem
+                        key={page}
+                        onClick={() => setCurrentPage(page)}
+                      >
+                        <PaginationLink isActive={currentPage === page}>
+                          {page}
+                        </PaginationLink>
+                      </PaginationItem>
+                    )
+                  )}
+                  <PaginationItem>
+                    <PaginationNext
+                      className={
+                        currentPage === totalPage
+                          ? "pointer-events-none text-gray-500"
+                          : "cursor-pointer"
+                      }
+                      onClick={() => setCurrentPage((prev) => prev + 1)}
+                    />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            </div>
+            {/* )} */}
+          </div>
+        </>
+      )}
     </div>
   );
 }

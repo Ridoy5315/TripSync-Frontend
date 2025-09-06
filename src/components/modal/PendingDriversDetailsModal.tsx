@@ -17,13 +17,13 @@ import { useState } from "react";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 import { toast } from "sonner";
+import { Skeleton } from "../ui/skeleton";
 
 export default function PendingDriversDetailsModal() {
   const [open, setOpen] = useState(false);
-  const { data: drivers } = useGetPendingDriversQuery(undefined);
+  const { data: drivers, isLoading } = useGetPendingDriversQuery(undefined);
 
-  const [acceptOrRejectDriver] =
-    useAcceptOrRejectDriverMutation();
+  const [acceptOrRejectDriver] = useAcceptOrRejectDriverMutation();
 
   const handleAcceptOrRejectDriver = async (value, userId) => {
     console.log(value, userId);
@@ -87,12 +87,22 @@ export default function PendingDriversDetailsModal() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button
-          variant={pendingDriversCount > 0 ? "destructive" : "outline"}
-          className="cursor-pointer"
-        >
-          Driver Applications ({pendingDriversCount ?? 0} Pending)
-        </Button>
+        <>
+          {isLoading && (
+            <div>
+              <Skeleton className="w-[210px] h-[30px]" />
+            </div>
+          )}
+          {!isLoading && (
+            <Button
+              disabled={pendingDriversCount === 0}
+              variant={pendingDriversCount > 0 ? "destructive" : "outline"}
+              className="cursor-pointer"
+            >
+              Driver Applications ({pendingDriversCount ?? 0} Pending)
+            </Button>
+          )}
+        </>
       </DialogTrigger>
       <DialogContent className="sm:max-w-4xl">
         <DialogHeader>

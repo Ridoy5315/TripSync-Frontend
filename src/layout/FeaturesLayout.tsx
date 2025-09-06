@@ -9,6 +9,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useGetActiveRideStatusQuery } from "@/redux/features/driver/driver.api";
 import { useGetOwnInfoQuery } from "@/redux/features/user/user.api";
 import { CircleArrowLeft, MoveRight } from "lucide-react";
@@ -16,7 +17,7 @@ import { Outlet } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 export default function FeaturesLayout() {
-  const { data } = useGetOwnInfoQuery(undefined);
+  const { data, isLoading } = useGetOwnInfoQuery(undefined);
 
   const { data: rideData } = useGetActiveRideStatusQuery(undefined);
 
@@ -48,7 +49,12 @@ export default function FeaturesLayout() {
                 orientation="vertical"
                 className="mx-2 data-[orientation=vertical]:h-4"
               />
-              {data?.data?.user?.role === "DRIVER" && (
+              {isLoading  && (
+                <BreadcrumbList>
+                  <Skeleton className="w-[368px] h-[32px]" />
+                </BreadcrumbList>
+              )}
+              {!isLoading && data?.data?.user?.role === "DRIVER" && (
                 <BreadcrumbList>
                   <OnlineOfflineToggle></OnlineOfflineToggle>
                 </BreadcrumbList>

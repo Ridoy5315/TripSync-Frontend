@@ -10,6 +10,12 @@ const rideApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["RIDE"]
     }),
+    getAllRidesStats: builder.query({
+      query: () => ({
+        url: `/ride/all-rides-stats`,
+        method: "GET",
+      }),
+    }),
     rideDetails: builder.query({
       query: () => ({
         url: `/ride/ride-details`,
@@ -31,6 +37,7 @@ const rideApi = baseApi.injectEndpoints({
 
 export const {
      useRideRequestMutation,
+     useGetAllRidesStatsQuery,
      useRideDetailsQuery,
      useRideHistoryQuery,
 } = rideApi;
