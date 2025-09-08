@@ -61,15 +61,15 @@ export default function Testimonials() {
   ];
   return (
     <div
-      className="-mt-10 w-full relative bg-cover bg-center lg:h-[500px] md:h-[500px] h-[360px]"
+      className="lg:-mt-10 md:-mt-10 mt-16 w-full relative bg-cover bg-center lg:h-[500px] md:h-[500px] h-[360px]"
       style={{ backgroundImage: `url(${photo})` }}
     >
       <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-black/80 dark:from-black/10 dark:to-black/80"></div>
-      <div className="absolute inset-0 my-16 ">
-        <p className="text-white text-center text-3xl font-bold lg:text-4xl">
+      <div className="absolute inset-0 lg:my-16 md:my-16 my-12 ">
+        <p className="text-white text-center md:text-3xl text-2xl font-bold lg:text-4xl">
           Feedback from the Front Seat
         </p>
-        <div className="max-w-2xl mx-auto mt-16">
+        <div className="lg:max-w-2xl md:max-w-xl max-w-sm mx-auto lg:mt-16 md:mt-16 mt-10">
           <Swiper
             spaceBetween={30}
             centeredSlides={true}
@@ -84,11 +84,11 @@ export default function Testimonials() {
             {swiperOptions &&
               swiperOptions.map((option) => (
                 <SwiperSlide>
-                  <div className="block rounded-md border border-gray-300 shadow-sm sm:p-6 text-black bg-white/90 dark:bg-white/70">
-                    <div className="sm:flex sm:justify-between sm:gap-4 lg:gap-10">
-                      <div className="space-y-10 text-muted-foreground">
-                        <div className="mt-4 sm:mt-0">
-                          <p className="mt-4 text-sm text-pretty dark:text-black">
+                  <div className="block rounded-md border border-gray-300 shadow-sm px-4 pb-6 lg:px-6 lg:py-6 md:px-6 md:py-6 text-black bg-white/90 dark:bg-white/70">
+                    <div className="flex lg:gap-10 md:gap-8 gap-6">
+                      <div className="lg:space-y-10 md:space-y-6 space-y-4 text-muted-foreground">
+                        <div className="">
+                          <p className="mt-4 lg:text-sm md:text-sm text-xs text-justify text-pretty dark:text-black">
                             {option.description}
                           </p>
                         </div>
@@ -98,8 +98,8 @@ export default function Testimonials() {
                           </h5>
                         </div>
                       </div>
-                      <div className=" h-40 w-60">
-                        <Avatar className="w-32 h-32">
+                      <div className="lg:h-40 lg:w-60 md:h-40 md:w-60 h-32 w-48 mt-4 lg:mt-0 md:mt-0">
+                        <Avatar className="lg:w-32 lg:h-32 md:w-32 md:h-32 w-20 h-20">
                           <AvatarImage
                             className="object-cover object-center"
                             src={option.image}

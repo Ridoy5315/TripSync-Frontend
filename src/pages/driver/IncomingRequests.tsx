@@ -128,8 +128,8 @@ export default function IncomingRequests() {
   };
 
   return (
-    <div className="py-4 px-8">
-      <h3 className="text-primary font-semibold text-2xl mb-4">
+    <div className="py-4 lg:px-8 md:px-4 px-2">
+      <h3 className="text-primary font-semibold lg:text-2xl text-xl mb-4">
         Incoming Requests:
       </h3>
 
@@ -191,7 +191,7 @@ export default function IncomingRequests() {
           <div className="border border-muted rounded-md">
             <Table>
               {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
-              <TableHeader>
+              <TableHeader className="lg:text-sm md:text-sm text-xs">
                 <TableRow>
                   <TableHead className="text-left">No.</TableHead>
                   <TableHead className="text-center">
@@ -204,7 +204,7 @@ export default function IncomingRequests() {
                   <TableHead className="text-center">Action</TableHead>
                 </TableRow>
               </TableHeader>
-              <TableBody>
+              <TableBody className="lg:text-sm text-xs">
                 {allPendingRideRequest &&
                   allPendingRideRequest.map((item, index: number) => (
                     <TableRow key={index}>
@@ -233,6 +233,7 @@ export default function IncomingRequests() {
                         >
                           <Button variant="outline">
                             <CircleCheckBig />
+                            
                           </Button>
                         </AcceptRideModal>
                         <RejectRideModal

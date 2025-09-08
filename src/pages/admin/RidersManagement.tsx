@@ -1,4 +1,4 @@
-import RidersManagementFilters from "@/components/ridersManagement/ridersManagementFilters";
+import RidersManagementFilters from "@/components/ridersManagement/RidersManagementFilters";
 import {
   Pagination,
   PaginationContent,
@@ -43,12 +43,12 @@ export default function RidersManagement() {
   // console.log(data?.data?.totalRider)
   console.log(data);
   return (
-    <div className="py-4 px-8">
-      <h3 className="text-primary font-semibold text-2xl mb-4">
+    <div className="py-4 lg:px-8 md:px-4 px-2">
+      <h3 className="text-primary font-semibold lg:text-2xl text-xl mb-4">
         Riders Management :
       </h3>
       <RidersManagementFilters></RidersManagementFilters>
-      <Separator className="my-8"></Separator>
+      <Separator className="lg:my-8 my-6"></Separator>
       {isLoading && (
         <>
           <div className="border border-muted rounded-md">
@@ -107,7 +107,7 @@ export default function RidersManagement() {
           <div className="border border-muted rounded-md">
             <Table>
               <TableCaption>A list of your recent invoices.</TableCaption>
-              <TableHeader>
+              <TableHeader className="lg:text-sm md:text-sm text-xs">
                 <TableRow>
                   <TableHead className="text-left">No.</TableHead>
                   <TableHead className="text-center">name</TableHead>
@@ -115,11 +115,9 @@ export default function RidersManagement() {
                   <TableHead className="text-center">gender</TableHead>
                   <TableHead className="text-center">address</TableHead>
                   <TableHead className="text-center">isActive</TableHead>
-                  {/* <TableHead className="text-center">Fare</TableHead>
-              <TableHead className="text-right">Ride Status</TableHead> */}
                 </TableRow>
               </TableHeader>
-              <TableBody>
+              <TableBody className="lg:text-sm text-[10px]">
                 {ridersData &&
                   ridersData?.map((item, index: number) => (
                     <TableRow key={index}>

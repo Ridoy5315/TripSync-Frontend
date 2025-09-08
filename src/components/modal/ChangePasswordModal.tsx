@@ -89,11 +89,11 @@ export default function ChangePasswordModal() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">Change Password</Button>
+        <Button variant="outline" className="lg:text-sm text-xs">Change Password</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-sm">
         <DialogHeader>
-          <DialogTitle>Edit Your Profile</DialogTitle>
+          <DialogTitle>Change Password</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form

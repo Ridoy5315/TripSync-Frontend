@@ -55,9 +55,9 @@ export default function CompletedRides() {
   const completedRides = ridesData?.data?.data;
   const totalPage = ridesData?.data?.meta?.totalPage || 1;
   return (
-    <div className="py-4 px-8">
-      <h3 className="text-primary font-semibold text-2xl mb-4">
-        My Ride History :
+    <div className="py-4 lg:px-8 md:px-4 px-2">
+      <h3 className="text-primary font-semibold lg:text-2xl text-xl mb-4">
+        Completed Rides :
       </h3>
       <CompletedRidesFilters></CompletedRidesFilters>
       <Separator className="my-4"></Separator>
@@ -119,7 +119,7 @@ export default function CompletedRides() {
           <div className="border border-muted rounded-md">
             <Table>
               {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
-              <TableHeader>
+              <TableHeader className="lg:text-sm md:text-sm text-xs">
                 <TableRow>
                   <TableHead className="text-left">No.</TableHead>
                   <TableHead className="text-center">
@@ -132,7 +132,7 @@ export default function CompletedRides() {
                   <TableHead className="text-center">Fare</TableHead>
                 </TableRow>
               </TableHeader>
-              <TableBody>
+              <TableBody className="lg:text-sm text-[10px]">
                 {completedRides &&
                   completedRides?.map((item, index: number) => (
                     <TableRow key={index}>

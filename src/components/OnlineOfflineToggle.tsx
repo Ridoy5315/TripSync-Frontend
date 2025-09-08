@@ -54,7 +54,7 @@ export default function OnlineOfflineToggle() {
       {!isLoading && (
         <>
           <span
-            className={`${
+            className={`lg:block hidden ${
               checked ? "text-muted-foreground" : "text-pretty font-semibold"
             }`}
           >
@@ -62,7 +62,7 @@ export default function OnlineOfflineToggle() {
               ? "You are online. You can go offline anytime"
               : "You’re offline! Go online to start receiving rides"}
           </span>
-          <MoveRight strokeWidth={1.75} />
+          <MoveRight strokeWidth={1.75} className="lg:block hidden"/>
           <div className="relative inline-grid h-8 grid-cols-[1fr_1fr] items-center text-sm font-medium">
             <Switch
               id={id}

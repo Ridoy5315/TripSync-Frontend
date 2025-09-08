@@ -28,15 +28,15 @@ export default function AdminList() {
   console.log(data);
   const adminData = data?.data?.data;
   return (
-    <div className="py-4 px-8">
-      <h3 className="text-primary font-semibold text-2xl mb-4">Admin List :</h3>
+    <div className="py-4 lg:px-8 md:px-4 px-2">
+      <h3 className="text-primary font-semibold lg:text-2xl text-xl mb-4">Admin List :</h3>
       <AdminListFilters></AdminListFilters>
       <Separator className="my-4"></Separator>
       {isLoading && (
         <div className="border border-muted rounded-md">
           <Table>
             <TableCaption>A list of your recent invoices.</TableCaption>
-            <TableHeader>
+            <TableHeader >
               <TableRow>
                 <TableHead className="text-left">No.</TableHead>
                 <TableHead className="text-center">name</TableHead>
@@ -74,7 +74,7 @@ export default function AdminList() {
           <Table>
             <TableCaption>A list of your recent invoices.</TableCaption>
             <TableHeader>
-              <TableRow>
+              <TableRow className="lg:text-sm md:text-sm text-xs">
                 <TableHead className="text-left">No.</TableHead>
                 <TableHead className="text-center">name</TableHead>
                 <TableHead className="text-center">email</TableHead>
@@ -82,7 +82,7 @@ export default function AdminList() {
                 <TableHead className="text-center">address</TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody>
+            <TableBody className="lg:text-sm text-[10px]">
               {adminData &&
                 adminData?.map((item, index: number) => (
                   <TableRow key={index}>

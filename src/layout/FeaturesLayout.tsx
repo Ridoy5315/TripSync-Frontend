@@ -24,9 +24,9 @@ export default function FeaturesLayout() {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
-          <div className="flex items-center gap-2 px-4 w-full">
+      <SidebarInset className="">
+        <header className="flex lg:h-16 h-14 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+          <div className="flex items-center lg:gap-2 gap-1 px-4 w-full">
             <SidebarTrigger className="-ml-1" />
             <Separator
               orientation="vertical"
@@ -34,7 +34,7 @@ export default function FeaturesLayout() {
             />
             <Breadcrumb className="flex items-center gap-2 w-full">
               <BreadcrumbList>
-                <Button className="h-8">
+                <Button className="h-8 lg:text-sm text-xs">
                   <Link
                     className="flex items-center gap-2
                   "
@@ -47,9 +47,9 @@ export default function FeaturesLayout() {
               </BreadcrumbList>
               <Separator
                 orientation="vertical"
-                className="mx-2 data-[orientation=vertical]:h-4"
+                className="lg:mx-2 md:mx-2 data-[orientation=vertical]:h-4"
               />
-              {isLoading  && (
+              {isLoading && (
                 <BreadcrumbList>
                   <Skeleton className="w-[368px] h-[32px]" />
                 </BreadcrumbList>
@@ -59,14 +59,18 @@ export default function FeaturesLayout() {
                   <OnlineOfflineToggle></OnlineOfflineToggle>
                 </BreadcrumbList>
               )}
+               <Separator
+                orientation="vertical"
+                className="lg:mx-2 md:mx-2 data-[orientation=vertical]:h-4"
+              />
               {rideData?.data?.rideRequestAction === "ACCEPTED" &&
                 rideData?.data?.rideProgressStatus &&
                 rideData?.data?.rideProgressStatus !== "COMPLETED" && (
-                  <div className="ml-auto flex items-center gap-2">
-                    <span className="text-muted-foreground text-sm">
+                  <div className="lg:ml-auto flex items-center gap-2">
+                    <span className="text-muted-foreground text-sm lg:block hidden">
                       Update the current ride status
                     </span>
-                    <MoveRight strokeWidth={1.75} />
+                    <MoveRight strokeWidth={1.75} className="lg:block hidden"/>
                     <BreadcrumbList>
                       <ActiveRideManagement></ActiveRideManagement>
                     </BreadcrumbList>
@@ -75,7 +79,7 @@ export default function FeaturesLayout() {
             </Breadcrumb>
           </div>
         </header>
-        <div className="flex flex-1 flex-col gap-4 p-4 pt-0 ">
+        <div className="flex flex-1 flex-col gap-4 lg:p-4 p-2 pt-0 ">
           <div className="bg-muted/50 min-h-[100vh] flex-1 rounded-xl md:min-h-min">
             <Outlet></Outlet>
           </div>

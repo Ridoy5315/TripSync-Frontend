@@ -57,12 +57,12 @@ export default function RideOversight() {
   const ridesData = data?.data?.data;
   const totalPage = data?.data?.meta?.totalPage || 1;
   return (
-    <div className="py-4 px-8">
-      <h3 className="text-primary font-semibold text-2xl mb-4">
+    <div className="py-4 lg:px-8 md:px-4 px-2">
+      <h3 className="text-primary font-semibold lg:text-2xl text-xl mb-4">
         Ride Oversight :
       </h3>
       <RideOversightFilters></RideOversightFilters>
-      <Separator className="my-8"></Separator>
+      <Separator className="lg:my-8 my-6"></Separator>
       {isLoading && (
         <>
           <div className="border border-muted rounded-md">
@@ -127,7 +127,7 @@ export default function RideOversight() {
         <>
           <div className="border border-muted rounded-md">
             <Table>
-              <TableHeader>
+              <TableHeader className="lg:text-sm md:text-sm text-xs">
                 <TableRow>
                   <TableHead className="text-left">No.</TableHead>
                   <TableHead className="text-center">
@@ -142,7 +142,7 @@ export default function RideOversight() {
                   <TableHead className="text-center">Request Status</TableHead>
                 </TableRow>
               </TableHeader>
-              <TableBody>
+              <TableBody className="lg:text-sm text-[10px]">
                 {ridesData &&
                   ridesData.map((item, index: number) => (
                     <TableRow key={index}>

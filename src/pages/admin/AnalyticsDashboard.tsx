@@ -39,12 +39,12 @@ export default function AnalyticsDashboard() {
 
   //bg-foreground/10 bg-${stat.color}-400
   return (
-    <div ref={ref} className="p-5 space-y-10">
+    <div ref={ref} className="lg:p-5 p-2 space-y-10">
       <div>
-        <h3 className="text-primary font-semibold text-2xl mb-4">
+        <h3 className="text-primary font-semibold lg:text-2xl text-xl mb-4">
           Ride Analytics
         </h3>
-        <div className="grid grid-cols-3 gap-5">
+        <div className="grid grid-cols-3 lg:gap-5 gap-2">
           {ridesLoading &&
             Array.from({ length: 9 }).map((_, index) => (
               <div key={index}>
@@ -56,15 +56,15 @@ export default function AnalyticsDashboard() {
             rideStats &&
             rideStats.map((stat) => (
               <div
-                className={`relative z-10 p-6 max-w-sm w-full bg-primary/5 dark:bg-foreground/10 backdrop-blur-[4px] 
+                className={`relative z-10 lg:p-6 p-3 max-w-sm w-full bg-primary/5 dark:bg-foreground/10 backdrop-blur-[4px] 
                 rounded-2xl border border-white/10 before:content-[''] before:absolute before:inset-0 
                 before:rounded-2xl before:border before:border-foreground/10 transform transition duration-300
                 hover:scale-105 hover:shadow-xl hover:bg-primary/10 dark:hover:bg-foreground/20`}
               >
-                <h2 className="text-lg font-semibold text-pretty">
+                <h2 className="lg:text-lg font-semibold text-pretty lg:mb-0 mb-4">
                   {stat.title} :
                 </h2>
-                <p className="text-muted-foreground text-4xl text-end">
+                <p className="text-muted-foreground text-4xl lg:text-end text-center">
                   {inView ? (
                     <CountUp
                       start={0}
@@ -81,7 +81,7 @@ export default function AnalyticsDashboard() {
       </div>
       <Separator className="my-4"></Separator>
       <div>
-        <h3 className="text-primary font-semibold text-2xl mb-4">Revenue</h3>
+        <h3 className="text-primary font-semibold lg:text-2xl text-xl mb-4">Revenue</h3>
         <div className="grid grid-cols-2 gap-5">
           {revenueLoading &&
             Array.from({ length: 4 }).map((_, index) => (
@@ -98,7 +98,7 @@ export default function AnalyticsDashboard() {
                 before:rounded-2xl before:border before:border-foreground/10 transform transition duration-300
                 hover:scale-105 hover:shadow-xl hover:bg-primary/10 dark:hover:bg-foreground/20`}
               >
-                <h2 className="text-lg font-semibold text-pretty">
+                <h2 className="lg:text-lg font-semibold text-pretty">
                   {stat.title} :
                 </h2>
                 <p className="text-muted-foreground text-4xl text-end">
@@ -120,11 +120,11 @@ export default function AnalyticsDashboard() {
       <Separator className="my-4"></Separator>
       <div>
         <div className="flex items-center justify-between mb-5">
-          <h3 className="text-primary font-semibold text-2xl mb-4">
+          <h3 className="text-primary font-semibold lg:text-2xl text-xl mb-4">
             Driver Activity
           </h3>
           <div
-            className={`flex gap-8 relative z-10 py-2 px-4 bg-primary/5 dark:bg-foreground/10 backdrop-blur-[4px] 
+            className={`flex gap-8 relative z-10 lg:py-2 py-1 px-4 bg-primary/5 dark:bg-foreground/10 backdrop-blur-[4px] 
                 rounded-lg border border-white/10 before:content-[''] before:absolute before:inset-0 
                 before:rounded-2xl before:border before:border-foreground/10 transform transition duration-300
                 hover:scale-105 hover:shadow-xl hover:bg-primary/10 dark:hover:bg-foreground/20`}
@@ -132,10 +132,10 @@ export default function AnalyticsDashboard() {
             {driverDataLoading && <Skeleton className="w-[198px] h-[44px]" />}
             {!driverDataLoading && (
               <>
-                <h2 className="text-lg font-semibold text-pretty">
+                <h2 className="lg:text-lg font-semibold text-pretty">
                   Total Driver :
                 </h2>
-                <p className="text-muted-foreground text-xl">
+                <p className="text-muted-foreground lg:text-xl text-lg">
                   {inView ? (
                     <CountUp
                       start={0}
@@ -151,8 +151,8 @@ export default function AnalyticsDashboard() {
             )}
           </div>
         </div>
-        <div className="space-y-10">
-          <div className="grid grid-cols-3 gap-5">
+        <div className="lg:space-y-10 space-y-6">
+          <div className="grid grid-cols-3 lg:gap-5 gap-3">
             {driverDataLoading &&
               Array.from({ length: 6 }).map((_, index) => (
                 <div key={index}>
@@ -163,12 +163,12 @@ export default function AnalyticsDashboard() {
               driverCountStats &&
               driverCountStats.map((stat) => (
                 <div
-                  className={`relative z-10 p-6 max-w-sm w-full mx-auto bg-primary/5 dark:bg-foreground/10 backdrop-blur-[4px] 
+                  className={`relative z-10 lg:p-6 p-3 max-w-sm w-full mx-auto bg-primary/5 dark:bg-foreground/10 backdrop-blur-[4px] 
                 rounded-2xl border border-white/10 before:content-[''] before:absolute before:inset-0 
                 before:rounded-2xl before:border before:border-foreground/10 transform transition duration-300
                 hover:scale-105 hover:shadow-xl hover:bg-primary/10 dark:hover:bg-foreground/20`}
                 >
-                  <h2 className="text-lg font-semibold text-pretty">
+                  <h2 className="lg:text-lg font-semibold text-pretty">
                     {stat.title} :
                   </h2>
                   <p className="text-muted-foreground text-4xl text-end">
@@ -187,7 +187,7 @@ export default function AnalyticsDashboard() {
               ))}
           </div>
           {/* driverStats */}
-          <div className="grid grid-cols-2 gap-5">
+          <div className="grid lg:grid-cols-2 grid-cols-1 gap-5">
             {driverDataLoading &&
               Array.from({ length: 4 }).map((_, index) => (
                 <div key={index}>

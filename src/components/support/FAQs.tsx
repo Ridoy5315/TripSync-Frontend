@@ -2,12 +2,12 @@ import QuestionAndAnswer from "../QuestionAndAnswer";
 
 export default function FAQs() {
   return (
-    <div className="mt-28 mb-44 container mx-auto grid grid-cols-2 gap-20 items-center">
-      <div className="space-y-6">
-        <h5 className="text-2xl text-pretty font-semibold text-primary">
+    <div className="lg:mt-28 mt-10 mb-44 lg:px-0 md:px-8 px-6 container mx-auto grid lg:grid-cols-2 grid-cols-1 lg:gap-20 gap-10 items-center">
+      <div className="lg:space-y-6. md:space-y-6 space-y-4">
+        <h5 className="lg:text-2xl md:text-2xl text-xl text-pretty font-semibold text-primary">
           Questions & Answers
         </h5>
-        <h2 className="text-6xl text-pretty font-bold leading-16">
+        <h2 className="lg:text-6xl md:text-6xl text-4xl text-pretty font-bold lg:leading-16 md:leading-16 leading-12">
           Got Questions? We’ve Got Answers.
         </h2>
         <p className="text-muted-foreground leading-6">

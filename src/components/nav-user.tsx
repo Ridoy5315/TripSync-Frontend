@@ -54,14 +54,14 @@ export function NavUser({
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <Avatar className="h-10 w-10 rounded-full">
+              <Avatar className="lg:h-10 lg:w-10 h-9 w-8 rounded-full">
                 <div>
                   {user?.avatar ? (
                     <Avatar className="h-10 w-10">
                       <AvatarImage src={user?.avatar} alt="Profile image" />
                     </Avatar>
                   ) : (
-                    <Avatar className="h-10 w-10">
+                    <Avatar className="lg:h-10 lg:w-10 h-9 w-8">
                       {user?.name && (
                         <AvatarFallback className="text-primary w-full h-full">
                           {user?.name[0]}
@@ -71,9 +71,9 @@ export function NavUser({
                   )}
                 </div>
               </Avatar>
-              <div className="grid flex-1 text-left text-sm leading-tight">
+              <div className="grid flex-1 text-left lg:text-sm text-xs leading-tight">
                 <span className="truncate font-medium">{user?.name}</span>
-                <span className="truncate text-xs">{user?.email}</span>
+                <span className="truncate lg:text-xs text-[10px]">{user?.email}</span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
@@ -85,15 +85,15 @@ export function NavUser({
             sideOffset={4}
           >
             <DropdownMenuLabel className="p-0 font-normal">
-              <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                <Avatar className="h-10 w-10 rounded-full">
+              <div className="flex items-center gap-2 px-1 py-1.5 text-left lg:text-sm text-xs">
+                <Avatar className="lg:h-10 lg:w-10 h-9 w-8 rounded-full">
                   <div>
                     {user?.avatar ? (
-                      <Avatar className="h-10 w-10">
+                      <Avatar className="lg:h-10 lg:w-10 h-9 w-8">
                         <AvatarImage src={user?.avatar} alt="Profile image" />
                       </Avatar>
                     ) : (
-                      <Avatar className="h-10 w-10">
+                      <Avatar className="lg:h-10 lg:w-10 h-9 w-8">
                         {user?.name && (
                           <AvatarFallback className="text-primary w-full h-full">
                             {user?.name[0]}
@@ -103,19 +103,19 @@ export function NavUser({
                     )}
                   </div>
                 </Avatar>
-                <div className="grid flex-1 text-left text-sm leading-tight">
+                <div className="grid flex-1 text-left lg:text-sm text-xs leading-tight">
                   <span className="truncate font-medium">{user?.name}</span>
-                  <span className="truncate text-xs">{user?.email}</span>
+                  <span className="truncate lg:text-xs text-[10px]">{user?.email}</span>
                 </div>
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
+              <DropdownMenuItem className="text-xs lg:text-sm">
                 <BadgeCheck />
                 Account
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem className="text-xs lg:text-sm">
                 <Bell />
                 Notifications
               </DropdownMenuItem>
@@ -124,7 +124,7 @@ export function NavUser({
             <DropdownMenuItem>
               <LogOut />
               <Button
-                className="px-0 py-3 h-0 cursor-pointer w-full justify-start"
+                className="px-0 lg:py-3 py-1 h-0 cursor-pointer w-full justify-start"
                 variant="ghost"
                 onClick={() => handleSignOut(signOut, dispatch, navigate)}
               >

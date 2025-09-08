@@ -71,7 +71,7 @@ export default function Navbar() {
   return (
     <div className="border-b bg-background sticky top-0 z-10 shadow">
       <header className=" px-4 lg:px-0 container mx-auto">
-        <div className="flex my-1 h-16 items-center justify-between gap-4">
+        <div className="flex lg:my-1 md:my-1 h-16 items-center justify-between gap-4">
           {/* Left side */}
           <div className="flex items-center gap-2">
             {/* Mobile menu trigger */}
@@ -109,10 +109,14 @@ export default function Navbar() {
                   </svg>
                 </Button>
               </PopoverTrigger>
-              <PopoverContent align="start" className="w-64 p-1 md:hidden">
+              <PopoverContent align="start" className="w-48 p-1">
                 <NavigationMenu className="max-w-none *:w-full">
                   <NavigationMenuList className="flex-col items-start gap-0 md:gap-2">
-                    {navigationLinks.map((link, index) => (
+                    {navigationLinks.filter(
+                      (link) =>
+                        link.role === "PUBLIC" ||
+                        link.role === data?.data?.user?.role
+                    ).map((link, index) => (
                       <NavigationMenuItem key={index} className="w-full">
                         {link.submenu ? (
                           <>
@@ -163,16 +167,16 @@ export default function Navbar() {
               </PopoverContent>
             </Popover>
             {/* Main nav */}
-            <div className="flex items-center gap-6">
-              <div className="flex items-center gap-2">
-                <img className="h-10" src={Logo} alt="" />
-                <p className="text-2xl">
+            <div className="flex items-center lg:gap-6 md:gap-4">
+              <div className="flex items-center lg:gap-2 gap-1">
+                <img className="lg:h-10 h-8" src={Logo} alt="" />
+                <p className="lg:text-2xl text-xl">
                   <span>Trip</span>Sync
                 </p>
               </div>
               {/* Navigation menu */}
               <NavigationMenu viewport={false} className="max-md:hidden">
-                <NavigationMenuList className="gap-2">
+                <NavigationMenuList className="lg:gap-2 gap-0.5 ">
                   {navigationLinks
                     .filter(
                       (link) =>
@@ -183,14 +187,14 @@ export default function Navbar() {
                       <NavigationMenuItem key={index}>
                         {link.submenu ? (
                           <>
-                            <NavigationMenuTrigger className="text-muted-foreground hover:text-primary bg-transparent px-2 py-1.5 font-medium *:[svg]:-me-0.5 *:[svg]:size-3.5">
+                            <NavigationMenuTrigger className="lg:text-sm text-xs px-1 text-muted-foreground hover:text-primary bg-transparent lg:px-2 lg:py-1.5 py-1 font-medium *:[svg]:-me-0.5 *:[svg]:size-3">
                               {link.label}
                             </NavigationMenuTrigger>
                             <NavigationMenuContent className="...">
                               <ul
                                 className={cn(
                                   link.type === "description"
-                                    ? "min-w-64"
+                                    ? "min-w-40"
                                     : "min-w-48"
                                 )}
                               >
@@ -198,9 +202,9 @@ export default function Navbar() {
                                   <li key={itemIndex}>
                                     <NavigationMenuLink
                                       href={item.href}
-                                      className="py-1.5 text-muted-foreground hover:text-primary"
+                                      className="lg:text-sm text-xs lg:py-1.5 py-1 text-muted-foreground hover:text-primary"
                                     >
-                                      <span>{item.label}</span>
+                                      <span >{item.label}</span>
                                     </NavigationMenuLink>
                                   </li>
                                 ))}
@@ -210,7 +214,7 @@ export default function Navbar() {
                         ) : (
                           <NavigationMenuLink
                             href={link.href}
-                            className="text-muted-foreground hover:text-primary py-1.5 font-medium"
+                            className="lg:text-sm lg:px-2 px-1 text-xs text-muted-foreground hover:text-primary lg:py-1.5 py-1 font-medium"
                           >
                             {link.label}
                           </NavigationMenuLink>
@@ -229,10 +233,10 @@ export default function Navbar() {
               <NavbarProfile></NavbarProfile>
             ) : (
               <div className="flex gap-2">
-                <Button asChild variant="outline" size="sm" className="text-sm">
+                <Button asChild variant="outline" size="sm" className="lg:text-sm md:text-sm text-xs">
                   <Link to="/signin">Sign In</Link>
                 </Button>
-                <Button asChild size="sm" className="text-sm">
+                <Button asChild size="sm" className="lg:text-sm md:text-sm text-xs">
                   <Link to="/signUp">Get Started</Link>
                 </Button>
               </div>

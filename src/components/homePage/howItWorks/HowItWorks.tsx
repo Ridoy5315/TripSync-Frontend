@@ -33,36 +33,36 @@ export default function HowItWorks() {
     },
   ];
   return (
-    <div className="container mx-auto mt-6 mb-20">
+    <div className="container mx-auto mt-6 mb-20 px-8 lg:px-0">
       <div className="text-center space-y-2">
         <Fade triggerOnce>
-          <h3 className="animate__animated animate__slideInUp text-pretty text-3xl font-bold lg:text-4xl">
+          <h3 className="animate__animated animate__slideInUp text-pretty md:text-3xl text-2xl font-bold lg:text-4xl">
             How <span className="text-primary">TripSync </span>
             Works
           </h3>
         </Fade>
         <Fade delay={100} triggerOnce>
-          <p className="animate__animated animate__slideInUp animate__slow text-muted-foreground mb-8 lg:text-lg">
+          <p className="animate__animated animate__slideInUp animate__slow text-muted-foreground lg:mb-8 md:mb-8 mb-4 max-w-lg lg:max-w-3xl mx-auto lg:text-lg md:text-base text-sm">
             A simple, step-by-step guide to getting you moving — whether you’re
             a rider or a driver.
           </p>
         </Fade>
       </div>
-      <div className="grid grid-cols-11 justify-center items-center gap-6">
+      <div className="grid lg:grid-cols-11 grid-cols-2 justify-center lg:items-center lg:gap-6 md:gap-6 gap-10">
         {contentsOptions &&
           contentsOptions.map((options, index) => (
             <>
-              <Fade delay={300 + (index * 200)} triggerOnce className="col-span-2">
+              <Fade delay={300 + (index * 200)} triggerOnce className="lg:col-span-2">
                 <div className="flex flex-col items-center space-y-2">
-                  <div className="h-28 w-28">
+                  <div className="lg:h-28 lg:w-28 h-20 w-20">
                     <img
                       className="ring-background rounded-full h-full w-full ring-2 p-1 bg-white"
                       src={options?.image}
                       alt="Avatar 01"
                     />
                   </div>
-                  <h5 className="text-pretty text-lg">{options?.title}</h5>
-                  <p className="text-muted-foreground text-sm text-center">
+                  <h5 className="text-pretty lg:text-lg">{options?.title}</h5>
+                  <p className="text-muted-foreground lg:text-sm text-xs lg:text-center md:text-center text-justify">
                     {options?.description}
                   </p>
                 </div>
@@ -71,7 +71,7 @@ export default function HowItWorks() {
                 <Fade
                   delay={400 + index * 200}
                   triggerOnce
-                  className="col-span-1"
+                  className="lg:col-span-1 hidden lg:block"
                 >
                   <MoveRight
                     size={44}

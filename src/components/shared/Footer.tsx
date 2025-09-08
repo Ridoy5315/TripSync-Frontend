@@ -5,28 +5,30 @@ import { Link } from "react-router-dom";
 export default function Footer() {
   return (
     <>
-      <div className="bg-black/10 backdrop-blur-md pt-32 ">
-        <div className="mx-auto max-w-screen-xl pb-8">
-          <div className="lg:flex lg:items-start lg:gap-8">
-            <div className="w-24 h-24">
+      <div className="bg-gradient-to-t from-[#e3d7f8] to-background dark:from-[#1b1822] dark:to-background lg:pt-24 md:pt-16 pt-12 px-6">
+        <div className="mx-auto lg:max-w-screen-xl max-w-2xl pb-8">
+          <div className="flex items-start lg:gap-8 gap-6">
+            <div className="lg:w-24 lg:h-24 md:w-20 md:h-20 w-16 h-16 lg:block md:block hidden">
               <img src={Logo} alt="" />
             </div>
-            <div className="flex-1 space-y-16">
-              <div>
-                <h2 className="text-2xl font-bold text-pretty">
+            <div className="flex-1 lg:space-y-16 space-y-10">
+              <div className="lg:block md:block hidden">
+                <h2 className="text-xl lg:text-2xl font-bold text-pretty">
                   Travel made simple with TripSync.
                 </h2>
-                <p className="mt-4 text-muted-foreground">
+                <p className="lg:mt-4 mt-2 text-muted-foreground ">
                   Your smart companion for seamless rides, effortless planning,
                   and stress-free journeys every time.
                 </p>
               </div>
 
-              <div className="grid grid-cols-4 justify-center">
+              <div className="grid lg:grid-cols-4 md:grid-cols-4 grid-cols-3 justify-center md:gap-0 gap-8">
                 <div className="">
-                  <p className="font-medium text-pretty">Services</p>
+                  <p className="font-medium text-pretty text-sm lg:text-base">
+                    Services
+                  </p>
 
-                  <ul className="mt-6 space-y-4 text-sm">
+                  <ul className="mt-6 space-y-4 lg:text-sm text-xs">
                     <li>
                       <Link
                         to="#"
@@ -69,9 +71,11 @@ export default function Footer() {
                 </div>
 
                 <div className="">
-                  <p className="font-medium text-pretty">Company</p>
+                  <p className="font-medium text-pretty text-sm lg:text-base">
+                    Company
+                  </p>
 
-                  <ul className="mt-6 space-y-4 text-sm">
+                  <ul className="mt-6 space-y-4 lg:text-sm text-xs ">
                     <li>
                       <Link
                         to="aboutUs/company-background"
@@ -105,9 +109,11 @@ export default function Footer() {
                 </div>
 
                 <div className="">
-                  <p className="font-medium text-pretty">Helpful Links</p>
+                  <p className="font-medium text-pretty text-sm lg:text-base">
+                    Helpful Links
+                  </p>
 
-                  <ul className="mt-6 space-y-4 text-sm">
+                  <ul className="mt-6 space-y-4 lg:text-sm text-xs">
                     <li>
                       <Link
                         to="support/contactUs"
@@ -130,7 +136,7 @@ export default function Footer() {
                   </ul>
                 </div>
 
-                <ul className="flex justify-end gap-6">
+                <ul className="flex lg:justify-end md:justify-end lg:gap-6 gap-3 ">
                   <li>
                     <a
                       href="https://www.linkedin.com/in/ridoy5315"
@@ -140,7 +146,7 @@ export default function Footer() {
                     >
                       <span className="sr-only">linkedin</span>
 
-                      <Linkedin />
+                      <Linkedin className="lg:h-6 lg:w-6 h-5 w-5" />
                     </a>
                   </li>
                   <li>
@@ -152,7 +158,7 @@ export default function Footer() {
                     >
                       <span className="sr-only">GitHub</span>
 
-                      <Github />
+                      <Github className="lg:h-6 lg:w-6 h-5 w-5" />
                     </a>
                   </li>
                   <li>
@@ -164,7 +170,7 @@ export default function Footer() {
                     >
                       <span className="sr-only">Facebook</span>
 
-                      <Facebook />
+                      <Facebook className="lg:h-6 lg:w-6 h-5 w-5" />
                     </a>
                   </li>
 
@@ -177,7 +183,7 @@ export default function Footer() {
                     >
                       <span className="sr-only">Instagram</span>
 
-                      <Instagram />
+                      <Instagram className="lg:h-6 lg:w-6 h-5 w-5" />
                     </a>
                   </li>
 
@@ -190,20 +196,21 @@ export default function Footer() {
                     >
                       <span className="sr-only">Twitter</span>
 
-                      <Twitter />
+                      <Twitter className="lg:h-6 lg:w-6 h-5 w-5" />
                     </a>
                   </li>
                 </ul>
               </div>
             </div>
           </div>
-          <div className="mt-8 border-t border-gray-100 pt-8">
+          <div className="lg:mt-8 mt-3 border-t border-gray-100 lg:pt-8 pt-4">
             <div className="sm:flex sm:justify-between">
               <p className="text-xs text-gray-500">
-                &copy; {new Date().getFullYear()}. TripSync. All rights reserved.
+                &copy; {new Date().getFullYear()}. TripSync. All rights
+                reserved.
               </p>
 
-              <ul className="mt-8 flex flex-wrap justify-start gap-4 text-xs sm:mt-0 lg:justify-end">
+              <ul className="lg:mt-0 md:mt-0 mt-4 flex flex-wrap justify-start gap-4 text-xs sm:mt-0 lg:justify-end">
                 <li>
                   <a
                     href="#"

@@ -89,7 +89,7 @@ export default function ActiveRideManagement() {
       value={selectedStatus}
       onValueChange={(value) => changeRideStatus(value)}
     >
-      <SelectTrigger className="w-[180px]">
+      <SelectTrigger className="lg:w-[180px]">
         <SelectValue placeholder="Ride status" />
       </SelectTrigger>
       <SelectContent>

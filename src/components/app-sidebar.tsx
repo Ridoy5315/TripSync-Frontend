@@ -161,12 +161,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     avatar: userData?.data?.user?.picture,
   };
   return (
-    <Sidebar className="px-2" {...props}>
+    <Sidebar className="lg:px-2 px-1 " {...props}>
       <SidebarHeader>
         {/* <TeamSwitcher teams={data.teams} /> */}
-        <div className="flex items-center gap-2 py-1">
-          <img className="h-10" src={Logo} alt="" />
-          <p className="text-2xl">
+        <div className="flex items-center lg:gap-2 gap-1 py-1">
+          <img className="lg:h-10 h-8" src={Logo} alt="" />
+          <p className="lg:text-2xl text-xl">
             <span>Trip</span>Sync
           </p>
         </div>
@@ -177,32 +177,32 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
               <div>
-                <Skeleton className="w-[208px] h-[32px] rounded"></Skeleton>
+                <Skeleton className="w-[190px] h-[32px] rounded"></Skeleton>
               </div>
             </SidebarMenuButton>
 
             <div className="ml-4 flex flex-col my-4 gap-3">
-              <Skeleton className="w-[208px] h-[32px] rounded"></Skeleton>
-              <Skeleton className="w-[208px] h-[32px] rounded"></Skeleton>
+              <Skeleton className="w-[190px] h-[32px] rounded"></Skeleton>
+              <Skeleton className="w-[190px] h-[32px] rounded"></Skeleton>
             </div>
             <SidebarMenuButton asChild>
               <div className="mt-5">
-                <Skeleton className="w-[208px] h-[32px] rounded"></Skeleton>
+                <Skeleton className="w-[190px] h-[32px] rounded"></Skeleton>
               </div>
             </SidebarMenuButton>
             <SidebarMenuButton asChild>
               <div className="mt-5">
-                <Skeleton className="w-[208px] h-[32px] rounded"></Skeleton>
+                <Skeleton className="w-[190px] h-[32px] rounded"></Skeleton>
               </div>
             </SidebarMenuButton>
             <SidebarMenuButton asChild>
               <div className="mt-5">
-                <Skeleton className="w-[208px] h-[32px] rounded"></Skeleton>
+                <Skeleton className="w-[190px] h-[32px] rounded"></Skeleton>
               </div>
             </SidebarMenuButton>
             <SidebarMenuButton asChild>
               <div className="mt-5">
-                <Skeleton className="w-[208px] h-[32px] rounded"></Skeleton>
+                <Skeleton className="w-[190px] h-[32px] rounded"></Skeleton>
               </div>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -214,16 +214,16 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarMenuItem key={item.title}>
               {/* isActive={item.isActive} */}
               {item.title === "Profile Management" && (
-                <div className="border-t-2 my-2"></div>
+                <div className="border-t-2 lg:my-2 my-1"></div>
               )}
               <SidebarMenuButton asChild>
                 <Link to={item.url}>{item.title}</Link>
               </SidebarMenuButton>
               {item.title === "Completed Rides" && (
-                <div className="border-t-2 my-2"></div>
+                <div className="border-t-2 lg:my-2 my-1"></div>
               )}
               {item.title === "Admin List" && (
-                <div className="border-t-2 my-2"></div>
+                <div className="border-t-2 lg:my-2 my-1"></div>
               )}
               {item.items && item.items.length > 0 && (
                 <div className="ml-4 flex flex-col my-2 gap-1">
@@ -240,14 +240,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 item.items.length > 0 &&
                 item.items.some(
                   (section) => section.title === "Drivers Management"
-                ) && <div className="border-t-2 my-2"></div>}
+                ) && <div className="border-t-2 lg:my-2 my-1"></div>}
             </SidebarMenuItem>
           ))}
         </SidebarContent>
       )}
 
       <DropdownMenuSeparator />
-      <SidebarFooter>
+      <SidebarFooter className="p-1 lg:p-4">
         <NavUser user={footerData} />
       </SidebarFooter>
       <SidebarRail />

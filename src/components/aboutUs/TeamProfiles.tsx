@@ -8,13 +8,13 @@ export default function TeamProfiles() {
     <div className="container mx-auto px-4 mt-16 mb-36">
       {/* Heading */}
       <h2 className="text-3xl font-semibold text-pretty text-center mb-4">Meet Our Team</h2>
-      <p className="text-center text-muted-foreground mb-12">
+      <p className="max-w-xl mx-auto text-center text-muted-foreground mb-12">
         Our team is passionate, innovative, and dedicated to making TripSync the
         best ride-sharing platform.
       </p>
 
       {/* Team Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 lg:gap-8 gap-4">
         {/* Team Member Card */}
         <div className="bg-gray-100 dark:bg-gray-800 rounded-2xl p-6 text-center shadow hover:shadow-lg transition">
           <img

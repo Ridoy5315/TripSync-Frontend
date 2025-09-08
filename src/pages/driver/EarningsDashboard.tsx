@@ -102,7 +102,7 @@ export default function EarningsDashboard() {
     },
   ];
   return (
-    <div className="grid grid-cols-2 p-4 justify-between gap-6">
+    <div className="grid lg:grid-cols-2 grid-cols-1 p-4 justify-between lg:gap-6 gap-4">
       {isLoading && <>
       <div>
          <Skeleton className="w-[512px] h-[437px]" />

@@ -12,7 +12,7 @@ export default function RideDetails() {
   const vehicleInfo = data?.data?.vehicleInfo;
 
   return (
-    <div className="py-4 px-8">
+    <div className="py-4 lg:px-8 px-4">
       {isLoading && (
         <>
           <h3>
@@ -38,19 +38,19 @@ export default function RideDetails() {
       {!isLoading && (
         <>
           {rideDetails?.rideProgressStatus === "COMPLETED" ? (
-            <h3 className="text-primary font-semibold text-2xl">
+            <h3 className="text-primary font-semibold lg:text-2xl text-xl">
               Your last ride details
             </h3>
           ) : (
-            <h3 className="text-primary font-semibold text-2xl">
+            <h3 className="text-primary font-semibold lg:text-2xl text-xl">
               Your current ride details :
             </h3>
           )}
-          <Separator className="my-4"></Separator>
+          <Separator className="lg:my-4 my-3"></Separator>
           {/* ride details */}
           {rideDetails && (
-            <div className="grid grid-cols-2">
-              <div className="flex gap-6">
+            <div className="grid lg:grid-cols-2 grid-cols-1 lg:gap-0 gap-2">
+              <div className="flex gap-6 text-sm lg:text-base">
                 <ul className="text-pretty space-y-2">
                   <li>Pickup Location</li>
                   <li>Destination Location</li>
@@ -77,14 +77,14 @@ export default function RideDetails() {
                     {rideDetails?.destinationLocation?.coordinates[0]}]
                   </li>
                   <li>{rideDetails.distance}</li>
-                  <li>{rideDetails.rideRequestAction}</li>
+                  <li>{rideDetails.rideRequestAction ?? 'N/A'}</li>
                   <li>
-                    {new Date(rideDetails.rideRequestAt).toLocaleString()}
+                    {new Date(rideDetails.rideRequestAt).toLocaleString() ?? 'N/A'}
                   </li>
-                  <li>{rideDetails.originalFare}</li>
+                  <li>{rideDetails.originalFare} $</li>
                 </ul>
               </div>
-              <div className="flex gap-6">
+              <div className="flex lg:gap-6 gap-14 text-sm lg:text-base">
                 <ul className="text-pretty space-y-2">
                   <li>Accepted At</li>
                   <li>Ride Status</li>
@@ -102,42 +102,39 @@ export default function RideDetails() {
                   <li>:</li>
                 </ul>
                 <ul className="text-muted-foreground space-y-2">
-                  {rideDetails?.rideAcceptedAt ? (
-                    <li>
-                      {new Date(rideDetails?.rideAcceptedAt).toLocaleString()}
-                    </li>
-                  ) : (
-                    ""
-                  )}
-                  <li>{rideDetails?.rideProgressStatus}</li>
-                  {rideDetails?.ridePickedUpAt ? (
-                    <li>
-                      {new Date(rideDetails?.ridePickedUpAt).toLocaleString()}
-                    </li>
-                  ) : (
-                    ""
-                  )}
-                  {rideDetails?.rideCompletedAt ? (
-                    <li>
-                      {new Date(rideDetails?.rideCompletedAt).toLocaleString()}
-                    </li>
-                  ) : (
-                    ""
-                  )}
-                  <li>{rideDetails?.driverRating}</li>
-                  <li>{rideDetails?.riderFeedback}</li>
+                  <li>
+                    {new Date(rideDetails?.rideAcceptedAt).toLocaleString() ??
+                      "N/A"}
+                  </li>
+
+                  <li>{rideDetails?.rideProgressStatus ?? 'N/A'}</li>
+
+                  <li>
+                    {new Date(rideDetails?.ridePickedUpAt).toLocaleString() ??
+                      "N/A"}
+                  </li>
+
+                  <li>
+                    {new Date(rideDetails?.rideCompletedAt).toLocaleString() ??
+                      "N/A"}
+                  </li>
+
+                  <li>{rideDetails?.driverRating ?? "N/A"}</li>
+                  <li>{rideDetails?.riderFeedback ?? "N/A"}</li>
                 </ul>
               </div>
             </div>
           )}
-          <Separator className="my-8"></Separator>
+          <Separator className="lg:my-8 my-4"></Separator>
           {/* driver info */}
           <div className="grid grid-cols-2">
             {/* driver info */}
             {driverInfo && (
               <div className="space-y-3">
-                <h3 className="text-xl font-semibold">Driver Information</h3>
-                <div className="flex gap-6">
+                <h3 className="lg:text-xl text-lg font-semibold">
+                  Driver Information
+                </h3>
+                <div className="flex lg:gap-6 gap-2 text-sm lg:text-base">
                   <ul className="text-pretty space-y-2">
                     <li>Full Name</li>
                     <li>Address</li>
@@ -152,9 +149,9 @@ export default function RideDetails() {
                   </ul>
                   <ul className="text-muted-foreground space-y-2">
                     <li>{driverInfo?.name}</li>
-                    <li>{driverInfo?.address}</li>
-                    <li>{driverInfo?.dateOfBirth}</li>
-                    <li>{driverInfo?.gender}</li>
+                    <li>{driverInfo?.address ?? "N/A"}</li>
+                    <li>{driverInfo?.dateOfBirth ?? "N/A"}</li>
+                    <li>{driverInfo?.gender ?? "N/A"}</li>
                   </ul>
                 </div>
               </div>
@@ -163,8 +160,8 @@ export default function RideDetails() {
             {/* vehicle info */}
             {vehicleInfo && (
               <div className="space-y-3">
-                <h3 className="text-xl font-semibold">Vehicle Information</h3>
-                <div className="flex gap-6">
+                <h3 className="lg:text-xl text-lg font-semibold">Vehicle Information</h3>
+                <div className="flex lg:gap-6 gap-2 text-sm lg:text-base">
                   <ul className="text-pretty space-y-2">
                     <li>Brand</li>
                     <li>Model</li>

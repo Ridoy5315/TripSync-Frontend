@@ -58,11 +58,11 @@ export default function CompletedRidesFilters() {
     setSearchParams(params);
   };
   return (
-    <div className="flex gap-10 items-center justify-end">
+    <div className="flex lg:gap-10 gap-5 items-center lg:justify-end">
       <div className="max-w-[200px] w-full">
         <div className="flex justify-between">
-          <Label className="mb-2">Select fare range</Label>
-          <Button size="icon" variant="ghost" onClick={handleClearFilterRange}>
+          <Label className="mb-2 lg:text-sm md:text-sm text-xs">Select fare range</Label>
+          <Button size="icon" variant="ghost" onClick={handleClearFilterRange} className="lg:h-6 md:h-6 h-4">
             <X />
           </Button>
         </div>
@@ -70,8 +70,8 @@ export default function CompletedRidesFilters() {
           value={selectedFareRange ? selectedFareRange : ""}
           onValueChange={handleFareRangeChange}
         >
-          <SelectTrigger className="w-full">
-            <SelectValue />
+          <SelectTrigger className="w-full lg:!h-9 md:!h-8 !h-7 lg:text-sm md:text-sm text-xs">
+            <SelectValue placeholder="Select fare range"/>
           </SelectTrigger>
 
           <SelectContent>
@@ -82,7 +82,7 @@ export default function CompletedRidesFilters() {
                   <SelectItem
                     key={item.value}
                     value={item.value}
-                    className="flex justify-center items-center"
+                    className="flex justify-center items-center lg:text-sm text-xs"
                   >
                     {item.label}
                   </SelectItem>
@@ -96,8 +96,8 @@ export default function CompletedRidesFilters() {
       {/* date */}
       <div className="flex flex-col">
         <div className="flex justify-between">
-          <Label className="">Ride requested date</Label>
-          <Button size="icon" variant="ghost" onClick={handleClearFilterDate}>
+          <Label className="mb-2 lg:text-sm md:text-sm text-xs">Ride requested date</Label>
+          <Button size="icon" variant="ghost" onClick={handleClearFilterDate} className="lg:h-6 md:h-6 h-4">
             <X />
           </Button>
         </div>
@@ -106,7 +106,7 @@ export default function CompletedRidesFilters() {
             <Button
               variant="outline"
               id="date"
-              className="w-48 justify-between font-normal"
+              className="lg:w-48 md:w-48 w-40  lg:!h-9 md:!h-8 !h-7 lg:text-sm md:text-sm text-xs justify-between font-normal"
             >
               {date ? date.toLocaleDateString() : "Select date"}
               <ChevronDownIcon />

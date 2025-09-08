@@ -47,23 +47,23 @@ export default function DriversManagementFilters() {
     setSearchParams(params);
   };
   return (
-    <div className="flex gap-6 items-end justify-end">
+    <div className="flex lg:gap-6 gap-3 items-end lg:justify-end justify-start">
       {/* Search Input */}
-      <div className="w-sm">
-        <Label className="mb-2 block">Search Driver</Label>
+      <div className="lg:w-sm md:w-[300px] w-64">
+        <Label className="mb-2 block lg:text-sm md:text-sm text-xs">Search Driver</Label>
         <Input
           type="text"
           placeholder="Search by name, email..."
           value={searchQuery}
           onChange={handleSearchChange}
-          className="w-full"
+          className="lg:h-9 md:h-8 h-7 text-sm lg:placeholder:text-sm md:placeholder:text-sm placeholder:text-xs"
         />
       </div>
       {/* filter */}
       <div className="max-w-[200px] w-full">
         <div className="flex justify-between">
-          <Label className="">Account Status</Label>
-          <Button size="icon" variant="ghost" onClick={handleClearFilter}>
+          <Label className="mb-2 block lg:text-sm md:text-sm text-xs">Account Status</Label>
+          <Button size="icon" variant="ghost" onClick={handleClearFilter} className="lg:h-6 md:h-6 h-4">
             <X />
           </Button>
         </div>
@@ -71,15 +71,15 @@ export default function DriversManagementFilters() {
           onValueChange={handleStatusChange}
           value={selectedStatus ? selectedStatus : ""}
         >
-          <SelectTrigger className="w-full">
-            <SelectValue />
+          <SelectTrigger className="w-full lg:!h-9 md:!h-8 !h-7 lg:text-sm md:text-sm text-xs">
+            <SelectValue placeholder="Select status"/>
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
               <SelectLabel>status</SelectLabel>
               {isActiveOptions?.map(
                 (item: { value: string; label: string }) => (
-                  <SelectItem key={item.value} value={item.value}>
+                  <SelectItem key={item.value} value={item.value} className="lg:text-sm text-xs">
                     {item.label}
                   </SelectItem>
                 )

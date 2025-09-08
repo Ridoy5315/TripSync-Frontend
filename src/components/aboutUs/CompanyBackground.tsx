@@ -1,8 +1,8 @@
 import Logo from "@/assets/companyLogo/company_logo.png";
 export default function CompanyBackground() {
   return (
-    <div className="container mx-auto my-24 px-10">
-      <div className="grid grid-cols-2 items-center gap-20">
+    <div className="container mx-auto lg:my-24 md:my-16 my-14 md:px-8 px-6 lg:px-0">
+      <div className="grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 items-center lg:gap-20 gap-6">
         <div className="space-y-3">
           <h3 className="text-pretty font-semibold text-3xl">About TripSync</h3>
           <p className="text-muted-foreground text-justify">
@@ -16,15 +16,15 @@ export default function CompanyBackground() {
           className="max-w-lg h-52 flex items-center justify-center gap-10 rounded-2xl 
                 bg-gray-100 dark:bg-gray-800 shadow-md"
         >
-          <img className="h-36 w-36" src={Logo} alt="" />
+          <img className="lg:h-36 lg:w-36 h-20 w-20" src={Logo} alt="" />
           <h2 className=" text-5xl font-bold text-gray-900 dark:text-gray-100">
             TripSync
           </h2>
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-10">
-        <div className="mt-28 space-y-6">
-          <h3 className="text-pretty font-semibold text-3xl">What We Offer</h3>
+      <div className="grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 lg:gap-10 gap-6">
+        <div className="lg:mt-28 md:mt-28 mt-20 space-y-6">
+          <h3 className="text-pretty font-semibold lg:text-3xl md:text-3xl text-2xl">What We Offer</h3>
           <ul className="list-disc list-inside space-y-2 text-muted-foreground">
             <li>
               <strong>Reliable Rides:</strong> Verified drivers ensure a safe
@@ -48,8 +48,8 @@ export default function CompanyBackground() {
             </li>
           </ul>
         </div>
-        <div className="mt-28 space-y-6">
-          <h3 className="text-pretty font-semibold text-3xl">
+        <div className="lg:mt-28 md:mt-28 mt-10 space-y-6">
+          <h3 className="text-pretty font-semibold lg:text-3xl md:text-3xl text-2xl">
             Why Riders Love TripSync
           </h3>
           <ul className="list-disc list-inside space-y-2 text-muted-foreground">

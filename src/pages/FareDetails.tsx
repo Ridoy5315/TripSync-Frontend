@@ -1,9 +1,11 @@
 export default function FareDetails() {
   return (
-    <div className="container max-w-4xl mx-auto space-y-8 mt-28 mb-44">
+    <div className="container max-w-4xl md:px-8 px-6 lg:px-0 mx-auto lg:space-y-8 md:space-y-8 space-y-4 lg:mt-28 md:mt-16 mt-10 mb-10">
       <div className="text-center">
-        <h1 className="text-3xl text-pretty font-bold">Fare Details</h1>
-        <p className="text-muted-foreground">
+        <h1 className="lg:text-3xl md:text-3xl text-2xl text-pretty font-bold">
+          Fare Details
+        </h1>
+        <p className="text-muted-foreground lg:text-base md:text-base text-sm">
           Understand how your trip fare is calculated
         </p>
       </div>

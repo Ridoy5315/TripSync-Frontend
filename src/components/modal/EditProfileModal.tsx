@@ -113,7 +113,7 @@ export default function EditProfileModal({ userData }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>Edit Profile</Button>
+        <Button className="lg:text-sm text-xs">Edit Profile</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-2xl">
         <DialogHeader>
@@ -122,10 +122,10 @@ export default function EditProfileModal({ userData }) {
         <Form {...form}>
           <form
             id="add-division"
-            className="space-y-8"
+            className="lg:space-y-8 md:space-y-8 space-y-4"
             onSubmit={form.handleSubmit(onSubmit)}
           >
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 lg:gap-6 md:gap-6 gap-3">
               {/* name */}
               <FormField
                 control={form.control}
@@ -155,7 +155,7 @@ export default function EditProfileModal({ userData }) {
                 )}
               />
             </div>
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 lg:gap-6 md:gap-6 gap-3">
               {/* address */}
               <FormField
                 control={form.control}
@@ -176,7 +176,7 @@ export default function EditProfileModal({ userData }) {
                 name="gender"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="mb-2">Gender</FormLabel>
+                    <FormLabel className="lg:mb-2 md:mb-2 mb-1">Gender</FormLabel>
                     <Select onValueChange={field.onChange} value={field.value}>
                       <FormControl>
                         <SelectTrigger className="w-full">
@@ -202,7 +202,7 @@ export default function EditProfileModal({ userData }) {
           </form>
           <SingleImageUploader onChange={setImage}></SingleImageUploader>
         </Form>
-        <DialogFooter>
+        <DialogFooter className="flex flex-row">
           <DialogClose asChild>
             <Button variant="outline">Cancel</Button>
           </DialogClose>

@@ -47,11 +47,11 @@ export default function DriversManagement() {
   const driversData = data?.totalDriver?.data;
 
   return (
-    <div className="py-4 px-8">
-      <h3 className="text-primary font-semibold text-2xl mb-4">
+    <div className="py-4 lg:px-8 md:px-4 px-2">
+      <h3 className="text-primary font-semibold lg:text-2xl text-xl mb-4">
         Drivers Management :
       </h3>
-      <div className="flex justify-between items-end">
+      <div className="flex lg:flex-row flex-col gap-4 justify-between lg:items-end items-start">
         <PendingDriversDetailsModal></PendingDriversDetailsModal>
         <DriversManagementFilters></DriversManagementFilters>
       </div>
@@ -61,7 +61,7 @@ export default function DriversManagement() {
           <div className="border border-muted rounded-md">
             <Table>
               <TableCaption>A list of your recent invoices.</TableCaption>
-              <TableHeader>
+              <TableHeader >
                 <TableRow>
                   <TableHead className="text-left">No.</TableHead>
                   <TableHead className="text-center">name</TableHead>
@@ -70,7 +70,7 @@ export default function DriversManagement() {
                   <TableHead className="text-center">address</TableHead>
                 </TableRow>
               </TableHeader>
-              <TableBody>
+              <TableBody >
                 {Array.from({ length: 3 }).map((_, index) => (
                   <TableRow key={index}>
                     <TableCell className="font-medium text-left">
@@ -110,7 +110,7 @@ export default function DriversManagement() {
           <div className="border border-muted rounded-md">
             <Table>
               <TableCaption>A list of your recent invoices.</TableCaption>
-              <TableHeader>
+              <TableHeader className="lg:text-sm md:text-sm text-xs">
                 <TableRow>
                   <TableHead className="text-left">No.</TableHead>
                   <TableHead className="text-center">name</TableHead>
@@ -119,7 +119,7 @@ export default function DriversManagement() {
                   <TableHead className="text-center">address</TableHead>
                 </TableRow>
               </TableHeader>
-              <TableBody>
+              <TableBody className="lg:text-sm text-[10px]">
                 {driversData &&
                   driversData?.map((item, index: number) => (
                     <TableRow key={index}>

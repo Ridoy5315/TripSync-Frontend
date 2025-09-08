@@ -165,24 +165,24 @@ export default function RideRequestForm({
   };
 
   return (
-    <div className={cn("flex flex-col gap-6 p-4", className)} {...props}>
+    <div className={cn("flex flex-col lg:gap-6 gap-3 lg:p-4 md:p-2", className)} {...props}>
       <Card className="overflow-hidden p-0">
         <CardContent className="">
-          <div className="p-6 md:p-8 space-y-4">
+          <div className="lg:p-6 md:p-4 p-2 space-y-4">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)}>
                 <div className="flex flex-col gap-6">
                   <div className="flex flex-col items-center text-center">
-                    <h1 className="text-2xl font-bold">Request a Ride</h1>
-                    <p className="text-muted-foreground text-balance">
+                    <h1 className="lg:text-2xl text-xl font-bold">Request a Ride</h1>
+                    <p className="text-muted-foreground text-balance text-sm lg:text-base">
                       Enter your ride information to get started.
                     </p>
                   </div>
                   {/* pickup and destination fields*/}
-                  <div className="grid grid-cols-7 gap-5 ">
+                  <div className="grid grid-cols-7 lg:gap-7">
                     {/* pickup location */}
                     <div className="col-span-3 flex flex-col gap-3">
-                      <h3 className="text-lg mb-1">Pickup location</h3>
+                      <h3 className="lg:text-lg mb-1">Pickup location</h3>
                       {/* pickup latitude */}
                       <FormField
                         control={form.control}
@@ -199,9 +199,6 @@ export default function RideRequestForm({
                                 {...field}
                               />
                             </FormControl>
-                            <FormDescription className="sr-only">
-                              This is your public display name.
-                            </FormDescription>
                             <FormMessage />
                           </FormItem>
                         )}
@@ -222,9 +219,6 @@ export default function RideRequestForm({
                                 {...field}
                               />
                             </FormControl>
-                            <FormDescription className="sr-only">
-                              This is your public display name.
-                            </FormDescription>
                             <FormMessage />
                           </FormItem>
                         )}
@@ -236,7 +230,7 @@ export default function RideRequestForm({
                     />
                     {/* Destination location */}
                     <div className="col-span-3 flex flex-col gap-3">
-                      <h3 className="text-lg mb-1">Destination location</h3>
+                      <h3 className="lg:text-lg mb-1">Destination location</h3>
                       {/* destination latitude */}
                       <FormField
                         control={form.control}
@@ -253,9 +247,6 @@ export default function RideRequestForm({
                                 {...field}
                               />
                             </FormControl>
-                            <FormDescription className="sr-only">
-                              This is your public display name.
-                            </FormDescription>
                             <FormMessage />
                           </FormItem>
                         )}
@@ -276,17 +267,14 @@ export default function RideRequestForm({
                                 {...field}
                               />
                             </FormControl>
-                            <FormDescription className="sr-only">
-                              This is your public display name.
-                            </FormDescription>
                             <FormMessage />
                           </FormItem>
                         )}
                       />
                     </div>
                   </div>
-                  <Separator className="my-6" />
-                  <div className="grid grid-cols-4 gap-5">
+                  <Separator className="my-1 lg:my-6" />
+                  <div className="grid lg:grid-cols-4 grid-cols-2 gap-5">
                     <FormField
                       control={form.control}
                       name="distance"
@@ -296,9 +284,6 @@ export default function RideRequestForm({
                           <FormControl>
                             <Input placeholder="00.00" {...field} disabled />
                           </FormControl>
-                          <FormDescription className="sr-only">
-                            This is your public display name.
-                          </FormDescription>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -312,9 +297,6 @@ export default function RideRequestForm({
                           <FormControl>
                             <Input placeholder="00.00" {...field} disabled />
                           </FormControl>
-                          <FormDescription className="sr-only">
-                            This is your public display name.
-                          </FormDescription>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -324,7 +306,7 @@ export default function RideRequestForm({
                       name="paymentMethod"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="mb-2">
+                          <FormLabel className="lg:mb-2 mb-1">
                             Choose Your Payment Method
                           </FormLabel>
                           <Select
@@ -338,7 +320,7 @@ export default function RideRequestForm({
                             </FormControl>
                             <SelectContent>
                               <SelectGroup>
-                                <SelectLabel>Divisions</SelectLabel>
+                                <SelectLabel>Payment Method</SelectLabel>
                                 {paymentMethod?.map((item) => (
                                   <SelectItem
                                     key={item.value}
