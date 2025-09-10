@@ -63,7 +63,7 @@ export default function OnlineOfflineToggle() {
               : "You’re offline! Go online to start receiving rides"}
           </span>
           <MoveRight strokeWidth={1.75} className="lg:block hidden"/>
-          <div className="relative inline-grid h-8 grid-cols-[1fr_1fr] items-center text-sm font-medium">
+          <div className="relative inline-grid lg:h-8 md:h-8 h-7 grid-cols-[1fr_1fr] items-center text-sm font-medium">
             <Switch
               id={id}
               checked={checked}

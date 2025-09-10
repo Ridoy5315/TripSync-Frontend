@@ -14,6 +14,7 @@ import {
 } from "@/redux/features/driver/driver.api";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import SOSButtonModal from "./modal/SOSButtonModal";
 
 export default function ActiveRideManagement() {
   const { data: rideData } = useGetActiveRideStatusQuery(undefined);
@@ -85,22 +86,25 @@ export default function ActiveRideManagement() {
   };
 
   return (
-    <Select
-      value={selectedStatus}
-      onValueChange={(value) => changeRideStatus(value)}
-    >
-      <SelectTrigger className="lg:w-[180px]">
-        <SelectValue placeholder="Ride status" />
-      </SelectTrigger>
-      <SelectContent>
-        <SelectGroup>
-          {activeRide?.map((item) => (
-            <SelectItem key={item.value} value={item.value}>
-              {item.label}
-            </SelectItem>
-          ))}
-        </SelectGroup>
-      </SelectContent>
-    </Select>
+    <div className="flex lg:gap-2 md:gap-2 gap-1">
+      <Select 
+        value={selectedStatus}
+        onValueChange={(value) => changeRideStatus(value)}
+      >
+        <SelectTrigger className="lg:w-[180px] md:w-[120px] lg:!h-9 md:!h-8 !h-7 lg:!text-sm !text-xs lg:px-3 md:px-3 px-2">
+          <SelectValue placeholder="Ride status" className="lg:text-sm md:text-sm text-xs"/>
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup>
+            {activeRide?.map((item) => (
+              <SelectItem key={item.value} value={item.value} className="lg:text-sm text-xs ">
+                {item.label}
+              </SelectItem>
+            ))}
+          </SelectGroup>
+        </SelectContent>
+      </Select>
+      <SOSButtonModal></SOSButtonModal>
+    </div>
   );
 }

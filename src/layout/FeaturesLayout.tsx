@@ -26,15 +26,15 @@ export default function FeaturesLayout() {
       <AppSidebar />
       <SidebarInset className="">
         <header className="flex lg:h-16 h-14 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
-          <div className="flex items-center lg:gap-2 gap-1 px-4 w-full">
-            <SidebarTrigger className="-ml-1" />
+          <div className="flex items-center lg:gap-2 gap-1 lg:px-4 md:px-4 px-3 w-full">
+            <SidebarTrigger className="lg:-ml-1 md:-ml-1 -ml-2" />
             <Separator
               orientation="vertical"
-              className="mr-2 data-[orientation=vertical]:h-4"
+              className="lg:mr-2 md:mr-2 mr-0 data-[orientation=vertical]:h-4"
             />
             <Breadcrumb className="flex items-center gap-2 w-full">
               <BreadcrumbList>
-                <Button className="h-8 lg:text-sm text-xs">
+                <Button className="lg:!h-9 md:!h-8 !h-7 lg:text-sm text-xs lg:px-4 md:px-2 px-1">
                   <Link
                     className="flex items-center gap-2
                   "
@@ -47,7 +47,7 @@ export default function FeaturesLayout() {
               </BreadcrumbList>
               <Separator
                 orientation="vertical"
-                className="lg:mx-2 md:mx-2 data-[orientation=vertical]:h-4"
+                className="lg:mx-2 md:mx-0.5 data-[orientation=vertical]:h-4"
               />
               {isLoading && (
                 <BreadcrumbList>
@@ -59,9 +59,14 @@ export default function FeaturesLayout() {
                   <OnlineOfflineToggle></OnlineOfflineToggle>
                 </BreadcrumbList>
               )}
+              {!isLoading && data?.data?.user?.role === "DRIVER" && (
+                <BreadcrumbList>
+                  <OnlineOfflineToggle></OnlineOfflineToggle>
+                </BreadcrumbList>
+              )}
                <Separator
                 orientation="vertical"
-                className="lg:mx-2 md:mx-2 data-[orientation=vertical]:h-4"
+                className="lg:mx-2 md:mx-0.5  data-[orientation=vertical]:h-4"
               />
               {rideData?.data?.rideRequestAction === "ACCEPTED" &&
                 rideData?.data?.rideProgressStatus &&

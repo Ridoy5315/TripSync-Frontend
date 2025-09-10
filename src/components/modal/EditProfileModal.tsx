@@ -121,7 +121,7 @@ export default function EditProfileModal({ userData }) {
         </DialogHeader>
         <Form {...form}>
           <form
-            id="add-division"
+            id="edit-profile"
             className="lg:space-y-8 md:space-y-8 space-y-4"
             onSubmit={form.handleSubmit(onSubmit)}
           >
@@ -206,7 +206,7 @@ export default function EditProfileModal({ userData }) {
           <DialogClose asChild>
             <Button variant="outline">Cancel</Button>
           </DialogClose>
-          <Button disabled={isLoading} type="submit" form="add-division">
+          <Button disabled={isLoading} type="submit" form="edit-profile">
             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin"></Loader2>}
             Save changes
           </Button>

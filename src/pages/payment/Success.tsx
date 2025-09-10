@@ -25,7 +25,8 @@ export default function Success() {
             </div>
 
             <Button className="mt-6">
-               <Link to={`/user/ride/details/${id}`}>Go to Home</Link>
+               <Link to={`/`}>Go to Home</Link>
+               {/* <Link to={`/user/ride/details/${id}`}>Go to Home</Link> */}
             </Button>
           </div>
         </div>

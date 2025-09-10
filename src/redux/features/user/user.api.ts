@@ -17,11 +17,28 @@ const userApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["USER"]
     }),
-    
+    createEmergencyContact: builder.mutation({
+      query: ({userId, addEmergencyContact}) => ({
+        url: `user/create-emergency-contact/${userId}`,
+        method: "PATCH",
+        data: addEmergencyContact,
+      }),
+      invalidatesTags: ["USER"],
+    }),
+    sendGPSLink: builder.mutation({
+      query: ({gpsLink}) => ({
+        url: `user/send-gps-link`,
+        method: "POST",
+        data: {gpsLink},
+      }),
+      invalidatesTags: ["USER", "DRIVER"]
+    }),
   }),
 });
 
 export const {
      useGetOwnInfoQuery,
-     useEditProfileMutation
+     useEditProfileMutation,
+     useCreateEmergencyContactMutation,
+     useSendGPSLinkMutation
 } = userApi;

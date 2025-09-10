@@ -1,3 +1,4 @@
+import SOSButtonModal from "@/components/modal/SOSButtonModal";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRideDetailsQuery } from "@/redux/features/ride/ride.api";
@@ -37,15 +38,21 @@ export default function RideDetails() {
       )}
       {!isLoading && (
         <>
-          {rideDetails?.rideProgressStatus === "COMPLETED" ? (
-            <h3 className="text-primary font-semibold lg:text-2xl text-xl">
-              Your last ride details
-            </h3>
-          ) : (
-            <h3 className="text-primary font-semibold lg:text-2xl text-xl">
-              Your current ride details :
-            </h3>
-          )}
+          <div className="flex justify-between items-center">
+            {rideDetails?.rideProgressStatus === "COMPLETED" ? (
+              <h3 className="text-primary font-semibold lg:text-2xl text-xl">
+                Your last ride details
+              </h3>
+            ) : (
+              <h3 className="text-primary font-semibold lg:text-2xl text-xl">
+                Your current ride details :
+              </h3>
+            )}
+            {rideDetails?.rideProgressStatus !== "COMPLETED" &&
+              rideDetails?.rideRequestAction === "ACCEPTED" && (
+                <SOSButtonModal></SOSButtonModal>
+              )}
+          </div>
           <Separator className="lg:my-4 my-3"></Separator>
           {/* ride details */}
           {rideDetails && (
@@ -77,9 +84,10 @@ export default function RideDetails() {
                     {rideDetails?.destinationLocation?.coordinates[0]}]
                   </li>
                   <li>{rideDetails.distance}</li>
-                  <li>{rideDetails.rideRequestAction ?? 'N/A'}</li>
+                  <li>{rideDetails.rideRequestAction ?? "N/A"}</li>
                   <li>
-                    {new Date(rideDetails.rideRequestAt).toLocaleString() ?? 'N/A'}
+                    {new Date(rideDetails.rideRequestAt).toLocaleString() ??
+                      "N/A"}
                   </li>
                   <li>{rideDetails.originalFare} $</li>
                 </ul>
@@ -107,16 +115,19 @@ export default function RideDetails() {
                       "N/A"}
                   </li>
 
-                  <li>{rideDetails?.rideProgressStatus ?? 'N/A'}</li>
+                  <li>{rideDetails?.rideProgressStatus ?? "N/A"}</li>
 
                   <li>
-                    {new Date(rideDetails?.ridePickedUpAt).toLocaleString() ??
-                      "N/A"}
+                    {rideDetails?.ridePickedUpAt &&
+                    !isNaN(new Date(rideDetails.ridePickedUpAt).getTime())
+                      ? new Date(rideDetails.ridePickedUpAt).toLocaleString()
+                      : "N/A"}
                   </li>
-
                   <li>
-                    {new Date(rideDetails?.rideCompletedAt).toLocaleString() ??
-                      "N/A"}
+                    {rideDetails?.rideCompletedAt &&
+                    !isNaN(new Date(rideDetails.rideCompletedAt).getTime())
+                      ? new Date(rideDetails.rideCompletedAt).toLocaleString()
+                      : "N/A"}
                   </li>
 
                   <li>{rideDetails?.driverRating ?? "N/A"}</li>
@@ -160,7 +171,9 @@ export default function RideDetails() {
             {/* vehicle info */}
             {vehicleInfo && (
               <div className="space-y-3">
-                <h3 className="lg:text-xl text-lg font-semibold">Vehicle Information</h3>
+                <h3 className="lg:text-xl text-lg font-semibold">
+                  Vehicle Information
+                </h3>
                 <div className="flex lg:gap-6 gap-2 text-sm lg:text-base">
                   <ul className="text-pretty space-y-2">
                     <li>Brand</li>

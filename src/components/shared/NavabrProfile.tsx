@@ -1,4 +1,4 @@
-import { LogOutIcon, UserRound } from "lucide-react";
+import { LogOutIcon, Settings2, UserRound } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -7,7 +7,11 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuPortal,
   DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAppDispatch } from "@/redux/hook";
@@ -23,6 +27,15 @@ export default function NavbarProfile() {
   const navigate = useNavigate();
 
   const profileData = data?.data?.user;
+
+  const rolePaths: Record<string, string> = {
+    SUPER_ADMIN: "/admin/user/user/profile",
+    ADMIN: "/admin/user/user/profile",
+    DRIVER: "/driver/user/user/profile",
+    USER: "/user/profile",
+  };
+
+  const profilePath = rolePaths[profileData?.role] || "/unauthorized";
 
   return (
     <DropdownMenu>
@@ -57,10 +70,46 @@ export default function NavbarProfile() {
         <DropdownMenuGroup>
           <DropdownMenuItem>
             <UserRound className="opacity-60" aria-hidden="true" />
-            <Link className=" w-full" to="/user/profile">
+            <Link className=" w-full" to={profilePath}>
               My Profile
             </Link>
           </DropdownMenuItem>
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>
+              <Settings2
+                size={16}
+                className="opacity-60 mr-2"
+                aria-hidden="true"
+              />
+              Settings
+            </DropdownMenuSubTrigger>
+            <DropdownMenuPortal>
+              <DropdownMenuSubContent>
+                <DropdownMenuItem>
+                  <Link className=" w-full" to={profilePath}>
+                    Edit profile
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link className=" w-full" to="/signUp">
+                    Create another profile
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <Link className=" w-full" to="/create-emergency-contact">
+                    Safety
+                  </Link>
+                </DropdownMenuItem>
+              </DropdownMenuSubContent>
+            </DropdownMenuPortal>
+          </DropdownMenuSub>
+          {/* <DropdownMenuItem>
+            <Settings2 className="opacity-60" aria-hidden="true" />
+            <Link className=" w-full" to="/settings">
+              Settings
+            </Link>
+          </DropdownMenuItem> */}
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
@@ -72,7 +121,6 @@ export default function NavbarProfile() {
           >
             Logout
           </Button>
-          {/* <span>Logout</span> */}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
