@@ -39,7 +39,9 @@ export default function RideDetails() {
       {!isLoading && (
         <>
           <div className="flex justify-between items-center">
-            {rideDetails?.rideProgressStatus === "COMPLETED" ? (
+            {rideDetails?.rideProgressStatus === "COMPLETED" ||
+            rideDetails?.rideRequestAction === "CANCELED" ||
+            rideDetails?.rideRequestAction === "REJECTED" ? (
               <h3 className="text-primary font-semibold lg:text-2xl text-xl">
                 Your last ride details
               </h3>

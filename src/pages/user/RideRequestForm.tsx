@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -62,7 +61,7 @@ export default function RideRequestForm({
 }: React.ComponentProps<"div">) {
   const { data: userData } = useGetOwnInfoQuery(undefined);
   const [rideRequest] = useRideRequestMutation();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const form = useForm({
     resolver: zodResolver(rideRequestSchema),
@@ -156,7 +155,7 @@ export default function RideRequestForm({
           "Ride requested successfully! Waiting for driver confirmation.",
           { id: toastId }
         );
-        // navigate(`/ride/details/${res?.data?.data?.ride?._id}`);
+        navigate("/user/ride/details");
 
       }
     } catch (error) {

@@ -1,4 +1,3 @@
-
 import Logo from "@/assets/companyLogo/company_logo.png";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -20,6 +19,7 @@ import { role } from "@/constants/role";
 import { Link } from "react-router-dom";
 import { useGetOwnInfoQuery } from "@/redux/features/user/user.api";
 import NavbarProfile from "./NavabrProfile";
+import { Skeleton } from "../ui/skeleton";
 
 // Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
@@ -29,9 +29,21 @@ const navigationLinks = [
   { href: "/user/ride/ride-request", label: "Features", role: role.user },
   { href: "/driver", label: "Features", role: role.driver },
   { href: "/user/ride/ride-request", label: "Ride Now", role: role.user },
-  { href: "/driver/user/user/ride/ride-request", label: "Ride Now", role: role.driver },
-  { href: "/admin/user/user/ride/ride-request", label: "Ride Now", role: role.admin},
-  { href: "/admin/user/user/ride/ride-request", label: "Ride Now", role: role.superAdmin },
+  {
+    href: "/driver/user/user/ride/ride-request",
+    label: "Ride Now",
+    role: role.driver,
+  },
+  {
+    href: "/admin/user/user/ride/ride-request",
+    label: "Ride Now",
+    role: role.admin,
+  },
+  {
+    href: "/admin/user/user/ride/ride-request",
+    label: "Ride Now",
+    role: role.superAdmin,
+  },
   { href: "/join-driver", label: "Join as Driver", role: role.user },
   { href: "/fare-details", label: "Fare Details", role: "PUBLIC" },
   {
@@ -64,7 +76,7 @@ const navigationLinks = [
 ];
 
 export default function Navbar() {
-  const { data } = useGetOwnInfoQuery(undefined);
+  const { data, isLoading } = useGetOwnInfoQuery(undefined);
 
   console.log(data);
 
@@ -112,56 +124,58 @@ export default function Navbar() {
               <PopoverContent align="start" className="w-48 p-1">
                 <NavigationMenu className="max-w-none *:w-full">
                   <NavigationMenuList className="flex-col items-start gap-0 md:gap-2">
-                    {navigationLinks.filter(
-                      (link) =>
-                        link.role === "PUBLIC" ||
-                        link.role === data?.data?.user?.role
-                    ).map((link, index) => (
-                      <NavigationMenuItem key={index} className="w-full">
-                        {link.submenu ? (
-                          <>
-                            <div className="text-muted-foreground px-2 py-1.5 text-xs font-medium">
+                    {navigationLinks
+                      .filter(
+                        (link) =>
+                          link.role === "PUBLIC" ||
+                          link.role === data?.data?.user?.role
+                      )
+                      .map((link, index) => (
+                        <NavigationMenuItem key={index} className="w-full">
+                          {link.submenu ? (
+                            <>
+                              <div className="text-muted-foreground px-2 py-1.5 text-xs font-medium">
+                                {link.label}
+                              </div>
+                              <ul>
+                                {link.items.map((item, itemIndex) => (
+                                  <li key={itemIndex}>
+                                    <NavigationMenuLink
+                                      href={item.href}
+                                      className="py-1.5"
+                                    >
+                                      {item.label}
+                                    </NavigationMenuLink>
+                                  </li>
+                                ))}
+                              </ul>
+                            </>
+                          ) : (
+                            <NavigationMenuLink
+                              href={link.href}
+                              className="py-1.5"
+                            >
                               {link.label}
-                            </div>
-                            <ul>
-                              {link.items.map((item, itemIndex) => (
-                                <li key={itemIndex}>
-                                  <NavigationMenuLink
-                                    href={item.href}
-                                    className="py-1.5"
-                                  >
-                                    {item.label}
-                                  </NavigationMenuLink>
-                                </li>
-                              ))}
-                            </ul>
-                          </>
-                        ) : (
-                          <NavigationMenuLink
-                            href={link.href}
-                            className="py-1.5"
-                          >
-                            {link.label}
-                          </NavigationMenuLink>
-                        )}
-                        {/* Add separator between different types of items */}
-                        {index < navigationLinks.length - 1 &&
-                          ((!link.submenu &&
-                            navigationLinks[index + 1].submenu) ||
-                            (link.submenu &&
-                              !navigationLinks[index + 1].submenu) ||
-                            (link.submenu &&
-                              navigationLinks[index + 1].submenu &&
-                              link.type !==
-                                navigationLinks[index + 1].type)) && (
-                            <div
-                              role="separator"
-                              aria-orientation="horizontal"
-                              className="bg-border -mx-1 my-1 h-px w-full"
-                            />
+                            </NavigationMenuLink>
                           )}
-                      </NavigationMenuItem>
-                    ))}
+                          {/* Add separator between different types of items */}
+                          {index < navigationLinks.length - 1 &&
+                            ((!link.submenu &&
+                              navigationLinks[index + 1].submenu) ||
+                              (link.submenu &&
+                                !navigationLinks[index + 1].submenu) ||
+                              (link.submenu &&
+                                navigationLinks[index + 1].submenu &&
+                                link.type !==
+                                  navigationLinks[index + 1].type)) && (
+                              <div
+                                role="separator"
+                                aria-orientation="horizontal"
+                                className="bg-border -mx-1 my-1 h-px w-full"
+                              />
+                            )}
+                        </NavigationMenuItem>
+                      ))}
                   </NavigationMenuList>
                 </NavigationMenu>
               </PopoverContent>
@@ -204,7 +218,7 @@ export default function Navbar() {
                                       href={item.href}
                                       className="lg:text-sm text-xs lg:py-1.5 py-1 text-muted-foreground hover:text-primary"
                                     >
-                                      <span >{item.label}</span>
+                                      <span>{item.label}</span>
                                     </NavigationMenuLink>
                                   </li>
                                 ))}
@@ -229,14 +243,28 @@ export default function Navbar() {
           <div className="flex items-center gap-2">
             <ModeToggle></ModeToggle>
             <div className="w-px h-8 bg-border"></div>
-            {data?.data?.user?.email ? (
-              <NavbarProfile></NavbarProfile>
+            {isLoading ? (
+              // Show a loading placeholder/spinner instead of Sign In buttons
+              <div className="">
+                <Skeleton className="w-[100px] h-[32px]" />
+              </div>
+            ) : data?.data?.user?.email ? (
+              <NavbarProfile />
             ) : (
               <div className="flex gap-2">
-                <Button asChild variant="outline" size="sm" className="lg:text-sm md:text-sm text-xs">
+                <Button
+                  asChild
+                  variant="outline"
+                  size="sm"
+                  className="lg:text-sm md:text-sm text-xs"
+                >
                   <Link to="/signin">Sign In</Link>
                 </Button>
-                <Button asChild size="sm" className="lg:text-sm md:text-sm text-xs">
+                <Button
+                  asChild
+                  size="sm"
+                  className="lg:text-sm md:text-sm text-xs"
+                >
                   <Link to="/signUp">Get Started</Link>
                 </Button>
               </div>

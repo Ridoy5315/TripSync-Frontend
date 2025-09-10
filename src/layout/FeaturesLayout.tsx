@@ -59,11 +59,6 @@ export default function FeaturesLayout() {
                   <OnlineOfflineToggle></OnlineOfflineToggle>
                 </BreadcrumbList>
               )}
-              {!isLoading && data?.data?.user?.role === "DRIVER" && (
-                <BreadcrumbList>
-                  <OnlineOfflineToggle></OnlineOfflineToggle>
-                </BreadcrumbList>
-              )}
                <Separator
                 orientation="vertical"
                 className="lg:mx-2 md:mx-0.5  data-[orientation=vertical]:h-4"
