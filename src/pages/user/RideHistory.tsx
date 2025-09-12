@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/table";
 import { useRideHistoryQuery } from "@/redux/features/ride/ride.api";
 import { useGetOwnInfoQuery } from "@/redux/features/user/user.api";
+import type { IRide } from "@/types";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
@@ -153,7 +154,7 @@ export default function RideHistory() {
               </TableHeader>
               <TableBody className="lg:text-sm text-[10px]">
                 {rides &&
-                  rides.map((item, index: number) => (
+                  rides.map((item : IRide, index: number) => (
                     <TableRow key={index}>
                       <TableCell className="font-medium text-left">
                         {index + 1}
@@ -173,7 +174,7 @@ export default function RideHistory() {
                         {item?.rideRequestAction}
                       </TableCell>
                       <TableCell className="font-medium text-center">
-                        {new Date(item.rideRequestAt).toLocaleString()}
+                        {item.rideRequestAt ? new Date(item.rideRequestAt).toLocaleString() : "N/A"}
                       </TableCell>
                       <TableCell className="font-medium text-center">
                         {item?.originalFare}

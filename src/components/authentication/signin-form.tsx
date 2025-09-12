@@ -15,7 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod"
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useSignInMutation } from "@/redux/features/auth/auth.api";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -24,20 +24,19 @@ import type { IErrorResponse } from "@/types";
 import { EyeIcon, EyeOffIcon, Loader2 } from "lucide-react";
 import { useState } from "react";
 
-const signInSchema = z
-  .object({
-    email: z.email(),
-    password: z.string().min(8, { error: "Password is too short" }),
-  })
+const signInSchema = z.object({
+  email: z.email(),
+  password: z.string().min(8, { error: "Password is too short" }),
+});
 
 export function SignInForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const [signin, {isLoading} ] = useSignInMutation();
-    const navigate = useNavigate();
-    const [isVisible, setIsVisible] = useState<boolean>(false);
-      const toggleVisibility = () => setIsVisible((prevState) => !prevState);
+  const [signin, { isLoading }] = useSignInMutation();
+  const navigate = useNavigate();
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const toggleVisibility = () => setIsVisible((prevState) => !prevState);
 
   const form = useForm({
     resolver: zodResolver(signInSchema),
@@ -56,38 +55,38 @@ export function SignInForm({
     const toastId = toast.loading("Signing you in...");
 
     try {
-      const result = await signin(userInfo).unwrap()
-      console.log(result)
-      toast.success("✅ Signed in successfully", {id: toastId})
-      navigate("/")
+      const result = await signin(userInfo).unwrap();
+      if (result.success) {
+        toast.success("✅ Signed in successfully", { id: toastId });
+        navigate("/");
+      }
+
     } catch (error) {
-      console.log(error)
-      const err = error as IErrorResponse
-      if(err.data.message === "User is not verified"){
-        toast.error("Your account is not verified.", {id: toastId})
-        navigate("/verify", {state: data.email})
+      
+      const err = error as IErrorResponse;
+      if (err.data.message === "User is not verified") {
+        toast.error("Your account is not verified.", { id: toastId });
+        navigate("/verify", { state: data.email });
       }
-      if(err.data.message === "Incorrect Password"){
-        toast.error("🔒 Incorrect password. Please try again.", {id: toastId})
+      if (err.data.message === "Incorrect Password") {
+        toast.error("🔒 Incorrect password. Please try again.", {
+          id: toastId,
+        });
       }
-      if(err.data.message === "User is deleted"){
-        toast.error("This account was previously deleted.", {id: toastId})
-        navigate("/account-deleted", {state: data.email})
+      if (err.data.message === "User is deleted") {
+        toast.error("This account was previously deleted.", { id: toastId });
+        navigate("/account-deleted", { state: data.email });
       }
-      if(err.data.message === "User is BLOCKED"){
-        toast.error("Your account has been blocked.", {id: toastId})
-        navigate("/account-blocked", {state: data.email})
+      if (err.data.message === "User is BLOCKED") {
+        toast.error("Your account has been blocked.", { id: toastId });
+        navigate("/account-blocked", { state: data.email });
       }
-      if(err.data.message === "User is INACTIVE"){
-        toast.error("Your account is inactive.", {id: toastId})
-        navigate("/account-inactive", {state: data.email})
+      if (err.data.message === "User is INACTIVE") {
+        toast.error("Your account is inactive.", { id: toastId });
+        navigate("/account-inactive", { state: data.email });
       }
-      // else{
-      //   toast.error("Failed to sign in.", {id: toastId})
-      // }
     }
   };
-
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -100,10 +99,11 @@ export function SignInForm({
                   <div className="flex flex-col items-center text-center">
                     <h1 className="text-2xl font-bold">Welcome back</h1>
                     <p className="text-muted-foreground text-balance">
-                      Sign in to your <span className="text-primary">TripSync</span> account
+                      Sign in to your{" "}
+                      <span className="text-primary">TripSync</span> account
                     </p>
                   </div>
-               
+
                   {/* email */}
                   <FormField
                     control={form.control}
@@ -163,8 +163,14 @@ export function SignInForm({
                       </FormItem>
                     )}
                   />
-                  <Button disabled={isLoading} type="submit" className="w-full cursor-pointer">
-                    {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin"></Loader2>}
+                  <Button
+                    disabled={isLoading}
+                    type="submit"
+                    className="w-full cursor-pointer"
+                  >
+                    {isLoading && (
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin"></Loader2>
+                    )}
                     Sign In
                   </Button>
                 </div>
@@ -177,7 +183,12 @@ export function SignInForm({
                 </span>
               </div>
 
-              <Button onClick={() => window.open(`${config.baseUrl}/auth/google`)} variant="outline" type="button" className="w-full">
+              <Button
+                onClick={() => window.open(`${config.baseUrl}/auth/google`)}
+                variant="outline"
+                type="button"
+                className="w-full"
+              >
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                   <path
                     d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"

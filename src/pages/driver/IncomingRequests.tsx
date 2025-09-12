@@ -21,24 +21,18 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { CircleCheckBig, CircleX, ReceiptText } from "lucide-react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { useState } from "react";
 import RideRequestDetailsModal from "@/components/modal/RideRequestDetailsModal";
 import AcceptRideModal from "@/components/modal/AcceptRideModal";
 import { toast } from "sonner";
 import RejectRideModal from "@/components/modal/RejectRideModal";
-import { useNavigate } from "react-router-dom";
 import { Skeleton } from "@/components/ui/skeleton";
+import type { IErrorResponse, IRide } from "@/types";
 export default function IncomingRequests() {
   const [currentPage, setCurrentPage] = useState(1);
   const { data, isLoading } = useGetAllPendingRidesQuery({ page: currentPage });
   const [acceptRide] = useAcceptRideMutation();
   const [rejectRide] = useRejectRideMutation();
-  // const navigate = useNavigate();
 
   const allPendingRideRequest = data?.allPendingRides;
   const totalPage = data?.meta?.totalPage;
@@ -47,7 +41,6 @@ export default function IncomingRequests() {
     const toastId = toast.loading("Accepting...");
     try {
       const res = await acceptRide(rideId).unwrap();
-      console.log(res);
       if (res?.success) {
         toast.success("Ride accepted. Passenger is waiting for you.", {
           id: toastId,
@@ -55,12 +48,13 @@ export default function IncomingRequests() {
       }
     } catch (error) {
       console.log(error);
-      if (error?.data?.message === "You are in offline") {
+      const err = error as IErrorResponse
+      if (err?.data?.message === "You are in offline") {
         toast.error("You’re offline! Go online to start receiving rides.", {
           id: toastId,
         });
       }
-      if (error?.data?.message === "You are in a trip") {
+      if (err?.data?.message === "You are in a trip") {
         toast.error(
           "You are currently on a trip. You cannot accept another ride.",
           {
@@ -68,18 +62,18 @@ export default function IncomingRequests() {
           }
         );
       }
-      if (error?.data?.message === "Ride not found") {
+      if (err?.data?.message === "Ride not found") {
         toast.error("Ride not found.", { id: toastId });
       }
-      if (error?.data?.message === "rider already canceled this ride") {
+      if (err?.data?.message === "rider already canceled this ride") {
         toast.error("Passenger already canceled this ride.", { id: toastId });
       }
-      if (error?.data?.message === "You are not authorized driver") {
+      if (err?.data?.message === "You are not authorized driver") {
         toast.error("Access denied: Your driver account is not yet approved.", {
           id: toastId,
         });
       }
-      if (error?.data?.message === "You are not a driver") {
+      if (err?.data?.message === "You are not a driver") {
         toast.error("You are not a driver.", { id: toastId });
       }
     }
@@ -89,7 +83,6 @@ export default function IncomingRequests() {
     const toastId = toast.loading("Rejecting...");
     try {
       const res = await rejectRide(rideId).unwrap();
-      console.log(res);
       if (res?.success) {
         toast.success("Ride rejected successfully.", {
           id: toastId,
@@ -97,12 +90,13 @@ export default function IncomingRequests() {
       }
     } catch (error) {
       console.log(error);
-      if (error?.data?.message === "You are in offline") {
+      const err = error as IErrorResponse
+      if (err?.data?.message === "You are in offline") {
         toast.error("Cannot reject ride while you are offline.", {
           id: toastId,
         });
       }
-      if (error?.data?.message === "You are in a trip") {
+      if (err?.data?.message === "You are in a trip") {
         toast.error(
           "Please complete your ongoing trip before rejecting any ride.",
           {
@@ -110,18 +104,18 @@ export default function IncomingRequests() {
           }
         );
       }
-      if (error?.data?.message === "Ride not found") {
+      if (err?.data?.message === "Ride not found") {
         toast.error("Ride not found.", { id: toastId });
       }
-      if (error?.data?.message === "rider already canceled this ride") {
+      if (err?.data?.message === "rider already canceled this ride") {
         toast.error("Passenger already canceled this ride.", { id: toastId });
       }
-      if (error?.data?.message === "You are not authorized driver") {
+      if (err?.data?.message === "You are not authorized driver") {
         toast.error("Access denied: Your driver account is not yet approved.", {
           id: toastId,
         });
       }
-      if (error?.data?.message === "You are not a driver") {
+      if (err?.data?.message === "You are not a driver") {
         toast.error("You are not a driver.", { id: toastId });
       }
     }
@@ -133,7 +127,6 @@ export default function IncomingRequests() {
         Incoming Requests:
       </h3>
 
-      {/* <Separator className="my-8"></Separator> */}
       {isLoading && (
         <>
           <div className="border border-muted rounded-md">
@@ -206,7 +199,7 @@ export default function IncomingRequests() {
               </TableHeader>
               <TableBody className="lg:text-sm text-xs">
                 {allPendingRideRequest &&
-                  allPendingRideRequest.map((item, index: number) => (
+                  allPendingRideRequest.map((item: Partial<IRide>, index: number) => (
                     <TableRow key={index}>
                       <TableCell className="font-medium text-left">
                         {index + 1}
@@ -229,7 +222,7 @@ export default function IncomingRequests() {
                           </Button>
                         </RideRequestDetailsModal>
                         <AcceptRideModal
-                          onConfirm={() => handleAcceptRide(item?._id)}
+                          onConfirm={() => item?._id && handleAcceptRide(item._id)}
                         >
                           <Button variant="outline">
                             <CircleCheckBig />
@@ -237,18 +230,12 @@ export default function IncomingRequests() {
                           </Button>
                         </AcceptRideModal>
                         <RejectRideModal
-                          onConfirm={() => handleRejectRide(item?._id)}
+                          onConfirm={() => item?._id && handleRejectRide(item._id)}
                         >
                           <Button>
                             <CircleX />
                           </Button>
                         </RejectRideModal>
-                        {/* <Tooltip>
-                      <TooltipTrigger asChild></TooltipTrigger>
-                      <TooltipContent>
-                        <p>Reject</p>
-                      </TooltipContent>
-                    </Tooltip> */}
                       </TableCell>
                     </TableRow>
                   ))}

@@ -21,7 +21,6 @@ export default function ActiveRideManagement() {
   const [selectedStatus, setSelectedStatus] = useState<string>("");
   const status = rideData?.data?.rideProgressStatus;
   const rideId = rideData?.data?._id;
-  console.log(status);
 
   const [pickedUpStatus] = usePickedUpStatusMutation();
   const [inTransitStatus] = useInTransitStatusMutation();
@@ -29,10 +28,9 @@ export default function ActiveRideManagement() {
 
   useEffect(() => {
     if (status) {
-      console.log(rideData);
       setSelectedStatus(status);
     }
-  }, [status]);
+  }, [status, rideData]);
 
   const activeRide = [
     {
@@ -53,20 +51,21 @@ export default function ActiveRideManagement() {
     },
   ];
 
-  const changeRideStatus = async (value) => {
-    console.log(value);
+  type RideStatusUpdate = "NOT_STARTED" | "PICKED_UP" | "IN_TRANSIT" | "COMPLETED";
+
+  const changeRideStatus = async (value: RideStatusUpdate) => {
     const toastId = toast.loading("Signing you in...");
     try {
       if (value === "PICKED_UP") {
         const res = await pickedUpStatus(rideId).unwrap();
-        console.log(res);
+
         if (res?.success) {
           toast.success("Ride progress updated to Picked Up.", { id: toastId });
         }
       }
       if (value === "IN_TRANSIT") {
         const res = await inTransitStatus(rideId).unwrap();
-        console.log(res);
+
         if (res?.success) {
           toast.success("Ride progress updated to In Transit.", {
             id: toastId,
@@ -75,7 +74,7 @@ export default function ActiveRideManagement() {
       }
       if (value === "COMPLETED") {
         const res = await completedStatus(rideId).unwrap();
-        console.log(res);
+
         if (res?.success) {
           toast.success("Ride completed successfully!", { id: toastId });
         }
@@ -89,7 +88,7 @@ export default function ActiveRideManagement() {
     <div className="flex lg:gap-2 md:gap-2 gap-1">
       <Select 
         value={selectedStatus}
-        onValueChange={(value) => changeRideStatus(value)}
+        onValueChange={(value) => changeRideStatus(value as RideStatusUpdate)}
       >
         <SelectTrigger className="lg:w-[180px] md:w-[120px] lg:!h-9 md:!h-8 !h-7 lg:!text-sm !text-xs lg:px-3 md:px-3 px-2">
           <SelectValue placeholder="Ride status" className="lg:text-sm md:text-sm text-xs"/>

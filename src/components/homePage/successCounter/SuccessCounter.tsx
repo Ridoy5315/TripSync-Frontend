@@ -9,10 +9,9 @@ export default function SuccessCounter() {
     threshold: 0.2, // 20% of element should be visible
   });
   const { data, isLoading } = useGetAllRidesStatsQuery(undefined);
-  console.log(data);
   
   const ridesData = data?.data;
-  console.log(data);
+
   return (
     <div ref={ref} className="container mx-auto mt-28">
       {isLoading && (

@@ -12,7 +12,10 @@ import { useEffect } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { BellRing, MapPinned, Siren } from "lucide-react";
-import { useSendGPSLinkMutation } from "@/redux/features/user/user.api";
+import {
+  useGetOwnInfoQuery,
+  useSendGPSLinkMutation,
+} from "@/redux/features/user/user.api";
 import { toast } from "sonner";
 
 export default function SOSButtonModal() {
@@ -20,7 +23,10 @@ export default function SOSButtonModal() {
   const [position, setPosition] = useState<[number, number] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [gpsLink, setGpsLink] = useState<string | null>(null);
-  const [sendGPSLink] = useSendGPSLinkMutation()
+  const { data } = useGetOwnInfoQuery(undefined);
+  const [sendGPSLink] = useSendGPSLinkMutation();
+
+  const userData = data?.data?.user;
 
   useEffect(() => {
     if (!navigator.geolocation) {
@@ -31,13 +37,12 @@ export default function SOSButtonModal() {
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         const lat = pos.coords.latitude;
-      const lng = pos.coords.longitude;
-      setPosition([lat, lng]);
+        const lng = pos.coords.longitude;
+        setPosition([lat, lng]);
 
         // Generate Google Maps GPS link
-      const link = `https://www.google.com/maps?q=${lat},${lng}`;
-      setGpsLink(link);
-
+        const link = `https://www.google.com/maps?q=${lat},${lng}`;
+        setGpsLink(link);
       },
       (err) => {
         switch (err.code) {
@@ -57,24 +62,33 @@ export default function SOSButtonModal() {
     );
   }, []);
 
-  const handleSendGPSLink = async() => {
+  const handleSendGPSLink = async () => {
     const toastId = toast.loading("Sending...");
 
-    try {
-      const res = await sendGPSLink({gpsLink}).unwrap()
-      console.log(res);
-      if(res.success){
-        toast.success("✅ SOS alert sent successfully.", {id: toastId})
+    if (!userData?.emergencyContact || userData?.emergencyContact.length < 1) {
+      toast.error("You does not set any emergency contact", { id: toastId });
+    } else if (
+      userData?.emergencyContact &&
+      userData?.emergencyContact.length > 0
+    ) {
+      try {
+        const res = await sendGPSLink({ gpsLink }).unwrap();
+        if (res.success) {
+          toast.success("✅ SOS alert sent successfully.", { id: toastId });
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error)
     }
-  }
+  };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" className="cursor-pointer lg:!h-9 md:!h-8 !h-7 lg:text-sm text-xs md:px-2 px-1 lg:px-4">
+        <Button
+          variant="outline"
+          className="cursor-pointer lg:!h-9 md:!h-8 !h-7 lg:text-sm text-xs md:px-2 px-1 lg:px-4"
+        >
           Send SOS
         </Button>
       </DialogTrigger>
@@ -98,19 +112,35 @@ export default function SOSButtonModal() {
                 <Popup>You are here 📍</Popup>
               </Marker>
             </MapContainer>
-          ) : ( <div className="flex items-center justify-center h-full text-red-500">
+          ) : (
+            <div className="flex items-center justify-center h-full text-red-500">
               {error || "Fetching your location..."}
-            </div>)}
+            </div>
+          )}
         </div>
         <div className="lg:flex md:flex grid gap-2 mx-auto">
-          <Button variant="destructive" className="cursor-pointer lg:text-sm md:text-sm  text-xs !px-2 lg:!px-4 md:!px-4" >
-            <Siren />Call Police
+          <Button
+            variant="destructive"
+            className="cursor-pointer lg:text-sm md:text-sm  text-xs !px-2 lg:!px-4 md:!px-4"
+          >
+            <Siren />
+            Call Police
           </Button>
-          <Button variant="destructive" className="cursor-pointer lg:text-sm md:text-sm  text-xs !px-2 lg:!px-4 md:!px-4" onClick={handleSendGPSLink}>
-            <BellRing />Notify Emergency Contact
+          <Button
+            variant="destructive"
+            className="cursor-pointer lg:text-sm md:text-sm  text-xs !px-2 lg:!px-4 md:!px-4"
+            onClick={handleSendGPSLink}
+          >
+            <BellRing />
+            Notify Emergency Contact
           </Button>
-          <Button variant="destructive" className="cursor-pointer lg:text-sm md:text-sm  text-xs !px-2 lg:!px-4 md:!px-4" onClick={handleSendGPSLink}>
-            <MapPinned />Share Live Location
+          <Button
+            variant="destructive"
+            className="cursor-pointer lg:text-sm md:text-sm  text-xs !px-2 lg:!px-4 md:!px-4"
+            onClick={handleSendGPSLink}
+          >
+            <MapPinned />
+            Share Live Location
           </Button>
         </div>
 

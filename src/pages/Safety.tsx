@@ -1,4 +1,4 @@
-import { AddEmergencyContactModal } from "@/components/modal/addEmergencyContactModal";
+import { AddEmergencyContactModal } from "@/components/modal/AddEmergencyContactModal";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -16,7 +16,7 @@ export default function Safety() {
   const { data, isLoading } = useGetOwnInfoQuery(undefined);
 
   const userData = data?.data?.user;
-  console.log(userData);
+
   return (
     <div className="container mx-auto px-10 my-16">
       <div className="grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 items-center">
@@ -25,7 +25,7 @@ export default function Safety() {
         </h3>
         <div className=" space-y-5">
           <div>
-            <AddEmergencyContactModal userData={userData}></AddEmergencyContactModal>
+            <AddEmergencyContactModal userId={userData?._id}></AddEmergencyContactModal>
           </div>
           {isLoading && (
             <div className="border border-muted rounded-md">
@@ -73,7 +73,7 @@ export default function Safety() {
                 </TableHeader>
                 <TableBody className="lg:text-sm text-xs">
                   {userData &&
-                    userData?.emergencyContact.map((item, index: number) => (
+                    userData?.emergencyContact.map((item: string[], index: number) => (
                       <TableRow key={index}>
                         <TableCell className="font-medium text-left">
                           {index + 1}

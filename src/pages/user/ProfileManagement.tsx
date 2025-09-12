@@ -7,12 +7,10 @@ import { useGetOwnInfoQuery } from "@/redux/features/user/user.api";
 export default function ProfileManagement() {
   const { data, isLoading } = useGetOwnInfoQuery(undefined);
 
-  console.log(data?.data?.user);
-
   const userData = data?.data?.user;
   const driverInfo = data?.data?.driverInfo;
   const vehicleInfo = data?.data?.vehicleInfo;
-  console.log(userData?.role);
+
   return (
     <div className="py-4 lg:px-8 md:px-4 px-2">
       <div className="lg:grid lg:grid-cols-2 flex flex-col-reverse items-center gap-8">

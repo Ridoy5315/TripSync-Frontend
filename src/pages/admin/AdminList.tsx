@@ -12,6 +12,7 @@ import { useSearchParams } from "react-router-dom";
 import { useGetAdminsQuery } from "@/redux/features/admin/admin.api";
 import AdminListFilters from "@/components/adminList/AdminListFilters";
 import { Skeleton } from "@/components/ui/skeleton";
+import type { IUser } from "@/types";
 
 export default function AdminList() {
   const [searchParams] = useSearchParams();
@@ -25,8 +26,8 @@ export default function AdminList() {
     },
   });
 
-  console.log(data);
   const adminData = data?.data?.data;
+
   return (
     <div className="py-4 lg:px-8 md:px-4 px-2">
       <h3 className="text-primary font-semibold lg:text-2xl text-xl mb-4">Admin List :</h3>
@@ -84,7 +85,7 @@ export default function AdminList() {
             </TableHeader>
             <TableBody className="lg:text-sm text-[10px]">
               {adminData &&
-                adminData?.map((item, index: number) => (
+                adminData?.map((item: IUser, index: number) => (
                   <TableRow key={index}>
                     <TableCell className="font-medium text-left">
                       {index + 1}

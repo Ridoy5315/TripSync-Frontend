@@ -32,6 +32,8 @@ import { rideFare } from "@/utils/rideFare";
 import { useEffect } from "react";
 import { useGetOwnInfoQuery } from "@/redux/features/user/user.api";
 import { useRideRequestMutation } from "@/redux/features/ride/ride.api";
+import { Loader2 } from "lucide-react";
+import type { IResError } from "@/types";
 
 const rideRequestSchema = z.object({
   pickupLat: z.coerce
@@ -60,7 +62,7 @@ export default function RideRequestForm({
   ...props
 }: React.ComponentProps<"div">) {
   const { data: userData } = useGetOwnInfoQuery(undefined);
-  const [rideRequest] = useRideRequestMutation();
+  const [rideRequest, {isLoading}] = useRideRequestMutation();
   const navigate = useNavigate();
 
   const form = useForm({
@@ -119,44 +121,50 @@ export default function RideRequestForm({
 
     const userId = userData?.data?.user?._id;
 
-    console.log(rideRequestInfo);
-    console.log(userId);
     const toastId = toast.loading("Requesting your ride... Please wait.");
 
     try {
-      const res = await rideRequest({ userId, data: rideRequestInfo });
-      console.log(res);
-      if (res?.error?.data?.message === "Please fulfill your profile first") {
-        toast.error("Please complete your profile to proceed.", {
-          id: toastId,
-        });
-      }
-      if (
-        res?.error?.data?.message ===
-        "You are already on a trip. Please complete it before requesting another."
-      ) {
-        toast.error(
-          "You are already on a trip. Please complete or cancel it before requesting another.",
-          { id: toastId }
-        );
-      }
-      if (
-        res?.error?.data?.message  ===
-          "your request has been pending, but no drivers are available now" 
-      ) {
-        toast.error(
-          "No drivers are available now in your area.",
-          { id: toastId }
-        );
-      }
-      if (res.data.success && res.data.data.paymentUrl) {
-        window.open(`${res.data.data.paymentUrl}`);
+      const response = await rideRequest({ userId, data: rideRequestInfo });
+
+      const res = response as IResError
+      // Check if response is an error or success
+      if ("error" in res && res.error?.data?.message) {
+        const message = res.error.data.message;
+        if (message === "Please fulfill your profile first") {
+          toast.error("Please complete your profile to proceed.", {
+            id: toastId,
+          });
+        }
+        if (message === "User is not verified") {
+          toast.error("Your account is not verified", {
+            id: toastId,
+          });
+        }
+        if (
+          message ===
+          "You are already on a trip. Please complete it before requesting another."
+        ) {
+          toast.error(
+            "You are already on a trip. Please complete or cancel it before requesting another.",
+            { id: toastId }
+          );
+        }
+        if (
+          message ===
+            "your request has been pending, but no drivers are available now" 
+        ) {
+          toast.error(
+            "No drivers are available now in your area.",
+            { id: toastId }
+          );
+        }
+      } else if ("data" in response && response.data?.success && response.data?.data?.paymentUrl) {
+        window.open(`${response.data.data.paymentUrl}`);
         toast.success(
           "Ride requested successfully! Waiting for driver confirmation.",
           { id: toastId }
         );
         navigate("/user/ride/details");
-
       }
     } catch (error) {
       console.log(error);
@@ -196,6 +204,7 @@ export default function RideRequestForm({
                                 type="number"
                                 placeholder="pickupLat"
                                 {...field}
+                                value={field.value === undefined || field.value === null ? "" : String(field.value)}
                               />
                             </FormControl>
                             <FormMessage />
@@ -216,6 +225,7 @@ export default function RideRequestForm({
                                 type="number"
                                 placeholder="pickupLng"
                                 {...field}
+                                value={field.value === undefined || field.value === null ? "" : String(field.value)}
                               />
                             </FormControl>
                             <FormMessage />
@@ -244,6 +254,7 @@ export default function RideRequestForm({
                                 type="number"
                                 placeholder="destinationLat"
                                 {...field}
+                                value={field.value === undefined || field.value === null ? "" : String(field.value)}
                               />
                             </FormControl>
                             <FormMessage />
@@ -264,6 +275,7 @@ export default function RideRequestForm({
                                 type="number"
                                 placeholder="destinationLng"
                                 {...field}
+                                value={field.value === undefined || field.value === null ? "" : String(field.value)}
                               />
                             </FormControl>
                             <FormMessage />
@@ -336,7 +348,8 @@ export default function RideRequestForm({
                       )}
                     />
                     <div className="flex justify-end items-end">
-                      <Button type="submit" className=" cursor-pointer">
+                      <Button disabled={isLoading} type="submit" className=" cursor-pointer">
+                        {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin"></Loader2>}
                         Request Ride
                       </Button>
                     </div>

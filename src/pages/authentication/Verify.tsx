@@ -30,6 +30,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useSendOtpMutation, useVerifyOtpMutation } from "@/redux/features/auth/auth.api";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import type { IErrorResponse } from "@/types";
 
 const FormSchema = z.object({
   pin: z.string().min(6, {
@@ -84,7 +85,8 @@ export default function Verify() {
      }
     } catch (error) {
      console.log(error)
-     if(error?.data?.message === "OTP not matching"){
+     const err = error as IErrorResponse
+     if(err?.data?.message === "OTP not matching"){
       toast.error("Wrong OTP", {id: toastId})
      }
     }

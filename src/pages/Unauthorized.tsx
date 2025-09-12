@@ -13,7 +13,6 @@ export default function Unauthorized() {
       const toastId = toast.loading("Signing out...");
       try {
         const res = await signOut(undefined);
-         console.log(res)
          dispatch(authApi.util.resetApiState());
          if(res.data.message === "User Logged out Successfully"){
           toast.success("✅ Signed out successfully.", {id: toastId})

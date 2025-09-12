@@ -18,6 +18,25 @@ import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 import { toast } from "sonner";
 import { Skeleton } from "../ui/skeleton";
+import type {
+  IErrorResponse,
+  ILocation,
+  IUser,
+  IVehicleInformation,
+} from "@/types";
+
+interface ITem {
+  _id: string;
+  approvalStatus?: "PENDING" | "APPROVED" | "REJECTED";
+  availabilityStatus?: "ONLINE" | "OFFLINE" | "ON_TRIP";
+  createdAt?: string; // ISO date string
+  updatedAt?: string; // ISO date string
+  rating?: number;
+  totalIncome?: number;
+  vehicleInfo?: IVehicleInformation;
+  location?: ILocation;
+  driverInformation?: IUser;
+}
 
 export default function PendingDriversDetailsModal() {
   const [open, setOpen] = useState(false);
@@ -25,14 +44,15 @@ export default function PendingDriversDetailsModal() {
 
   const [acceptOrRejectDriver] = useAcceptOrRejectDriverMutation();
 
-  const handleAcceptOrRejectDriver = async (value, userId) => {
-    console.log(value, userId);
+  const handleAcceptOrRejectDriver = async (
+    value: "APPROVED" | "REJECTED",
+    userId: string
+  ) => {
 
     const toastId = toast.loading("Please wait, updating...");
 
     try {
       const res = await acceptOrRejectDriver({ value, userId }).unwrap();
-      console.log(res);
       if (res?.success) {
         toast.success("Driver application accepted successfully.", {
           id: toastId,
@@ -41,28 +61,27 @@ export default function PendingDriversDetailsModal() {
       }
     } catch (error) {
       console.log(error);
-      if (
-        error?.data?.message === "Driver application rejected successfully."
-      ) {
+      const err = error as IErrorResponse;
+      if (err?.data?.message === "Driver application rejected successfully.") {
         toast.success("Driver application rejected successfully.", {
           id: toastId,
         });
         setOpen(false);
       }
-      if (error?.data?.message === "User not found") {
+      if (err?.data?.message === "User not found") {
         toast.error("No user exists with the provided information.", {
           id: toastId,
         });
         setOpen(false);
       }
-      if (error?.data?.message === "User is deleted") {
+      if (err?.data?.message === "User is deleted") {
         toast.error(
           "This user has deleted their account and is no longer available.",
           { id: toastId }
         );
         setOpen(false);
       }
-      if (error?.data?.message === "Your account is is not verified") {
+      if (err?.data?.message === "Your account is is not verified") {
         toast.error(
           "Your account is not verified yet. Please verify your account.",
           { id: toastId }
@@ -70,7 +89,7 @@ export default function PendingDriversDetailsModal() {
         setOpen(false);
       }
       if (
-        error?.data?.message ===
+        err?.data?.message ===
         "User haven't apply for a driver in this platform"
       ) {
         toast.error(
@@ -84,10 +103,11 @@ export default function PendingDriversDetailsModal() {
 
   const pendingDriversCount = drivers?.data?.length;
   const pendingDrivers = drivers?.data;
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <>
+        <div>
           {isLoading && (
             <div>
               <Skeleton className="w-[210px] h-[30px]" />
@@ -102,15 +122,15 @@ export default function PendingDriversDetailsModal() {
               Driver Applications ({pendingDriversCount ?? 0} Pending)
             </Button>
           )}
-        </>
+        </div>
       </DialogTrigger>
       <DialogContent className="sm:max-w-4xl">
         <DialogHeader>
           <DialogTitle>Profile Info</DialogTitle>
         </DialogHeader>
         {pendingDrivers &&
-          pendingDrivers.map((item) => (
-            <>
+          pendingDrivers.map((item: ITem, index: number) => (
+            <div key={index}>
               <div className="space-y-4">
                 <div className="grid grid-cols-3 gap-4">
                   <div className="grid w-full max-w-sm items-center gap-3">
@@ -213,32 +233,34 @@ export default function PendingDriversDetailsModal() {
                   </div>
                   <div className="flex justify-end items-end gap-2">
                     <Button
-                      onClick={() =>
-                        handleAcceptOrRejectDriver(
-                          "REJECTED",
-                          item?.driverInformation?._id
-                        )
-                      }
+                      onClick={() => {
+                        const userId = item?.driverInformation?._id;
+                        if (userId) {
+                          handleAcceptOrRejectDriver("REJECTED", userId);
+                        }
+                      }}
                       type="submit"
+                      className="cursor-pointer"
                     >
                       Reject
                     </Button>
                     <Button
-                      onClick={() =>
-                        handleAcceptOrRejectDriver(
-                          "APPROVED",
-                          item?.driverInformation?._id
-                        )
-                      }
+                      onClick={() => {
+                        const userId = item?.driverInformation?._id;
+                        if (userId) {
+                          handleAcceptOrRejectDriver("APPROVED", userId);
+                        }
+                      }}
                       type="submit"
                       variant="outline"
+                      className="cursor-pointer"
                     >
                       Approve
                     </Button>
                   </div>
                 </div>
               </div>
-            </>
+            </div>
           ))}
 
         <DialogFooter>

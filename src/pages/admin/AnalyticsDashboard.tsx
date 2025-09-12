@@ -32,10 +32,11 @@ export default function AnalyticsDashboard() {
   const ridesVolume = rides?.data;
   const revenueTrends = revenue?.data;
 
+
   const rideStats = rideStatsFunction(ridesVolume);
   const revenueStats = revenueStatsFunction(revenueTrends);
-  const driverCountStats = driverCountStatsFunction(driverData);
-  const driverStats = driverStatsFunction(driverData);
+  const driverCountStats = driverData ? driverCountStatsFunction(driverData) : [];
+  const driverStats = driverData ? driverStatsFunction(driverData) : [];
 
   //bg-foreground/10 bg-${stat.color}-400
   return (
@@ -144,8 +145,7 @@ export default function AnalyticsDashboard() {
                     ></CountUp>
                   ) : (
                     "0"
-                  )}{" "}
-                  $
+                  )}
                 </p>
               </>
             )}
@@ -180,8 +180,7 @@ export default function AnalyticsDashboard() {
                       ></CountUp>
                     ) : (
                       "0"
-                    )}{" "}
-                    $
+                    )}
                   </p>
                 </div>
               ))}

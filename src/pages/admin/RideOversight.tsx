@@ -18,6 +18,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useGetAllRidesQuery } from "@/redux/features/admin/admin.api";
+import type { IRide } from "@/types";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
@@ -52,10 +53,11 @@ export default function RideOversight() {
     },
   });
 
-  console.log(data);
+  
 
   const ridesData = data?.data?.data;
   const totalPage = data?.data?.meta?.totalPage || 1;
+
   return (
     <div className="py-4 lg:px-8 md:px-4 px-2">
       <h3 className="text-primary font-semibold lg:text-2xl text-xl mb-4">
@@ -144,7 +146,7 @@ export default function RideOversight() {
               </TableHeader>
               <TableBody className="lg:text-sm text-[10px]">
                 {ridesData &&
-                  ridesData.map((item, index: number) => (
+                  ridesData.map((item : IRide, index: number) => (
                     <TableRow key={index}>
                       <TableCell className="font-medium text-left">
                         {index + 1}
@@ -155,7 +157,7 @@ export default function RideOversight() {
                       </TableCell>
                       <TableCell className="font-medium text-center">
                         [{item?.destinationLocation?.coordinates[0]},{" "}
-                        {item?.ride?.destinationLocation?.coordinates[0]}]
+                        {item?.destinationLocation?.coordinates[0]}]
                       </TableCell>
                       <TableCell className="font-medium text-center">
                         {item?.distance}
@@ -164,7 +166,7 @@ export default function RideOversight() {
                         {item?.originalFare} $
                       </TableCell>
                       <TableCell className="font-medium text-center">
-                        {new Date(item.rideRequestAt).toLocaleString()}
+                        {item?.rideRequestAt ? new Date(item.rideRequestAt).toLocaleString() : "N/A"}
                       </TableCell>
                       <TableCell className="font-medium text-center">
                         {item?.rideRequestAction}

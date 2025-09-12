@@ -30,10 +30,30 @@ const signUpSchema = z
       .min(5, { error: "Name must be at least 5 characters" })
       .max(40, { error: "Name is too long" }),
     email: z.email(),
-    password: z.string().min(8, { error: "Password is too short" }),
+    password: z
+      .string({ message: "Password must be string" })
+      .min(8, { message: "Password must be at least 8 characters long." })
+      .regex(/(?=.*[A-Z])/, {
+        message: "Password must contain at least 1 uppercase letter.",
+      })
+      .regex(/(?=.*[!@#$%^&*])/, {
+        message: "Password must contain at least 1 special character.",
+      })
+      .regex(/(?=.*\d)/, {
+        message: "Password must contain at least 1 number.",
+      }),
     confirmPassword: z
-      .string()
-      .min(8, { error: "Confirm password is too short" }),
+      .string({ message: "Password must be string" })
+      .min(8, { message: "Password must be at least 8 characters long." })
+      .regex(/(?=.*[A-Z])/, {
+        message: "Password must contain at least 1 uppercase letter.",
+      })
+      .regex(/(?=.*[!@#$%^&*])/, {
+        message: "Password must contain at least 1 special character.",
+      })
+      .regex(/(?=.*\d)/, {
+        message: "Password must contain at least 1 number.",
+      }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "❌ Passwords don't match.",
@@ -44,12 +64,15 @@ export function SignUpForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const [register, {isLoading}] = useSignUpMutation();
+  const [register, { isLoading }] = useSignUpMutation();
   const navigate = useNavigate();
   const [isVisiblePassword, setIsVisiblePassword] = useState<boolean>(false);
-  const toggleVisibilityPassword = () => setIsVisiblePassword((prevState) => !prevState);
-  const [isVisibleConfirmPassword, setIsVisibleConfirmPassword] = useState<boolean>(false);
-  const toggleVisibilityConfirmPassword = () => setIsVisibleConfirmPassword((prevState) => !prevState);
+  const toggleVisibilityPassword = () =>
+    setIsVisiblePassword((prevState) => !prevState);
+  const [isVisibleConfirmPassword, setIsVisibleConfirmPassword] =
+    useState<boolean>(false);
+  const toggleVisibilityConfirmPassword = () =>
+    setIsVisibleConfirmPassword((prevState) => !prevState);
 
   const form = useForm({
     resolver: zodResolver(signUpSchema),
@@ -70,10 +93,11 @@ export function SignUpForm({
 
     try {
       const result = await register(userInfo).unwrap();
-      console.log(result);
 
-      toast.success("User created successfully");
-      navigate("/verify", { state: data.email });
+      if (result.success) {
+        toast.success("User created successfully");
+        navigate("/verify", { state: data.email });
+      }
     } catch (error) {
       console.log(error);
     }
@@ -150,7 +174,9 @@ export function SignUpForm({
                               type="button"
                               onClick={toggleVisibilityPassword}
                               aria-label={
-                                isVisiblePassword ? "Hide password" : "Show password"
+                                isVisiblePassword
+                                  ? "Hide password"
+                                  : "Show password"
                               }
                               aria-pressed={isVisiblePassword}
                               aria-controls="password"
@@ -181,7 +207,9 @@ export function SignUpForm({
                           <div className="relative">
                             <Input
                               placeholder="******"
-                              type={isVisibleConfirmPassword ? "text" : "password"}
+                              type={
+                                isVisibleConfirmPassword ? "text" : "password"
+                              }
                               {...field}
                             />
                             <button
@@ -189,7 +217,9 @@ export function SignUpForm({
                               type="button"
                               onClick={toggleVisibilityConfirmPassword}
                               aria-label={
-                                isVisibleConfirmPassword ? "Hide password" : "Show password"
+                                isVisibleConfirmPassword
+                                  ? "Hide password"
+                                  : "Show password"
                               }
                               aria-pressed={isVisibleConfirmPassword}
                               aria-controls="password"
@@ -209,8 +239,14 @@ export function SignUpForm({
                       </FormItem>
                     )}
                   />
-                  <Button disabled={isLoading} type="submit" className="w-full cursor-pointer">
-                    {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin"></Loader2>}
+                  <Button
+                    disabled={isLoading}
+                    type="submit"
+                    className="w-full cursor-pointer"
+                  >
+                    {isLoading && (
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin"></Loader2>
+                    )}
                     Sign Up
                   </Button>
                 </div>

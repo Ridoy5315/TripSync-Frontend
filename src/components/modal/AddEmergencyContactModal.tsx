@@ -21,10 +21,7 @@ import { Input } from "../ui/input";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  useCreateEmergencyContactMutation,
-  useGetOwnInfoQuery,
-} from "@/redux/features/user/user.api";
+import { useCreateEmergencyContactMutation } from "@/redux/features/user/user.api";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import type { IErrorResponse } from "@/types";
@@ -33,7 +30,11 @@ const emergencyContactSchema = z.object({
   emergencyContact: z.email(),
 });
 
-export function AddEmergencyContactModal({userData}) {
+interface AddEmergencyContactModalProps {
+  userId: string;
+}
+
+export function AddEmergencyContactModal({ userId }: AddEmergencyContactModalProps) {
   const [open, setOpen] = useState(false);
   const [createEmergencyContact, { isLoading }] =
     useCreateEmergencyContactMutation();
@@ -54,10 +55,10 @@ export function AddEmergencyContactModal({userData}) {
 
     try {
       const result = await createEmergencyContact({
-        userId: userData?._id,
+        userId,
         addEmergencyContact,
       }).unwrap();
-      console.log(result);
+
       if(result.success){
         toast.success("Emergency Contact added successfully", { id: toastId });
         setOpen(false)

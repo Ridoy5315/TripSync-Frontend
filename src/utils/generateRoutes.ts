@@ -1,8 +1,14 @@
 import type { ISidebarItem } from "@/types"
+import type { ComponentType } from "react";
 
-export const generateRoutes = (sidebarItems: ISidebarItem[], parentPath: string = ""): any[] => {
+interface IRoute {
+  path: string;
+  Component: ComponentType; // React component
+}
+
+export const generateRoutes = (sidebarItems: ISidebarItem[], parentPath: string = ""): IRoute[] => {
   return sidebarItems.flatMap((section) => {
-    const routes: any[] = [];
+    const routes: IRoute[] = [];
 
     // Handle section itself
     if (section.url && section.component) {
@@ -20,15 +26,3 @@ export const generateRoutes = (sidebarItems: ISidebarItem[], parentPath: string 
     return routes;
   });
 };
-
-// return sidebarItems.map((route) => {
-  //   let relativePath = route.url.replace(new RegExp(`^${parentPath}`), "");
-  //   if (relativePath.startsWith("/")) {
-  //     relativePath = relativePath.slice(1);
-  //   }
-
-  //   return {
-  //     Component: route.component,
-  //     path: relativePath || "/", 
-  //   };
-  // });

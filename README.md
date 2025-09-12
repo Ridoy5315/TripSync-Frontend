@@ -5,11 +5,10 @@ TripSync is a **ride-sharing web application** inspired by Uber and DIDI.  It co
 ---
 
 ## 🔗 Live Deployment
-👉 [TripSync Live Demo](<your-live-deployment-link>)
+👉 [TripSync Live Demo](https://trip-sync-frontend-five.vercel.app/)
 
 ---
 
-## 📖 Project Overview
 ## 📖 Project Overview
 TripSync provides a simple and secure ride-sharing experience.  
 Riders can request trips and also can cancel, drivers can accept them or reject, and driver can manage their ride history. The platform also includes an **SOS emergency button** to enhance safety during trips. It is fully **responsive**, ensuring a smooth user experience across **desktop, tablet, and mobile devices**.
@@ -55,16 +54,20 @@ Riders can request trips and also can cancel, drivers can accept them or reject,
 
 ## 🛠️ Technology Stack
 **Frontend**
-- React + TypeScript  
-- Tailwind CSS + ShadCN UI  
-- React-Leaflet (for maps)  
-- Lucide Icons  
-
-**Backend**
-- Node.js + Express.js  
-- MongoDB + Mongoose  
-- JWT Authentication  
-- REST API architecture  
+- Language: TypeScript
+- Framework: React
+- Bundler / Dev Environment: Vite
+- UI & Styling: Tailwind CSS, ShadCN UI
+- State Management & Data Fetching: Redux Toolkit + RTK Query, Axios
+- Forms & Validation: react-hook-form, Zod
+- Routing: React Router DOM
+- Maps & Geolocation: React-Leaflet
+- Charts & Analytics: Recharts
+- Animations: Animate.css, react-awesome-reveal, react-countup, react-simple-typewriter
+- Scroll-based Animations / Triggers: react-scroll-trigger
+- Notifications / Toasts: Sonner
+- Icons: Lucide Icons
+- Media Handling: Swiper (carousels/sliders)
 
 **Other Tools**
 - Deployment: Vercel 
@@ -75,9 +78,10 @@ Riders can request trips and also can cancel, drivers can accept them or reject,
 ## ⚙️ Setup Instructions
 
 ### 1. Clone the repository
-```bash```
+<pre><code>
 git clone <your-repo-link>
-cd tripsync
+cd #folder name
+</code></pre>
 
 ### 2. Install dependencies
 <pre><code>
@@ -88,7 +92,7 @@ npm run dev
 ### 3. Configure environment variables
 Create a .env file in the root:
 <pre><code>
-VITE_BASE_URL=<your-secret-key>
+VITE_BASE_URL= #your secret key
 </code></pre>
 
 ### 4. Run the development server

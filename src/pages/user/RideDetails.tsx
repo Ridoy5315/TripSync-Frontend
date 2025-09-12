@@ -7,7 +7,6 @@ import { useRideDetailsQuery } from "@/redux/features/ride/ride.api";
 export default function RideDetails() {
   const { data, isLoading } = useRideDetailsQuery(undefined);
 
-  console.log(data);
   const rideDetails = data?.data?.rideDetails;
   const driverInfo = data?.data?.driverInfo;
   const vehicleInfo = data?.data?.vehicleInfo;

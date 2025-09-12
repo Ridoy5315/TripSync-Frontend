@@ -5,16 +5,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { Button } from "../ui/button";
-import { ReceiptText } from "lucide-react";
+import type { IRide } from "@/types";
 
-export default function RideRequestDetailsModal({ children, item }) {
-  //   const driverFare = rideFare(parseFloat(item.distance))
+interface RideRequestDetailsModalProps {
+  children: React.ReactNode;
+  item: Partial<IRide>;
+}
+
+export default function RideRequestDetailsModal({ children, item }: RideRequestDetailsModalProps) {
+
   const driverFare = (Number(item.originalFare) * 0.8).toFixed(2);
   return (
     <Dialog>
@@ -53,7 +52,7 @@ export default function RideRequestDetailsModal({ children, item }) {
               </li>
               <li>{item?.distance}</li>
               <li>{driverFare}</li>
-              <li>{new Date(item.rideRequestAt).toLocaleString()}</li>
+              <li>{item?.rideRequestAt ? new Date(item.rideRequestAt).toLocaleString() : "N/A"}</li>
               <li>{item?.rideRequestAction}</li>
             </ul>
           </div>

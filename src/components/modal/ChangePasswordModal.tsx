@@ -25,6 +25,7 @@ import { useChangePasswordMutation } from "@/redux/features/auth/auth.api";
 import { toast } from "sonner";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
+import type { IErrorResponse } from "@/types";
 
 const changePasswordSchema = z
   .object({
@@ -61,9 +62,7 @@ export default function ChangePasswordModal() {
     const toastId = toast.loading("Please wait, saving changes...");
 
     try {
-      console.log(passwordInfo);
       const res = await changePassword(passwordInfo).unwrap();
-      console.log(res);
 
       if (res.success) {
         toast.success("Your password has been changed.", { id: toastId });
@@ -72,17 +71,15 @@ export default function ChangePasswordModal() {
 
     } catch (error) {
       console.log(error);
-      if(error.data.message === 'Incorrect your current password'){
+      const err = error as IErrorResponse
+      if(err.data.message === 'Incorrect your current password'){
 
         toast.error("Incorrect your current password.", {id: toastId})
       }
-      if(error.data.message === 'You cant set the same password'){
+      if(err.data.message === 'You cant set the same password'){
 
         toast.error("You cant set the same password.", {id: toastId})
       }
-      // toast.error("Failed to update password. Please try again.", {
-      //   id: toastId,
-      // });
     }
   };
 

@@ -19,6 +19,7 @@ import { useGetOwnInfoQuery } from "@/redux/features/user/user.api";
 import { useApplyDriverMutation } from "@/redux/features/driver/driver.api";
 import { Loader2 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import type { IErrorResponse } from "@/types";
 
 const applyDriverSchema = z.object({
   brand: z
@@ -36,13 +37,15 @@ const applyDriverSchema = z.object({
     .string()
     .min(2, { message: "Color must be at least 2 characters" })
     .max(30, { message: "Color name is too long" }),
-  manufacturingYear: z
-    .string()
-    .refine((val) => !isNaN(Number(val)), { message: "Must be a valid number" })
-    .transform((val) => Number(val))
-    .refine((val) => val >= 1980 && val <= new Date().getFullYear(), {
-      message: `Year must be between 1980 and ${new Date().getFullYear()}`,
-    }),
+  manufacturingYear: z.coerce
+  .number()
+  .int("Year must be an integer")
+  .refine((val) => val >= 1980, {
+    message: "Year must be 1980 or later",
+  })
+  .refine((val) => val <= new Date().getFullYear(), {
+    message: `Year must be ${new Date().getFullYear()} or earlier`,
+  })
 });
 
 export default function JoinAsDriver({
@@ -61,7 +64,7 @@ export default function JoinAsDriver({
       model: "",
       licensePlate: "",
       color: "",
-      manufacturingYear: "",
+      manufacturingYear: 0,
     },
   });
 
@@ -81,15 +84,19 @@ export default function JoinAsDriver({
         userId: userData?._id,
         vehicleInfo,
       }).unwrap();
-      console.log(result);
 
-      toast.success(
-        "Your driver application has been submitted successfully.",
-        { id: toastId }
-      );
-      //  navigate("/verify", { state: data.email });
+      if (result.success) {
+        toast.success(
+          "Your driver application has been submitted successfully.",
+          { id: toastId }
+        );
+      }
     } catch (error) {
       console.log(error);
+      const err = error as IErrorResponse;
+      if(err?.data?.message === "Please fulfill your profile first"){
+        toast.error("Please fulfill your profile first", {id: toastId})
+      }
     }
   };
   return (
@@ -107,9 +114,9 @@ export default function JoinAsDriver({
                           <h1 className="">
                             <Skeleton className="w-[580px] h-[85px]" />
                           </h1>
-                          <p className="">
+                          <div>
                             <Skeleton className="w-[350px] h-[50px]" />
-                          </p>
+                          </div>
                         </div>
                       )}
                       {!infoLoading && (
@@ -123,216 +130,230 @@ export default function JoinAsDriver({
                           </p>
                         </div>
                       )}
-                      {infoLoading && <div className="grid grid-cols-2 gap-8">
-                        <div className="space-y-10">
-                          <Skeleton className="w-[283px] h-[40px]" />
-                          <Skeleton className="w-[283px] h-[40px]" />
-                          <Skeleton className="w-[283px] h-[40px]" />
-                          <Skeleton className="w-[283px] h-[40px]" />
-                          <Skeleton className="w-[283px] h-[40px]" />
-                          <Skeleton className="w-[283px] h-[40px]" />
-                        </div>
-                       
-                        <div className="space-y-10">
-                          <Skeleton className="w-[283px] h-[40px]" />
-                          <Skeleton className="w-[283px] h-[40px]" />
-                          <Skeleton className="w-[283px] h-[40px]" />
-                          <Skeleton className="w-[283px] h-[40px]" />
-                          <Skeleton className="w-[283px] h-[40px]" />
-                          <Skeleton className="w-[283px] h-[40px]" />
-                        </div>
-                       
-                        </div>}
-                      {!infoLoading && <div className="space-y-7">
-                        <div className="grid grid-cols-2 gap-5">
-                          {/* Name */}
-                          <FormItem>
-                            <FormLabel>Full Name</FormLabel>
-                            <FormControl>
-                              <Input
-                                placeholder="Trip Sync"
-                                value={userData?.name}
-                                disabled
-                              />
-                            </FormControl>
-                          </FormItem>
-                          {/* email */}
-                          <FormItem>
-                            <FormLabel>Email</FormLabel>
-                            <FormControl>
-                              <Input
-                                placeholder="example@tripsync.com"
-                                value={userData?.email}
-                                disabled
-                              />
-                            </FormControl>
-                          </FormItem>
-                        </div>
-                        <div className="grid grid-cols-2 gap-5">
-                          {/* Address */}
-                          <FormItem>
-                            <FormLabel>Address</FormLabel>
-                            <FormControl>
-                              <Input
-                                placeholder="Address"
-                                value={userData?.address}
-                                disabled
-                              />
-                            </FormControl>
-                          </FormItem>
-                          {/* phone */}
-                          <FormItem>
-                            <FormLabel>Phone</FormLabel>
-                            <FormControl>
-                              <Input
-                                placeholder="00000000000"
-                                value={userData?.phone}
-                                disabled
-                              />
-                            </FormControl>
-                          </FormItem>
-                        </div>
+                      {infoLoading && (
+                        <div className="grid grid-cols-2 gap-8">
+                          <div className="space-y-10">
+                            <Skeleton className="w-[283px] h-[40px]" />
+                            <Skeleton className="w-[283px] h-[40px]" />
+                            <Skeleton className="w-[283px] h-[40px]" />
+                            <Skeleton className="w-[283px] h-[40px]" />
+                            <Skeleton className="w-[283px] h-[40px]" />
+                            <Skeleton className="w-[283px] h-[40px]" />
+                          </div>
 
-                        <div className="grid grid-cols-2 gap-5">
-                          {/* date of birth */}
-                          <FormItem>
-                            <FormLabel>Birth Date</FormLabel>
-                            <FormControl>
-                              <Input
-                                placeholder="0000-00-00"
-                                value={userData?.dateOfBirth}
-                                disabled
-                              />
-                            </FormControl>
-                          </FormItem>
-                          {/* gender */}
-                          <FormItem>
-                            <FormLabel>Gender</FormLabel>
-                            <FormControl>
-                              <Input
-                                placeholder="gender"
-                                value={userData?.gender}
-                                disabled
-                              />
-                            </FormControl>
-                          </FormItem>
-                        </div>
-
-                        {/* Vehicle Info */}
-
-                        <div className="grid grid-cols-2 gap-5">
-                          {/* brand */}
-                          <FormField
-                            control={form.control}
-                            name="brand"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Car Brand</FormLabel>
-                                <FormControl>
-                                  <Input placeholder="Brand name" {...field} />
-                                </FormControl>
-                                <FormDescription className="sr-only">
-                                  This is your public display name.
-                                </FormDescription>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                          {/* model */}
-                          <FormField
-                            control={form.control}
-                            name="model"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Model</FormLabel>
-                                <FormControl>
-                                  <Input placeholder="Model name" {...field} />
-                                </FormControl>
-                                <FormDescription className="sr-only">
-                                  This is your public display name.
-                                </FormDescription>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                        </div>
-
-                        <div className="grid grid-cols-2 gap-5">
-                          {/* color */}
-                          <FormField
-                            control={form.control}
-                            name="color"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Color</FormLabel>
-                                <FormControl>
-                                  <Input placeholder="Color name" {...field} />
-                                </FormControl>
-                                <FormDescription className="sr-only">
-                                  This is your public display name.
-                                </FormDescription>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                          {/* licensePlate */}
-                          <FormField
-                            control={form.control}
-                            name="licensePlate"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>License Plate</FormLabel>
-                                <FormControl>
-                                  <Input
-                                    placeholder="License plate number"
-                                    {...field}
-                                  />
-                                </FormControl>
-                                <FormDescription className="sr-only">
-                                  This is your public display name.
-                                </FormDescription>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                        </div>
-
-                        <div className="grid grid-cols-2 gap-5">
-                          {/* manufacturingYear */}
-                          <FormField
-                            control={form.control}
-                            name="manufacturingYear"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Manufacturing Year</FormLabel>
-                                <FormControl>
-                                  <Input
-                                    placeholder="Manufacturing year"
-                                    {...field}
-                                  />
-                                </FormControl>
-                                <FormDescription className="sr-only">
-                                  This is your public display name.
-                                </FormDescription>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                          <div className="flex items-end justify-end">
-                            <Button
-                              disabled={isLoading}
-                              type="submit"
-                              className="cursor-pointer"
-                            >
-                              {isLoading && (
-                                <Loader2 className="mr-2 h-4 w-4 animate-spin"></Loader2>
-                              )}
-                              Apply Now
-                            </Button>
+                          <div className="space-y-10">
+                            <Skeleton className="w-[283px] h-[40px]" />
+                            <Skeleton className="w-[283px] h-[40px]" />
+                            <Skeleton className="w-[283px] h-[40px]" />
+                            <Skeleton className="w-[283px] h-[40px]" />
+                            <Skeleton className="w-[283px] h-[40px]" />
+                            <Skeleton className="w-[283px] h-[40px]" />
                           </div>
                         </div>
-                      </div>}
-                      
+                      )}
+                      {!infoLoading && (
+                        <div className="space-y-7">
+                          <div className="grid grid-cols-2 gap-5">
+                            {/* Name */}
+                            <FormItem>
+                              <FormLabel>Full Name</FormLabel>
+                              <FormControl>
+                                <Input
+                                  placeholder="Trip Sync"
+                                  value={userData?.name}
+                                  disabled
+                                />
+                              </FormControl>
+                            </FormItem>
+                            {/* email */}
+                            <FormItem>
+                              <FormLabel>Email</FormLabel>
+                              <FormControl>
+                                <Input
+                                  placeholder="example@tripsync.com"
+                                  value={userData?.email}
+                                  disabled
+                                />
+                              </FormControl>
+                            </FormItem>
+                          </div>
+                          <div className="grid grid-cols-2 gap-5">
+                            {/* Address */}
+                            <FormItem>
+                              <FormLabel>Address</FormLabel>
+                              <FormControl>
+                                <Input
+                                  placeholder="Address"
+                                  value={userData?.address}
+                                  disabled
+                                />
+                              </FormControl>
+                            </FormItem>
+                            {/* phone */}
+                            <FormItem>
+                              <FormLabel>Phone</FormLabel>
+                              <FormControl>
+                                <Input
+                                  placeholder="00000000000"
+                                  value={userData?.phone}
+                                  disabled
+                                />
+                              </FormControl>
+                            </FormItem>
+                          </div>
+
+                          <div className="grid grid-cols-2 gap-5">
+                            {/* date of birth */}
+                            <FormItem>
+                              <FormLabel>Birth Date</FormLabel>
+                              <FormControl>
+                                <Input
+                                  placeholder="0000-00-00"
+                                  value={userData?.dateOfBirth}
+                                  disabled
+                                />
+                              </FormControl>
+                            </FormItem>
+                            {/* gender */}
+                            <FormItem>
+                              <FormLabel>Gender</FormLabel>
+                              <FormControl>
+                                <Input
+                                  placeholder="gender"
+                                  value={userData?.gender}
+                                  disabled
+                                />
+                              </FormControl>
+                            </FormItem>
+                          </div>
+
+                          {/* Vehicle Info */}
+
+                          <div className="grid grid-cols-2 gap-5">
+                            {/* brand */}
+                            <FormField
+                              control={form.control}
+                              name="brand"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Car Brand</FormLabel>
+                                  <FormControl>
+                                    <Input
+                                      placeholder="Brand name"
+                                      {...field}
+                                    />
+                                  </FormControl>
+                                  <FormDescription className="sr-only">
+                                    This is your public display name.
+                                  </FormDescription>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                            {/* model */}
+                            <FormField
+                              control={form.control}
+                              name="model"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Model</FormLabel>
+                                  <FormControl>
+                                    <Input
+                                      placeholder="Model name"
+                                      {...field}
+                                    />
+                                  </FormControl>
+                                  <FormDescription className="sr-only">
+                                    This is your public display name.
+                                  </FormDescription>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+
+                          <div className="grid grid-cols-2 gap-5">
+                            {/* color */}
+                            <FormField
+                              control={form.control}
+                              name="color"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Color</FormLabel>
+                                  <FormControl>
+                                    <Input
+                                      placeholder="Color name"
+                                      {...field}
+                                    />
+                                  </FormControl>
+                                  <FormDescription className="sr-only">
+                                    This is your public display name.
+                                  </FormDescription>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                            {/* licensePlate */}
+                            <FormField
+                              control={form.control}
+                              name="licensePlate"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>License Plate</FormLabel>
+                                  <FormControl>
+                                    <Input
+                                      placeholder="License plate number"
+                                      {...field}
+                                    />
+                                  </FormControl>
+                                  <FormDescription className="sr-only">
+                                    This is your public display name.
+                                  </FormDescription>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+
+                          <div className="grid grid-cols-2 gap-5">
+                            {/* manufacturingYear */}
+                            <FormField
+                              control={form.control}
+                              name="manufacturingYear"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Manufacturing Year</FormLabel>
+                                  <FormControl>
+                                    <Input
+                                      placeholder="Manufacturing year"
+                                      {...field}
+                                      value={field.value !== undefined ? String(field.value) : ""}
+                                      onChange={e => field.onChange(Number(e.target.value))}
+                                      type="number"
+                                    />
+                                  </FormControl>
+                                  <FormDescription className="sr-only">
+                                    This is your public display name.
+                                  </FormDescription>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                            <div className="flex items-end justify-end">
+                              <Button
+                                disabled={isLoading}
+                                type="submit"
+                                className="cursor-pointer"
+                              >
+                                {isLoading && (
+                                  <Loader2 className="mr-2 h-4 w-4 animate-spin"></Loader2>
+                                )}
+                                Apply Now
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </form>

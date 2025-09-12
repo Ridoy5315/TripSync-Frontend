@@ -153,8 +153,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     navMain: getSidebarItems(userData?.data?.user?.role),
   };
 
-  console.log(data);
-
   const footerData = {
     name: userData?.data?.user?.name,
     email: userData?.data?.user?.email,
@@ -177,32 +175,32 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
               <div>
-                <Skeleton className="w-[190px] h-[32px] rounded"></Skeleton>
+                <Skeleton className="w-[170px] h-[32px] rounded"></Skeleton>
               </div>
             </SidebarMenuButton>
 
             <div className="ml-4 flex flex-col my-4 gap-3">
-              <Skeleton className="w-[190px] h-[32px] rounded"></Skeleton>
-              <Skeleton className="w-[190px] h-[32px] rounded"></Skeleton>
+              <Skeleton className="w-[170px] h-[32px] rounded"></Skeleton>
+              <Skeleton className="w-[170px] h-[32px] rounded"></Skeleton>
             </div>
             <SidebarMenuButton asChild>
               <div className="mt-5">
-                <Skeleton className="w-[190px] h-[32px] rounded"></Skeleton>
+                <Skeleton className="w-[170px] h-[32px] rounded"></Skeleton>
               </div>
             </SidebarMenuButton>
             <SidebarMenuButton asChild>
               <div className="mt-5">
-                <Skeleton className="w-[190px] h-[32px] rounded"></Skeleton>
+                <Skeleton className="w-[170px] h-[32px] rounded"></Skeleton>
               </div>
             </SidebarMenuButton>
             <SidebarMenuButton asChild>
               <div className="mt-5">
-                <Skeleton className="w-[190px] h-[32px] rounded"></Skeleton>
+                <Skeleton className="w-[170px] h-[32px] rounded"></Skeleton>
               </div>
             </SidebarMenuButton>
             <SidebarMenuButton asChild>
               <div className="mt-5">
-                <Skeleton className="w-[190px] h-[32px] rounded"></Skeleton>
+                <Skeleton className="w-[170px] h-[32px] rounded"></Skeleton>
               </div>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -217,7 +215,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 <div className="border-t-2 lg:my-2 my-1"></div>
               )}
               <SidebarMenuButton asChild>
-                <Link to={item.url}>{item.title}</Link>
+                <Link to={item.url ?? ""}>{item.title}</Link>
               </SidebarMenuButton>
               {item.title === "Completed Rides" && (
                 <div className="border-t-2 lg:my-2 my-1"></div>
@@ -232,8 +230,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                       {section.title}
                     </Link>
                   ))}
-
-                  {/* <SidebarMenuList items={item.items} /> */}
                 </div>
               )}
               {item.items &&

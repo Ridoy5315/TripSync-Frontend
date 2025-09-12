@@ -1,10 +1,8 @@
 import { CheckCircle } from "lucide-react";
-import { Link, useSearchParams } from "react-router-dom";
-import { Button } from "@/components/ui/button";
+import { useSearchParams } from "react-router-dom";
 
 export default function Success() {
   const [searchParams] = useSearchParams();
-  const id = searchParams.get("id");
   const transactionId = searchParams.get("transactionId");
   const message = searchParams.get("message");
   const amount = searchParams.get("amount");
@@ -23,11 +21,6 @@ export default function Success() {
               <p><span className="font-semibold text-pretty" >Amount:</span> ${amount}</p>
               <p><span className="font-semibold text-pretty">Status:</span> {status}</p>
             </div>
-
-            <Button className="mt-6">
-               <Link to={`/`}>Go to Home</Link>
-               {/* <Link to={`/user/ride/details/${id}`}>Go to Home</Link> */}
-            </Button>
           </div>
         </div>
 

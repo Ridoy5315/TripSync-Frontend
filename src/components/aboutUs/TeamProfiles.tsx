@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import photo from "@/assets/DSC_1654.jpg"
 import photo1 from "@/assets/testimonials/men1.webp"
 import photo2 from "@/assets/testimonials/women1.jpg"
@@ -27,12 +26,12 @@ export default function TeamProfiles() {
           </h3>
           <p className="text-muted-foreground  mb-2">CEO & Founder</p>
           <div className="flex justify-center space-x-4">
-            <Link className="text-gray-500 hover:text-blue-500">
+            <span className="text-gray-500 hover:text-blue-500">
               🔗
-            </Link>
-            <Link className="text-gray-500 hover:text-blue-500">
+            </span>
+            <span className="text-gray-500 hover:text-blue-500">
               🔗
-            </Link>
+            </span>
           </div>
         </div>
         <div className="bg-gray-100 dark:bg-gray-800 rounded-2xl p-6 text-center shadow hover:shadow-lg transition">
@@ -46,12 +45,12 @@ export default function TeamProfiles() {
           </h3>
           <p className="text-muted-foreground  mb-2">COO</p>
           <div className="flex justify-center space-x-4">
-            <Link className="text-gray-500 hover:text-blue-500">
+            <span className="text-gray-500 hover:text-blue-500">
               🔗
-            </Link>
-            <Link className="text-gray-500 hover:text-blue-500">
+            </span>
+            <span className="text-gray-500 hover:text-blue-500">
               🔗
-            </Link>
+            </span>
           </div>
         </div>
         <div className="bg-gray-100 dark:bg-gray-800 rounded-2xl p-6 text-center shadow hover:shadow-lg transition">
@@ -65,12 +64,12 @@ export default function TeamProfiles() {
           </h3>
           <p className="text-muted-foreground  mb-2">Engineering Manager</p>
           <div className="flex justify-center space-x-4">
-            <Link className="text-gray-500 hover:text-blue-500">
+            <span className="text-gray-500 hover:text-blue-500">
               🔗
-            </Link>
-            <Link className="text-gray-500 hover:text-blue-500">
+            </span>
+            <span className="text-gray-500 hover:text-blue-500">
               🔗
-            </Link>
+            </span>
           </div>
         </div>
 

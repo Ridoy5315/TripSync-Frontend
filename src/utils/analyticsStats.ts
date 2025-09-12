@@ -1,5 +1,22 @@
-export const rideStatsFunction = (ridesVolume) => {
-  const rideStats = [
+interface RidesVolume {
+  totalRides?: number;
+  totalPendingRides?: number;
+  totalCanceledRides?: number;
+  totalRejectedRides?: number;
+  totalCompleteRides?: number;
+  totalOngoingRides?: number;
+  todayRides?: number;
+  ridesInLast7Days?: number;
+  ridesInLast30Days?: number;
+}
+
+interface RideStat {
+  title: string;
+  count?: number;
+}
+
+export const rideStatsFunction = (ridesVolume: RidesVolume): RideStat[] => {
+  const rideStats: RideStat[] = [
     { title: "Total Rides", count: ridesVolume?.totalRides },
     {
       title: "Total Pending Rides",
@@ -35,8 +52,20 @@ export const rideStatsFunction = (ridesVolume) => {
   return rideStats;
 };
 
-export const revenueStatsFunction = (revenueTrends) => {
-  const revenueStats = [
+interface RevenueTrends {
+  totalRevenue?: number;
+  todaysRevenue?: number;
+  revenueInLast7Days?: number;
+  revenueInLast30Days?: number;
+}
+
+interface RevenueStat {
+  title: string;
+  count?: number;
+}
+
+export const revenueStatsFunction = (revenueTrends: RevenueTrends): RevenueStat[] => {
+  const revenueStats: RevenueStat[] = [
     { title: "Total Revenue", count: revenueTrends?.totalRevenue },
     { title: "Today's Revenue", count: revenueTrends?.todaysRevenue },
     {
@@ -52,8 +81,22 @@ export const revenueStatsFunction = (revenueTrends) => {
   return revenueStats;
 };
 
-export const driverCountStatsFunction = (driverData) => {
-  const driverCountStats = [
+interface DriverCountStats {
+  totalPendingDriver?: number;
+  totalApprovedDriver?: number;
+  totalRejectedDriver?: number;
+  totalCurrentOnlineDriver?: number;
+  totalCurrentOfflineDriver?: number;
+  totalCurrentOnTripDriver?: number;
+}
+
+interface DriverCountStat {
+  title: string;
+  count?: number;
+}
+
+export const driverCountStatsFunction = (driverData: DriverCountStats): DriverCountStat[] => {
+  const driverCountStats: DriverCountStat[] = [
     { title: "Pending Drivers", count: driverData?.totalPendingDriver },
     { title: "Approved Drivers", count: driverData?.totalApprovedDriver },
     { title: "Rejected Drivers", count: driverData?.totalRejectedDriver },
@@ -68,8 +111,40 @@ export const driverCountStatsFunction = (driverData) => {
   return driverCountStats;
 };
 
-export const driverStatsFunction = (driverData) => {
-  const driverStats = [
+interface DriverInformation {
+  picture?: string;
+  name?: string;
+  email?: string;
+  address?: string;
+  gender?: string;
+}
+
+interface DriverStatItem {
+  title: string;
+  image?: string;
+  name?: string;
+  email?: string;
+  address?: string;
+  gender?: string;
+}
+
+interface DriverStatsData {
+  highestEaringDriver?: {
+    driverInformation?: DriverInformation;
+  };
+  lowestEaringDriver?: {
+    driverInformation?: DriverInformation;
+  };
+  highestRatingDriver?: {
+    driverInformation?: DriverInformation;
+  };
+  lowestRatingDriver?: {
+    driverInformation?: DriverInformation;
+  };
+}
+
+export const driverStatsFunction = (driverData: DriverStatsData): DriverStatItem[] => {
+  const driverStats: DriverStatItem[] = [
     {
       title: "Highest Earing Driver",
       image: driverData?.highestEaringDriver?.driverInformation?.picture,

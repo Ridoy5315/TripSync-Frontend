@@ -34,6 +34,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEditProfileMutation } from "@/redux/features/user/user.api";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
+import type { IUser } from "@/types";
 
 const editProfileSchema = z.object({
   name: z
@@ -55,7 +56,7 @@ const editProfileSchema = z.object({
   gender: z.enum(["MALE", "FEMALE"]).optional().or(z.literal("")),
 });
 
-export default function EditProfileModal({ userData }) {
+export default function EditProfileModal({ userData }: { userData: IUser }) {
   const [open, setOpen] = useState(false);
   const [image, setImage] = useState<File | null>(null);
   const [editProfile, {isLoading}] = useEditProfileMutation();
@@ -82,7 +83,6 @@ export default function EditProfileModal({ userData }) {
   });
 
   const onSubmit = async (data: z.infer<typeof editProfileSchema>) => {
-    console.log(data);
     const formData = new FormData();
     formData.append("name", data.name ?? "");
     formData.append("phone", data.phone ?? "");
@@ -90,17 +90,14 @@ export default function EditProfileModal({ userData }) {
     formData.append("gender", data.gender ?? "");
     if (image) formData.append("file", image as File);
 
-    //     const toastId = toast.loading("Updating...");
-
     try {
-      for (const pair of formData.entries()) {
-        console.log(pair[0], pair[1]);
-      }
+      // for (const pair of formData.entries()) {
+      //   console.log(pair[0], pair[1]);
+      // }
       const res = await editProfile({
         userId: userData?._id,
         profileData: formData,
       }).unwrap();
-      console.log(res);
       if (res.success) {
         toast.success("Profile updated successfully ✅");
         setOpen(false)

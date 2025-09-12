@@ -78,7 +78,6 @@ const navigationLinks = [
 export default function Navbar() {
   const { data, isLoading } = useGetOwnInfoQuery(undefined);
 
-  console.log(data);
 
   return (
     <div className="border-b bg-background sticky top-0 z-10 shadow">

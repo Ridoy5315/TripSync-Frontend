@@ -19,6 +19,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useGetRiderQuery } from "@/redux/features/admin/admin.api";
+import type { IUser } from "@/types";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
@@ -40,8 +41,6 @@ export default function RidersManagement() {
   const totalPage = data?.meta?.totalPage || 1;
   const ridersData = data?.data;
 
-  // console.log(data?.data?.totalRider)
-  console.log(data);
   return (
     <div className="py-4 lg:px-8 md:px-4 px-2">
       <h3 className="text-primary font-semibold lg:text-2xl text-xl mb-4">
@@ -119,7 +118,7 @@ export default function RidersManagement() {
               </TableHeader>
               <TableBody className="lg:text-sm text-[10px]">
                 {ridersData &&
-                  ridersData?.map((item, index: number) => (
+                  ridersData?.map((item : IUser, index: number) => (
                     <TableRow key={index}>
                       <TableCell className="font-medium text-left">
                         {index + 1}

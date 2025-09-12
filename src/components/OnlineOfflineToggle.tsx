@@ -32,11 +32,7 @@ export default function OnlineOfflineToggle() {
     }
     setChecked(newStatus);
     try {
-      const res = await availabilityStatus().unwrap();
-      console.log(res);
-      //     if (res.success) {
-      //   return toast.warning("You’re currently on a trip. Please complete the ride before going offline.");
-      // }
+      await availabilityStatus().unwrap();
     } catch (error) {
       console.log(error);
     }
@@ -62,7 +58,7 @@ export default function OnlineOfflineToggle() {
               ? "You are online. You can go offline anytime"
               : "You’re offline! Go online to start receiving rides"}
           </span>
-          <MoveRight strokeWidth={1.75} className="lg:block hidden"/>
+          <MoveRight strokeWidth={1.75} className="lg:block hidden" />
           <div className="relative inline-grid lg:h-8 md:h-8 h-7 grid-cols-[1fr_1fr] items-center text-sm font-medium">
             <Switch
               id={id}

@@ -22,9 +22,9 @@ import {
 import {
   useGetDriverQuery
 } from "@/redux/features/admin/admin.api";
-
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
+
 export default function DriversManagement() {
   const [searchParams] = useSearchParams();
   const [currentPage, setCurrentPage] = useState(1);
@@ -40,8 +40,6 @@ export default function DriversManagement() {
       ...(search && { searchTerm: search }),
     },
   });
-
-  console.log(data);
 
   const totalPage = data?.totalDriver?.meta?.totalPage || 1;
   const driversData = data?.totalDriver?.data;
