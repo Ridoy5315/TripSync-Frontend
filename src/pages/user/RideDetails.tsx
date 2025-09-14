@@ -1,3 +1,4 @@
+import RiderFeedbackModal from "@/components/modal/riderFeedbackModal";
 import SOSButtonModal from "@/components/modal/SOSButtonModal";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -49,6 +50,12 @@ export default function RideDetails() {
                 Your current ride details :
               </h3>
             )}
+            {(rideDetails?.rideRequestAction === "ACCEPTED" &&
+              rideDetails?.rideProgressStatus === "COMPLETED") &&
+             (rideDetails?.driverRating == null && !rideDetails?.riderFeedback?.trim()) && (
+                <RiderFeedbackModal rideId= {rideDetails?._id}></RiderFeedbackModal>
+              )}
+
             {rideDetails?.rideProgressStatus !== "COMPLETED" &&
               rideDetails?.rideRequestAction === "ACCEPTED" && (
                 <SOSButtonModal></SOSButtonModal>

@@ -32,6 +32,14 @@ const rideApi = baseApi.injectEndpoints({
       providesTags: ["RIDE"],
       transformResponse: (response) => response.data,
     }),
+    riderFeedback: builder.mutation({
+      query: ({rideId, payload}) => ({
+        url: `/ride/feedback/${rideId}`,
+        method: "PATCH",
+        data: payload,
+      }),
+      invalidatesTags: ["RIDE"],
+    })
   }),
 });
 
@@ -40,4 +48,5 @@ export const {
      useGetAllRidesStatsQuery,
      useRideDetailsQuery,
      useRideHistoryQuery,
+     useRiderFeedbackMutation
 } = rideApi;
