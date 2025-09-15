@@ -1,5 +1,6 @@
 import DriversManagementFilters from "@/components/driversManagement/DriversManagementFilters";
 import PendingDriversDetailsModal from "@/components/modal/PendingDriversDetailsModal";
+import { Button } from "@/components/ui/button";
 import {
   Pagination,
   PaginationContent,
@@ -19,11 +20,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  useGetDriverQuery
-} from "@/redux/features/admin/admin.api";
+import { useBlockUserMutation, useGetDriverQuery, useUnblockUserMutation } from "@/redux/features/admin/admin.api";
+import type { IErrorResponse } from "@/types";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { toast } from "sonner";
 
 export default function DriversManagement() {
   const [searchParams] = useSearchParams();
@@ -32,6 +33,9 @@ export default function DriversManagement() {
   const driverApprovalStatus =
     searchParams.get("driverApprovalStatus") || undefined;
   const search = searchParams.get("search") || undefined;
+
+  const [suspendDriver] = useBlockUserMutation();
+  const [unsuspendDriver] = useUnblockUserMutation();
 
   const { data, isLoading: driverLoading } = useGetDriverQuery({
     params: {
@@ -43,6 +47,66 @@ export default function DriversManagement() {
 
   const totalPage = data?.totalDriver?.meta?.totalPage || 1;
   const driversData = data?.totalDriver?.data;
+
+  const handleDriverStatus = async (userId: string, value: string) => {
+
+    try {
+      if (value === "Suspend") {
+        toast("Are you sure you want to suspend this driver?", {
+          duration: Infinity,
+          action: {
+            label: "Yes, Suspend",
+            onClick: async () => {
+              const res = await suspendDriver(userId).unwrap();
+              if (res.success) {
+                toast.success("Driver suspended successfully!");
+              }
+            },
+          },
+          cancel: {
+            label: "Cancel",
+            onClick: () => {
+              toast("Canceled");
+            },
+          },
+        });
+      } else if (value === "Unsuspend") {
+        toast("Are you sure you want to unsuspend this driver?", {
+          duration: Infinity,
+          action: {
+            label: "Yes, Unsuspend",
+            onClick: async () => {
+              const res = await unsuspendDriver(userId).unwrap();
+              if (res.success) {
+                toast.success("Driver unsuspend successfully!");
+              }
+            },
+          },
+          cancel: {
+            label: "Cancel",
+            onClick: () => {
+              toast("Canceled");
+            },
+          },
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      const err = error as IErrorResponse;
+
+      if (
+        err.data.message === "You are not permitted to block or unblock user"
+      ) {
+        toast.error("You are not permitted to suspend or unsuspend Driver.");
+      }
+      if (err.data.message === "this user not a blocked user") {
+        toast.error("this user not a suspend user.");
+      }
+      if (err.data.message === "this user already blocked") {
+        toast.error("this user already suspended.");
+      }
+    }
+  };
 
   return (
     <div className="py-4 lg:px-8 md:px-4 px-2">
@@ -59,7 +123,7 @@ export default function DriversManagement() {
           <div className="border border-muted rounded-md">
             <Table>
               <TableCaption>A list of your recent invoices.</TableCaption>
-              <TableHeader >
+              <TableHeader>
                 <TableRow>
                   <TableHead className="text-left">No.</TableHead>
                   <TableHead className="text-center">name</TableHead>
@@ -68,7 +132,7 @@ export default function DriversManagement() {
                   <TableHead className="text-center">address</TableHead>
                 </TableRow>
               </TableHeader>
-              <TableBody >
+              <TableBody>
                 {Array.from({ length: 3 }).map((_, index) => (
                   <TableRow key={index}>
                     <TableCell className="font-medium text-left">
@@ -99,7 +163,6 @@ export default function DriversManagement() {
                 </PaginationContent>
               </Pagination>
             </div>
-
           </div>
         </>
       )}
@@ -115,29 +178,49 @@ export default function DriversManagement() {
                   <TableHead className="text-center">email</TableHead>
                   <TableHead className="text-center">gender</TableHead>
                   <TableHead className="text-center">address</TableHead>
+                  <TableHead className="text-center">Action</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody className="lg:text-sm text-[10px]">
                 {driversData &&
-                  driversData?.map((item, index: number) => (
-                    <TableRow key={index}>
-                      <TableCell className="font-medium text-left">
-                        {index + 1}
-                      </TableCell>
-                      <TableCell className="font-medium text-center">
-                        {item?.name}
-                      </TableCell>
-                      <TableCell className="font-medium text-center">
-                        {item?.email}
-                      </TableCell>
-                      <TableCell className="font-medium text-center">
-                        {item?.gender}
-                      </TableCell>
-                      <TableCell className="font-medium text-center">
-                        {item?.address}
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                  driversData?.map((item, index: number) => {
+                    // 🔹 Decide the label for this row here
+                    const actionLabel =
+                      item?.isActive === "ACTIVE" ||
+                      item?.isActive === "INACTIVE"
+                        ? "Suspend"
+                        : "Unsuspend";
+
+                    return (
+                      <TableRow key={index}>
+                        <TableCell className="font-medium text-left">
+                          {index + 1}
+                        </TableCell>
+                        <TableCell className="font-medium text-center">
+                          {item?.name}
+                        </TableCell>
+                        <TableCell className="font-medium text-center">
+                          {item?.email}
+                        </TableCell>
+                        <TableCell className="font-medium text-center">
+                          {item?.gender}
+                        </TableCell>
+                        <TableCell className="font-medium text-center">
+                          {item?.address}
+                        </TableCell>
+                        <TableCell className="font-medium text-center">
+                          <Button
+                            onClick={() =>
+                              item._id && handleDriverStatus(item._id, actionLabel)
+                            }
+                            variant="outline"
+                          >
+                            {actionLabel}
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
               </TableBody>
             </Table>
           </div>

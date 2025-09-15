@@ -216,7 +216,7 @@ export default function RidersManagement() {
                         <TableCell className="font-medium text-center">
                           <Button
                             onClick={() =>
-                              handleRiderStatus(item._id, actionLabel)
+                              item._id && handleRiderStatus(item._id, actionLabel)
                             }
                             variant="outline"
                           >
