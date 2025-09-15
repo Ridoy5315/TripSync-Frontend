@@ -1,4 +1,5 @@
 import RidersManagementFilters from "@/components/ridersManagement/RidersManagementFilters";
+import { Button } from "@/components/ui/button";
 import {
   Pagination,
   PaginationContent,
@@ -18,10 +19,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useGetRiderQuery } from "@/redux/features/admin/admin.api";
-import type { IUser } from "@/types";
+import {
+  useBlockUserMutation,
+  useGetRiderQuery,
+  useUnblockUserMutation,
+} from "@/redux/features/admin/admin.api";
+import type { IErrorResponse, IUser } from "@/types";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { toast } from "sonner";
 
 export default function RidersManagement() {
   const [searchParams] = useSearchParams();
@@ -29,6 +35,9 @@ export default function RidersManagement() {
 
   const isActiveValue = searchParams.get("isActiveValue") || undefined;
   const search = searchParams.get("search") || undefined;
+
+  const [blockUser] = useBlockUserMutation();
+  const [unblockUser] = useUnblockUserMutation();
 
   const { data, isLoading } = useGetRiderQuery({
     params: {
@@ -40,6 +49,68 @@ export default function RidersManagement() {
 
   const totalPage = data?.meta?.totalPage || 1;
   const ridersData = data?.data;
+
+  const handleRiderStatus = async (userId: string, value: string) => {
+
+    try {
+      if (value === "Block") {
+        toast("Are you sure you want to block this rider?", {
+          duration: Infinity,
+          action: {
+            label: "Yes, Block",
+            onClick: async () => {
+              const res = await blockUser(userId).unwrap();
+              if (res.success) {
+                toast.success("Rider blocked successfully!");
+              }
+            },
+          },
+          cancel: {
+            label: "Cancel",
+            onClick: () => {
+              toast("Canceled");
+            },
+          },
+        });
+      } else if (value === "Unblock") {
+        toast("Are you sure you want to unblock this rider?", {
+          duration: Infinity,
+          action: {
+            label: "Yes, Unblock",
+            onClick: async () => {
+              const res = await unblockUser(userId).unwrap();
+              if (res.success) {
+                toast.success("User unblocked successfully!");
+              }
+            },
+          },
+          cancel: {
+            label: "Cancel",
+            onClick: () => {
+              toast("Canceled");
+            },
+          },
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      const err = error as IErrorResponse;
+
+      if (
+        err.data.message === "You are not permitted to block or unblock user"
+      ) {
+        toast.error("You are not permitted to block or unblock user.", {
+          id: toastId,
+        });
+      }
+      if (err.data.message === "this user not a blocked user") {
+        toast.error("this user not a blocked user.", { id: toastId });
+      }
+      if (err.data.message === "this user already blocked") {
+        toast.error("this user already blocked.", { id: toastId });
+      }
+    }
+  };
 
   return (
     <div className="py-4 lg:px-8 md:px-4 px-2">
@@ -97,7 +168,6 @@ export default function RidersManagement() {
                 </PaginationContent>
               </Pagination>
             </div>
-
           </div>
         </>
       )}
@@ -113,36 +183,49 @@ export default function RidersManagement() {
                   <TableHead className="text-center">email</TableHead>
                   <TableHead className="text-center">gender</TableHead>
                   <TableHead className="text-center">address</TableHead>
-                  <TableHead className="text-center">isActive</TableHead>
+                  <TableHead className="text-center">Action</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody className="lg:text-sm text-[10px]">
                 {ridersData &&
-                  ridersData?.map((item : IUser, index: number) => (
-                    <TableRow key={index}>
-                      <TableCell className="font-medium text-left">
-                        {index + 1}
-                      </TableCell>
-                      <TableCell className="font-medium text-center">
-                        {item?.name}
-                      </TableCell>
-                      <TableCell className="font-medium text-center">
-                        {item?.email}
-                      </TableCell>
-                      <TableCell className="font-medium text-center">
-                        {item?.gender}
-                      </TableCell>
-                      <TableCell className="font-medium text-center">
-                        {item?.address}
-                      </TableCell>
-                      <TableCell className="font-medium text-center">
-                        {item?.isActive === "ACTIVE" ||
-                        item?.isActive === "INACTIVE"
-                          ? "Unblock"
-                          : "Block"}
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                  ridersData?.map((item: IUser, index: number) => {
+                    // 🔹 Decide the label for this row here
+                    const actionLabel =
+                      item?.isActive === "ACTIVE" ||
+                      item?.isActive === "INACTIVE"
+                        ? "Block"
+                        : "Unblock";
+
+                    return (
+                      <TableRow key={index}>
+                        <TableCell className="font-medium text-left">
+                          {index + 1}
+                        </TableCell>
+                        <TableCell className="font-medium text-center">
+                          {item?.name}
+                        </TableCell>
+                        <TableCell className="font-medium text-center">
+                          {item?.email}
+                        </TableCell>
+                        <TableCell className="font-medium text-center">
+                          {item?.gender}
+                        </TableCell>
+                        <TableCell className="font-medium text-center">
+                          {item?.address}
+                        </TableCell>
+                        <TableCell className="font-medium text-center">
+                          <Button
+                            onClick={() =>
+                              handleRiderStatus(item._id, actionLabel)
+                            }
+                            variant="outline"
+                          >
+                            {actionLabel}
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
               </TableBody>
             </Table>
           </div>

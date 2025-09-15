@@ -20,7 +20,20 @@ import { useGetOwnInfoQuery } from "@/redux/features/user/user.api";
 import { useSignOutMutation } from "@/redux/features/auth/auth.api";
 import { handleSignOut } from "@/utils/signOut";
 
-export default function NavbarProfile() {
+interface NavigationItem {
+  href?: string;
+  label: string;
+  role: string;
+  submenu?: boolean;
+  type?: string;
+  items?: { href: string; label: string }[];
+}
+
+interface NavbarProfileProps {
+  navigationLinks: NavigationItem[];
+}
+
+export default function NavbarProfile({ navigationLinks }: NavbarProfileProps) {
   const { data } = useGetOwnInfoQuery(undefined);
   const [signOut] = useSignOutMutation();
   const dispatch = useAppDispatch();
@@ -57,7 +70,7 @@ export default function NavbarProfile() {
           )}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent side="bottom" align="end" className="max-w-64">
+      <DropdownMenuContent side="bottom" align="end" className="w-44">
         <DropdownMenuLabel className="flex min-w-0 flex-col">
           <span className="text-foreground truncate text-sm font-medium">
             {profileData?.name}
@@ -73,6 +86,28 @@ export default function NavbarProfile() {
             <Link className=" w-full" to={profilePath}>
               My Profile
             </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <UserRound className="opacity-60" aria-hidden="true" />
+            {(() => {
+              interface NavigationLink {
+                role: string;
+                label: string;
+                href: string;
+              }
+              const dashboardLink: NavigationLink | undefined = (
+                navigationLinks as NavigationLink[]
+              ).find(
+                (link) =>
+                  link.role === data?.data?.user?.role &&
+                  link.label === "Dashboard"
+              );
+              return dashboardLink ? (
+                <Link className=" w-full" to={dashboardLink.href}>
+                  {dashboardLink.label}
+                </Link>
+              ) : null;
+            })()}
           </DropdownMenuItem>
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
@@ -104,12 +139,6 @@ export default function NavbarProfile() {
               </DropdownMenuSubContent>
             </DropdownMenuPortal>
           </DropdownMenuSub>
-          {/* <DropdownMenuItem>
-            <Settings2 className="opacity-60" aria-hidden="true" />
-            <Link className=" w-full" to="/settings">
-              Settings
-            </Link>
-          </DropdownMenuItem> */}
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem>

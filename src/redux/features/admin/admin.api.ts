@@ -12,6 +12,20 @@ const adminApi = baseApi.injectEndpoints({
       providesTags: ["ADMIN"],
       transformResponse: (response) => response?.data?.totalRider,
     }),
+    blockUser: builder.mutation({
+      query: (userId) => ({
+        url: `/user/blockUser/${userId}`,
+        method: "PATCH"
+      }),
+      invalidatesTags: ["ADMIN"]
+    }),
+    unblockUser: builder.mutation({
+      query: (userId) => ({
+        url: `/user/unblockUser/${userId}`,
+        method: "PATCH"
+      }),
+      invalidatesTags: ["ADMIN"]
+    }),
     getPendingDrivers: builder.query({
       query: () => ({
         url: "/driver/pendingDrivers",
@@ -77,6 +91,8 @@ const adminApi = baseApi.injectEndpoints({
 
 export const {
      useGetRiderQuery,
+     useBlockUserMutation,
+     useUnblockUserMutation,
      useGetPendingDriversQuery,
      useAcceptOrRejectDriverMutation,
      useGetDriverQuery,

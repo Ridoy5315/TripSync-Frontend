@@ -24,10 +24,10 @@ import { Skeleton } from "../ui/skeleton";
 // Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
   { href: "/", label: "Home", role: "PUBLIC" },
-  { href: "/admin", label: "Features", role: role.superAdmin },
-  { href: "/admin", label: "Features", role: role.admin },
-  { href: "/user/ride/ride-request", label: "Features", role: role.user },
-  { href: "/driver", label: "Features", role: role.driver },
+  { href: "/admin", label: "Dashboard", role: role.superAdmin },
+  { href: "/admin", label: "Dashboard", role: role.admin },
+  { href: "/user/ride/ride-request", label: "Dashboard", role: role.user },
+  { href: "/driver", label: "Dashboard", role: role.driver },
   { href: "/user/ride/ride-request", label: "Ride Now", role: role.user },
   {
     href: "/driver/user/user/ride/ride-request",
@@ -248,7 +248,7 @@ export default function Navbar() {
                 <Skeleton className="w-[100px] h-[32px]" />
               </div>
             ) : data?.data?.user?.email ? (
-              <NavbarProfile />
+              <NavbarProfile navigationLinks={navigationLinks} />
             ) : (
               <div className="flex gap-2">
                 <Button

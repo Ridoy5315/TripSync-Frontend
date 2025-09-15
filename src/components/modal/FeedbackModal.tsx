@@ -31,7 +31,7 @@ const feedbackSchema = z.object({
   rating: z.coerce.number().min(0, "Invalid rating").max(5, "Invalid rating"),
 });
 
-export default function RiderFeedbackModal({ rideId }: { rideId: string }) {
+export default function FeedbackModal({ rideId }: { rideId: string }) {
   const [open, setOpen] = useState(false);
   const [riderFeedback, { isLoading }] = useRiderFeedbackMutation();
 
